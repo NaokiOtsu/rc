@@ -92,7 +92,6 @@ esac
 
 alias la="ls -lhAF"
 alias ps="ps -fU`whoami` --forest"
-alias unicorn="ssh unicorn.ise.eng.osaka-u.ac.jp"
 alias sub="perl -pi -e"
 alias findall="sudo find / -name"
 alias cl="tmux default-path $PWD; tmux new-window"

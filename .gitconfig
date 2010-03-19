@@ -1,0 +1,20 @@
+[user]
+	name = zentooo
+	email = ankerasoy@gmail.com
+
+[github]
+	user = zentooo
+	token = 75e5d1f104a8cf418bc0947d49de7f67
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+
+[alias]
+  di = diff
+  ch = checkout
+  cb = checkout -b
+  st = status
+  ca = commit -a
+  sb = show-branch
