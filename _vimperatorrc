@@ -1,0 +1,202 @@
+source! ~/_vimperatorrc.local
+
+
+"+----------------------------------------------------------------------------------------+
+" 基本設定
+"+----------------------------------------------------------------------------------------+
+
+set titlestring="Firefox"
+set go=
+set hlsearch
+set visualbell
+set wildoptions=auto
+
+set complete=l
+
+"クイックヒントのスタイル設定
+highlight! Hint font-family: "Bitstream Vera Sans Mono",monaco,monospace; font-size: 12px; font-weight: bold; color: white; background-color: blue; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 2px; line-height: 1em;
+
+set focuscontent
+set history=10000
+
+
+"+----------------------------------------------------------------------------------------+
+" キーマップ設定(Normal Mode)
+"+----------------------------------------------------------------------------------------+
+
+"j/k/h/lの移動量を5倍に
+nnoremap j 7j
+nnoremap k 7k
+nnoremap h 7h
+nnoremap l 7l
+
+"<C-j>/<C-k>でページ移動
+nnoremap <C-j> <C-f>
+nnoremap <C-k> <C-b>
+
+"<C-h>/<C-l>でタブフォーカスを移動
+nnoremap <C-h> <C-p>
+nnoremap <C-l> <C-n>
+
+"復元タブの一覧表示
+nnoremap U :u<Space>
+
+"<A-d>でその他のタブを閉じる
+nnoremap <A-d> :tabonly<CR>
+
+"<A-r>でFirefoxを再起動
+nnoremap <A-r> :restart<CR>
+
+"現在のページを印刷
+nnoremap <A-p> :dialog print<CR>
+
+"設定ダイアログを表示
+nnoremap <A-s> :dialog preferences<CR>
+
+"アドオンを表示
+nnoremap <A-a> :addon<CR>
+
+
+"+----------------------------------------------------------------------------------------+
+" キーマップ設定(Command Mode)
+"+----------------------------------------------------------------------------------------+
+
+cnoremap <C-m> <CR>
+cnoremap <C-h> <BS>
+cnoremap <C-n> <Tab>
+cnoremap <C-p> <S-Tab>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+
+
+"+----------------------------------------------------------------------------------------+
+" キーマップ設定(Input Mode)
+"+----------------------------------------------------------------------------------------+
+
+inoremap <C-m> <CR>
+inoremap <C-h> <BS>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+
+
+"+----------------------------------------------------------------------------------------+
+" 特定サイト向け設定
+"+----------------------------------------------------------------------------------------+
+
+"qmark: go + key でopen, gn + key でtabopen
+
+qmark g http://google.co.jp/
+qmark m https://mail.google.com/
+qmark r http://www.google.co.jp/reader/
+qmark c https://www.google.com/calendar
+qmark d https://docs.google.com/
+qmark a https://www.google.com/analytics/settings/
+qmark e https://appengine.google.com/
+
+qmark t https://twitter.com/
+qmark f http://favotter.net/user/zentooo
+qmark y http://www.youtube.com/
+qmark n http://www.nicovideo.jp/
+qmark k http://kakaku.com/
+
+
+"+----------------------------------------------------------------------------------------+
+" その他の設定
+"+----------------------------------------------------------------------------------------+
+
+" inspect mode hint
+js <<EOM
+hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() '//*');
+commands.addUserCommand(['setInspectionXPath', 'six'], 'Set a XPath in the Hints Mode of Inspection', function(args){
+    hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() args.string);
+}, {}, true);
+EOM
+
+
+" move feed icon to status bar
+js <<EOM
+(function(){
+  var feedPanel = document.createElement('statusbarpanel');
+  var feedButton = document.getElementById('feed-button');
+  feedPanel.setAttribute('id','feed-panel-clone');
+  feedPanel.appendChild(feedButton.cloneNode(true));
+  feedButton.parentNode.removeChild(feedButton);
+  document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
+})();
+EOM
+
+
+" set mapleader
+let mapleader=','
+
+
+" for char-hints-mod2.js
+let g:hintsio="iO"
+let g:hintchars="jfkdlsurieowvncm"
+
+
+" for twitter.js
+nnoremap <Leader>t :twitter<Space>
+nnoremap <Leader>T :twitter!<Space>
+nnoremap <Leader>@ :twitter!@<CR>
+nnoremap <Leader>mt :mr<Space>twitter-search-pcod-no-jp<Space>
+nnoremap <Leader>mT :mr<Space>twitter-search-pcod-no-jp<Space>["zentooo"]<CR>
+nnoremap <Leader>mf :mr<Space>favotter-new<Space> zentooo <CR>
+nnoremap <Leader>mF :mr<Space>favotter-new<Space>
+
+
+" for noscript.js
+nnoremap <Leader>s :noscript toggletemp<CR>
+
+
+" for tombloo.js
+nnoremap <Leader>l :tombloo Link
+vnoremap <Leader>q :tombloo Quote
+
+
+" for multi_requester.js
+nnoremap <Leader>a :mr alc<Space>
+
+
+" for append_anchor.js
+let g:auto_append_anchor = "true"
+
+
+" for hint-tombloo.js
+let g:hint_tombloo_key = 'r'
+
+
+" for ldrize_cooperation.js
+let g:ldrc_intelligence_bind = "true"
+let:g:ldrc_skip = "0.25"
+
+
+" for direct_bookmark.js
+let g:direct_sbm_use_services_by_post = 'd'
+let g:direct_sbm_use_services_by_tag = 'd'
+nnoremap p :sbm[
+
+
+" for tada.js
+let g:tada_userId = "zentooo"
+let g:tada_defaultListName = "todo"
+nnoremap <C-t> :tada<Space>
+
+
+" for delicious_search.js
+autocmd VimperatorEnter ".*" :set complete+=D
+nnoremap s :delicioussearch -tags 
+nnoremap q :delicioussearch -query 
+
+
+" for feedSomeKeys2.js
+autocmd LocationChange .* :fmapc
+autocmd LocationChange mail\.google\.com/mail :fmap! c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
+autocmd LocationChange 'www\.google\.co\.jp/reader' :fmap! -vkey j k n p m s t v A r S N P X O gh ga gs gt gu u / ?
+autocmd LocationChange 'www\.google\.com/calendar/' :fmap! -vkey -event keydown z t a w m x c e <Del> / + q s ?
+
+
+"complete!
+echo ".vimperatorrc sourced"
