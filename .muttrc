@@ -330,6 +330,9 @@ set header_cache="~/.mutt/cache/headers/"
 set message_cachedir="~/.mutt/cache/bodies/"
 set certificate_file =~/.mutt/certificates
 
+set move = no  #Stop asking to "move read messages to mbox"!
+set imap_keepalive = 900
+
 set sendmail="/usr/bin/msmtp -a lab"
 
 set charset="UTF-8"
@@ -343,10 +346,9 @@ set mailcap_path="~/.mutt/mailcap"
 
 set realname="Naosuke Yokoe"
 set use_from			# always generate the `From:' header field
-set sort=threads		# primary sorting method
 
+set sort=threads		# primary sorting method
 set sort_aux=last-date-received	# how to sort subthreads
-#set sort_aux=last-date		# date of the last message in thread
 set sort_browser=reverse-date	# how to sort files in the dir browser
 
 set mail_check=90		# how often to poll for new mail
@@ -359,7 +361,6 @@ set alias_file=~/.mutt/aliases
 set sort_alias= alias
 set reverse_alias=yes
 source $alias_file
-#set query_command= "abook --mutt-query '%s'" macro index,pager A "<pipe-message>abook --add-email-quiet<return>" "add the sender address to abook"
 
 set query_command = "abook --mutt-query '%s'"
 macro generic,index,pager \ca "<shell-escape>abook<return>" "launch abook"
