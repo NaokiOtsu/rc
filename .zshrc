@@ -92,10 +92,15 @@ esac
 
 alias la="ls -lhAF"
 alias ps="ps -fU`whoami` --forest"
+
 alias sub="perl -pi -e"
+alias psh="perl -de 1"
+
 alias findall="sudo find / -name"
 alias findhere="find ./ -name"
+
 alias cl="tmux default-path $PWD; tmux new-window"
+
 alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
 
 alias shut="sudo shutdown -h now"
