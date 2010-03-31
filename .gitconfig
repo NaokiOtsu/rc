@@ -10,6 +10,9 @@
   remote = git@github.com:zentooo/rc.git
   merge = master
 
+[push]
+	default = matching
+
 [color]
   diff = auto
   status = auto
