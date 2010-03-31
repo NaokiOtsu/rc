@@ -1189,6 +1189,7 @@ perlsupport-perltidy	perlsupport.txt	/*perlsupport-perltidy*
 perlsupport-pod	perlsupport.txt	/*perlsupport-pod*
 perlsupport-pod-invisible	perlsupport.txt	/*perlsupport-pod-invisible*
 perlsupport-podchecker	perlsupport.txt	/*perlsupport-podchecker*
+perlsupport-podtranslator	perlsupport.txt	/*perlsupport-podtranslator*
 perlsupport-profiler	perlsupport.txt	/*perlsupport-profiler*
 perlsupport-regex	perlsupport.txt	/*perlsupport-regex*
 perlsupport-regex-charcls	perlsupport.txt	/*perlsupport-regex-charcls*
@@ -1206,6 +1207,7 @@ perlsupport-regex-visual-mode	perlsupport.txt	/*perlsupport-regex-visual-mode*
 perlsupport-release-notes	perlsupport.txt	/*perlsupport-release-notes*
 perlsupport-run	perlsupport.txt	/*perlsupport-run*
 perlsupport-run-debug	perlsupport.txt	/*perlsupport-run-debug*
+perlsupport-run-make	perlsupport.txt	/*perlsupport-run-make*
 perlsupport-run-script	perlsupport.txt	/*perlsupport-run-script*
 perlsupport-settings	perlsupport.txt	/*perlsupport-settings*
 perlsupport-smallprof	perlsupport.txt	/*perlsupport-smallprof*
