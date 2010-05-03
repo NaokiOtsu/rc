@@ -87,7 +87,7 @@ EOM
 
 === Other Options ===
 >||
-let g:multi_requester_use_wedata = "false"       // true by default
+let g:multi_requester_use_wedata = "true"       // true by default
 ||<
 wedata を利用しない場合は false を設定してください。
 >||
