@@ -1,0 +1,119 @@
+### alias setting for zsh
+
+# aliases for normal commands
+
+alias rr="rm -rf"
+alias rm="rm -i"
+
+alias dh="df -h"
+
+alias pd="popd"
+alias gd='dirs -v; echo -n "select number: "; read newdir; cd +"$newdir"'
+
+alias tarcz="tar cvzf"
+alias tarxz="tar xvzf"
+alias tarcj="tar cvjf"
+alias tarxj="tar xvjf"
+
+case "${OSTYPE}" in
+  freebsd*|darwin*)
+  alias ls="ls -G -w"
+  ;;
+  linux*)
+  alias ls="ls --color"
+  ;;
+esac
+
+alias la="ls -lhAF"
+alias ps="ps -fU`whoami` --forest"
+
+alias findall="sudo find / -name"
+alias findhere="find ./ -name"
+
+
+# special aliases
+
+alias cl="tmux default-path $PWD; tmux new-window"
+
+alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
+
+alias shut="sudo shutdown -h now"
+
+alias cupmen3="sleep 180 && notify-send 'カップめんできたよ！'"
+alias cupmen5="sleep 300 && notify-send 'カップめんできたよ！'"
+
+alias awetest="Xephyr -ac -br -noreset -screen 800x600 :1 & sleep 1 && DISPLAY=:1.0 awesome -c ~/.config/awesome/rc.lua"
+
+md(){ mkdir -p $1; cd $1 }
+
+
+# perl aliases
+
+alias sub="perl -pi -e"
+alias psh="perl -de 1"
+
+alias testcover="cover -delete ; ./Build testcover; cover"
+pmver(){ perl -M$1 -le "print $1->VERSION"; }
+
+
+# global aliases
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+
+alias -g W='| wc -l'
+
+alias -g D="DISPLAY=:0.0"
+
+alias -g ED="export DISPLAY=:0.0"
+
+alias -g EG='|& egrep'
+alias -g EH='|& head'
+alias -g EL='|& less -R'
+alias -g ELS='|& less -S -R'
+alias -g ETL='|& tail -20'
+alias -g ET='|& tail'
+alias -g F=' | fmt -'
+alias -g G='| egrep'
+
+alias -g H='| head'
+alias -g HL='|& head -20'
+
+alias -g NZ="*~(*.bz2|*.gz|*.tgz|*.zip|*.z)"
+
+alias -g L="| less -R"
+alias -g LL="2>&1 | less -R"
+alias -g LS='| less -S -R'
+
+alias -g M='| more'
+alias -g MM='| most'
+
+alias -g N=/dev/null
+alias -g NE="2> /dev/null"
+alias -g NULL="> /dev/null 2>&1"
+
+alias -g S='| sort'
+alias -g NS='| sort -n'
+alias -g US='| sort -u'
+alias -g NRS='| sort -nr'
+
+alias -g T='| tail'
+alias -g TL='| tail -20'
+
+alias -g VM=/var/log/messages
+
+alias -g X='| xargs'
+alias -g X0='| xargs -0'
+alias -g XG='| xargs egrep'
+alias -g X0G='| xargs -0 egrep'
+
+alias -g FA='find -P . -regex "\./[^.].*"'
+
+if which pbcopy >/dev/null 2>&1 ; then
+  # Mac
+  alias -g C='| pbcopy'
+elif which xsel >/dev/null 2>&1 ; then
+  # Linux
+  alias -g C='| xsel --input --clipboard'
+fi
