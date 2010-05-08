@@ -116,7 +116,8 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
 " for alc
-nnoremap <Leader>a :Ref alc<Space>
+inoremap <Leader>a <Esc>:Ref alc<Space>
+nnoremap <Leader>a <Esc>:Ref alc<Space>
 
 "改行挿入
 nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
