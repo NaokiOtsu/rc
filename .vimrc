@@ -394,3 +394,5 @@ if has('autocmd')
   endfunction
   autocmd BufReadPost * call AU_ReCheck_FENC()
 endif
+
+source ~/.vimrc.local
