@@ -2,7 +2,7 @@ source! ~/_vimperatorrc.local
 
 
 "+----------------------------------------------------------------------------------------+
-" 基本設定
+" base settings
 "+----------------------------------------------------------------------------------------+
 
 set titlestring="Firefox"
@@ -10,10 +10,11 @@ set go=
 set hlsearch
 set visualbell
 set wildoptions=auto
+set editor=gvim
 
-set complete=l
+set complete=lt
 
-"クイックヒントのスタイル設定
+" style for quick-hints
 highlight! Hint font-family: "Bitstream Vera Sans Mono",monaco,monospace; font-size: 12px; font-weight: bold; color: white; background-color: blue; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 2px; line-height: 1em;
 
 set focuscontent
@@ -21,44 +22,40 @@ set history=10000
 
 
 "+----------------------------------------------------------------------------------------+
-" キーマップ設定(Normal Mode)
+" keymap (Normal Mode)
 "+----------------------------------------------------------------------------------------+
 
-"j/k/h/lの移動量を5倍に
+" j/k/h/l for seven times
 nnoremap j 7j
 nnoremap k 7k
 nnoremap h 7h
 nnoremap l 7l
 
-"<C-j>/<C-k>でページ移動
-nnoremap <C-j> <C-f>
-nnoremap <C-k> <C-b>
-
-"<C-h>/<C-l>でタブフォーカスを移動
+" tab move with C-h and C-l
 nnoremap <C-h> <C-p>
 nnoremap <C-l> <C-n>
 
-"復元タブの一覧表示
+" show undo buffer
 nnoremap U :u<Space>
 
-"<A-d>でその他のタブを閉じる
+" close other tabs
 nnoremap <A-d> :tabonly<CR>
 
-"<A-r>でFirefoxを再起動
+" restart firefox
 nnoremap <A-r> :restart<CR>
 
-"現在のページを印刷
+" print current page
 nnoremap <A-p> :dialog print<CR>
 
-"設定ダイアログを表示
+" show dialog
 nnoremap <A-s> :dialog preferences<CR>
 
-"アドオンを表示
+" show addons
 nnoremap <A-a> :addon<CR>
 
 
 "+----------------------------------------------------------------------------------------+
-" キーマップ設定(Command Mode)
+" keymap (Command Mode)
 "+----------------------------------------------------------------------------------------+
 
 cnoremap <C-m> <CR>
@@ -70,7 +67,7 @@ cnoremap <C-b> <Left>
 
 
 "+----------------------------------------------------------------------------------------+
-" キーマップ設定(Input Mode)
+" keymap (Input Mode)
 "+----------------------------------------------------------------------------------------+
 
 inoremap <C-m> <CR>
@@ -82,10 +79,8 @@ inoremap <C-b> <Left>
 
 
 "+----------------------------------------------------------------------------------------+
-" 特定サイト向け設定
+" qmarks
 "+----------------------------------------------------------------------------------------+
-
-"qmark: go + key でopen, gn + key でtabopen
 
 qmark g http://google.co.jp/
 qmark m https://mail.google.com/
@@ -103,30 +98,8 @@ qmark k http://kakaku.com/
 
 
 "+----------------------------------------------------------------------------------------+
-" その他の設定
+" settings for plugins
 "+----------------------------------------------------------------------------------------+
-
-" inspect mode hint
-js <<EOM
-hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() '//*');
-commands.addUserCommand(['setInspectionXPath', 'six'], 'Set a XPath in the Hints Mode of Inspection', function(args){
-    hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() args.string);
-}, {}, true);
-EOM
-
-
-" move feed icon to status bar
-js <<EOM
-(function(){
-  var feedPanel = document.createElement('statusbarpanel');
-  var feedButton = document.getElementById('feed-button');
-  feedPanel.setAttribute('id','feed-panel-clone');
-  feedPanel.appendChild(feedButton.cloneNode(true));
-  feedButton.parentNode.removeChild(feedButton);
-  document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
-})();
-EOM
-
 
 " set mapleader
 let mapleader=','
@@ -196,6 +169,53 @@ autocmd LocationChange .* :fmapc
 autocmd LocationChange mail\.google\.com/mail :fmap! c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
 autocmd LocationChange 'www\.google\.co\.jp/reader' :fmap! -vkey j k n p m s t v A r S N P X O gh ga gs gt gu u / ?
 autocmd LocationChange 'www\.google\.com/calendar/' :fmap! -vkey -event keydown z t a w m x c e <Del> / + q s ?
+
+
+" for removetabs.js
+noremap <C-S-p> :removetabsleft<CR>
+noremap <C-S-n> :removetabsright<CR>
+
+
+"+----------------------------------------------------------------------------------------+
+" other settings
+"+----------------------------------------------------------------------------------------+
+
+" inspect mode hint
+js <<EOM
+hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() '//*');
+commands.addUserCommand(['setInspectionXPath', 'six'], 'Set a XPath in the Hints Mode of Inspection', function(args){
+    hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() args.string);
+}, {}, true);
+EOM
+
+
+" move feed icon to status bar
+js <<EOM
+(function(){
+  var feedPanel = document.createElement('statusbarpanel');
+  var feedButton = document.getElementById('feed-button');
+  feedPanel.setAttribute('id','feed-panel-clone');
+  feedPanel.appendChild(feedButton.cloneNode(true));
+  feedButton.parentNode.removeChild(feedButton);
+  document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
+})();
+EOM
+
+
+" cal command
+
+command! cal :js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
+
+
+" remove visualbell attribute
+
+js let(e=document.getElementById("liberator-visualbell"),p=e.parentNode){e.removeAttribute("width");e.removeAttribute("height");p.appendChild(p.removeChild(e));}
+
+
+" gcalc command
+
+command! gcalc -nargs=* echo JSON.parse(util.httpGet("http://suggestqueries.google.com/complete/search?client=firefox&hl=ja&q="+encodeURIComponent("<args>")).responseText)[1].filter(function(r) r.indexOf("=") == 0)[0].replace("= ","")
+
 
 
 "complete!
