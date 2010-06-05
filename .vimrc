@@ -98,7 +98,7 @@ inoremap <expr> = smartchr#one_of('=', '==', '=~', '<=>', '=')
 inoremap <expr> > smartchr#one_of('>', '->', '=>', '>')
 
 " for perl
-inoremap <expr> m smartchr#one_of('m', 'my $', 'm')
+inoremap <expr> m smartchr#one_of('m', 'my $', 'my @', 'm')
 inoremap <expr> d smartchr#one_of('d', '$', '$_', 'd')
 inoremap <expr> a smartchr#one_of('a', '@', '@_', 'a')
 inoremap <expr> p smartchr#one_of('p', '%', 'p')

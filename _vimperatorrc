@@ -152,12 +152,6 @@ let g:direct_sbm_use_services_by_tag = 'd'
 nnoremap p :sbm[
 
 
-" for tada.js
-let g:tada_userId = "zentooo"
-let g:tada_defaultListName = "todo"
-nnoremap <C-t> :tada<Space>
-
-
 " for delicious_search.js
 autocmd VimperatorEnter ".*" :set complete+=D
 nnoremap s :delicioussearch -tags 
@@ -173,8 +167,8 @@ autocmd LocationChange 'www\.google\.com/calendar/' :fmap! -vkey -event keydown 
 
 
 " for removetabs.js
-noremap <C-S-p> :removetabsleft<CR>
-noremap <C-S-n> :removetabsright<CR>
+noremap <A-h> :removetabsleft<CR>
+noremap <A-l> :removetabsright<CR>
 
 
 "+----------------------------------------------------------------------------------------+
@@ -182,7 +176,6 @@ noremap <C-S-n> :removetabsright<CR>
 "+----------------------------------------------------------------------------------------+
 
 " for verttabbar
-
 set! browser.tabs.closeButton=2
 set! verttabbar.width=100
 
@@ -210,18 +203,11 @@ EOM
 
 
 " cal command
-
 command! cal :js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 
 
 " remove visualbell attribute
-
 js let(e=document.getElementById("liberator-visualbell"),p=e.parentNode){e.removeAttribute("width");e.removeAttribute("height");p.appendChild(p.removeChild(e));}
-
-
-" gcalc command
-
-command! gcalc -nargs=* echo JSON.parse(util.httpGet("http://suggestqueries.google.com/complete/search?client=firefox&hl=ja&q="+encodeURIComponent("<args>")).responseText)[1].filter(function(r) r.indexOf("=") == 0)[0].replace("= ","")
 
 
 
