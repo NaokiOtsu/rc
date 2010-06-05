@@ -1,131 +1,138 @@
 "---------------------------------------------------------------------
-" 基本設定
+" base settings
 "---------------------------------------------------------------------
 colorscheme pablo
 set title
 set ruler
 
 syntax on
-filetype on
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
 
-"オートインデント
-set autoindent
-
-"swp files
-set directory-=.
-
-"行番号を表示する
-set number
-
-"閉じ括弧が入力されたとき、対応する括弧を表示する
-set showmatch
-
-"モードを表示
-set showmode
-
-"タブ文字の大きさ
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-"行末・タブ文字等の表示
-set list
-set lcs=tab:>.,eol:$,trail:_,extends:\
-
-"全角スペース表示
-highlight JpSpace cterm=underline ctermfg=Green guifg=Green
-au BufRead,BufNew * match JpSpace /　/
-
-"バックスペースでindentを無視 & 改行を越えてバックスペースを許可
-set backspace=indent,eol
-
-"共有のクリップボードを使用する
-set clipboard=unnamed
-
-"ファイル保存ダイアログの初期ディレクトリをバッファファイル位置に設定
-set browsedir=buffer 
-
-"Vi互換をオフ
 set nocompatible
-
-"変更中のファイルでも、保存しないで他のファイルを表示
+set number
 set hidden
 
-"検索時に大文字を含んでいたら大/小を区別
+set autoread
+
+set splitbelow
+set splitright
+
+set autoindent
+set smartindent
+
+set hlsearch
+set nowrapscan
+set showmatch
+set showmode
+
 set ignorecase
 set smartcase
 
-"新しい行を作ったときに高度な自動インデントを行う
-set smartindent
-
-"行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする。
+set tabstop=2
+set shiftwidth=2
+set expandtab
 set smarttab
 
-"カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
+set backspace=indent,eol,start
+set clipboard=unnamed
+set browsedir=buffer
 
-"検索をファイルの先頭へループしない
-set nowrapscan
-
-"検索のハイライト
-set hlsearch
-
-"ステータスラインを常に表示
 set laststatus=2
-
-"ステータスラインに文字コードと改行文字を表示
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-
-"ステータスラインに入力中コマンドを表示
 set showcmd
 
-"コマンドライン補完
 set wildmode=list,full
 
-" 四角とか丸があってもカーソル位置がずれないようにする
+set virtualedit+=block
+
+set modeline
+
 if exists('&ambiwidth')
   set ambiwidth=double
 endif
 
-" 矩形選択補助
-set virtualedit+=block
+"swp files
+set directory-=.
 
-" 改行時のオートコメント解除
+"show special character
+set list
+set lcs=tab:>-,trail:_,extends:>,precedes:<
+scriptencoding utf-8
+highlight JpSpace cterm=underline ctermfg=Green guifg=Green
+au BufRead,BufNew * match JpSpace /　/
+
+" remove autocomment
 autocmd FileType * set formatoptions-=ro
 
 " rename command
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
-" mapleader
-let g:mapleader = ","
-
 
 "---------------------------------------------------------------------
 " Key mappings
 "---------------------------------------------------------------------
+
+" mapleader
+let mapleader = ","
+
+" for basics
+nnoremap <Space>w :<C-u>write<Return>
+nnoremap <Space>q :<C-u>quit<Return>
+nnoremap <Space>Q :<C-u>quit!<Return>
+nnoremap <Space>v :<C-u>tabnew ~/.vimrc<Cr>
+nnoremap <Space>s :<C-u>source ~/.vimrc<Cr>
+nnoremap <Space>zz :<C-u>tabnew ~/.zshrc<Cr>
+nnoremap <Space>za :<C-u>tabnew ~/.zshalias<Cr>
+nnoremap <Space>ze :<C-u>tabnew ~/.zshenv<Cr>
+nnoremap <Space>] <C-w>]
+nnoremap <Space>j <C-f>
+nnoremap <Space>k <C-b>
+
+" for programing
+inoremap <expr> q smartchr#one_of('q', "'", '"', 'q')
+inoremap <expr> k smartchr#one_of('k', '(  )<Left><Left>', 'k')
+inoremap <expr> K smartchr#one_of('K', '{  }<Left><Left>', 'K')
+inoremap <expr> = smartchr#one_of('=', '==', '=~', '<=>', '=')
+inoremap <expr> > smartchr#one_of('>', '->', '=>', '>')
+
+" for perl
+inoremap <expr> m smartchr#one_of('m', 'my $', 'm')
+inoremap <expr> d smartchr#one_of('d', '$', '$_')
+inoremap <expr> a smartchr#one_of('a', '@', '@_')
+inoremap <expr> p smartchr#one_of('p', '%')
+
+" for command line
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" for others
+nnoremap co zo
+nnoremap cc zc
+
+vnoremap < <gv
+vnoremap > >gv
+
+
 " expand path
 cmap <C-x> <C-r>=expand('%:p:h')<CR>/
 " expand file (not ext)
 cmap <C-z> <C-r>=expand('%:p:r')<CR>
 
-" emacs-like command line
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-
 " for alc
 inoremap <Leader>a <Esc>:Ref alc<Space>
 nnoremap <Leader>a <Esc>:Ref alc<Space>
 
-"改行挿入
+" add \n
 nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
 
-"Yの修正
+" replace Y
 nnoremap Y y$
 
-"クリップボードのyank, paste
+" yank and paste clipboard
 noremap <Space>y "+y<CR>
 noremap <Space>p "+p<CR>
 
@@ -142,19 +149,9 @@ nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
 "tabnew with gf
 nnoremap gf <C-w>gf
 
-"caps with C-a
-imap <C-a> <C-O><Plug>CapsLockToggle
-
 
 "---------------------------------------------------------------------
-" Key mappings for Perl
-"---------------------------------------------------------------------
-inoremap <C-d> $
-inoremap <C-p> %
-
-
-"---------------------------------------------------------------------
-" Key mappings for windows
+" Key mappings for vim windows
 "---------------------------------------------------------------------
 nnoremap ss <C-W>s
 nnoremap sc <C-W>c
@@ -168,32 +165,27 @@ nnoremap sl <C-W>l
 nnoremap + <C-W>+
 nnoremap - <C-W>-
 
-" ウィンドウの横幅を大きくする/小さくする
 nnoremap ) <C-W>> 
 nnoremap ( <C-W><LT>
 
-" ウィンドウの大きさを最大化する
 function! s:big()
   wincmd _ | wincmd |
 endfunction
-nnoremap <silent> s<CR> :<C-u>call <SID>big()<CR> " 最大化
-nnoremap s0 1<C-W>_ " 最小化
-nnoremap s. <C-W>=  " 全部同じ大きさにする
+nnoremap <silent> s<CR> :<C-u>call <SID>big()<CR>
+nnoremap s0 1<C-W>_
+nnoremap s. <C-W>=
 
 
 "---------------------------------------------------------------------
-" ファイル毎の設定
+" settings for filetypes
 "---------------------------------------------------------------------
 autocmd FileType html,xml,xsl,erb source ~/.vim/plugin/closetag.vim 
 
-"ファイル種別毎の辞書ファイル
 autocmd FileType javascript :set dictionary=~/.vim/dic/js.dic
 autocmd FileType scala :set dictionary=~/.vim/dic/scala.dic
 
-"スケルトンファイル
 autocmd BufNewFile *.user.js 0r ~/.vim/skeleton/greasemonkey.js
 
-"シンタックスハイライトを補完に利用
 autocmd FileType *
       \   if &l:omnifunc == ''
       \ |   setlocal omnifunc=syntaxcomplete#Complete
@@ -201,7 +193,7 @@ autocmd FileType *
 
 
 "---------------------------------------------------------------------
-" tab回りの設定
+" settings for tabs
 "---------------------------------------------------------------------
 map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
@@ -265,36 +257,11 @@ let g:NeoComplCache_KeywordPatterns['default'] = '\v\h\w*'
 nmap <silent><C-e>     <Plug>(neocomplcache_keyword_caching)
 imap <expr><silent><C-e>     pumvisible() ? "\<C-e>" : "\<Plug>(neocomplcache_keyword_caching)"
 
-" <TAB> completion.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" C-jでオムニ補完
 inoremap <expr> <C-j> &filetype == 'vim' ? "\<C-x>\<C-v>\<C-p>" : "\<C-x>\<C-o>\<C-p>"
-" C-kを押すと行末まで削除
-inoremap <C-k> <C-o>D
-" C-nでneocomplcache補完
 inoremap <expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
-" C-pでkeyword補完
 inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-" 途中でEnterしたとき、ポップアップを消して改行し、
-" 改行を連続して入力してもインデント部を保持する
 inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
-
-
-"---------------------------------------------------------------------
-" for git-vim.vim
-"---------------------------------------------------------------------
-let g:git_no_map_default = 1
-let g:git_command_edit = 'rightbelow vnew'
-nnoremap <Space>gd :<C-u>GitDiff --cached<Enter>
-nnoremap <Space>gD :<C-u>GitDiff<Enter>
-nnoremap <Space>gs :<C-u>GitStatus<Enter>
-nnoremap <Space>gl :<C-u>GitLog<Enter>
-nnoremap <Space>gL :<C-u>GitLog -u \| head -10000<Enter>
-nnoremap <Space>ga :<C-u>GitAdd<Enter>
-nnoremap <Space>gA :<C-u>GitAdd <cfile><Enter>
-nnoremap <Space>gc :<C-u>GitCommit<Enter>
-nnoremap <Space>gC :<C-u>GitCommit --amend<Enter>
-nnoremap <Space>gp :<C-u>Git push
 
 
 "---------------------------------------------------------------------
@@ -342,9 +309,8 @@ endif
 
 
 "---------------------------------------------------------------------
-" 文字コードの自動認識
+" detect char code
 "---------------------------------------------------------------------
-
 if &encoding !=# 'utf-8'
   set encoding=japan
   set fileencoding=japan
@@ -352,16 +318,13 @@ endif
 if has('iconv')
   let s:enc_euc = 'euc-jp'
   let s:enc_jis = 'iso-2022-jp'
-  " iconvがeucJP-msに対応しているかをチェック
   if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'eucjp-ms'
     let s:enc_jis = 'iso-2022-jp-3'
-  " iconvがJISX0213に対応しているかをチェック
   elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'euc-jisx0213'
     let s:enc_jis = 'iso-2022-jp-3'
   endif
-  " fileencodingsを構築
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
 	let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
@@ -381,11 +344,9 @@ if has('iconv')
       let &fileencodings = &fileencodings .','. s:enc_euc
     endif
   endif
-  " 定数を処分
   unlet s:enc_euc
   unlet s:enc_jis
 endif
-" 日本語を含まない場合は fileencoding に encoding を使うようにする
 if has('autocmd')
   function! AU_ReCheck_FENC()
     if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
