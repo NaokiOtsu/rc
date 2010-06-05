@@ -2,6 +2,8 @@
 
 # aliases for normal commands
 
+alias v="vim"
+
 alias rr="rm -rf"
 alias rm="rm -i"
 
@@ -10,16 +12,18 @@ alias dh="df -h"
 alias pd="popd"
 alias gd='dirs -v; echo -n "select number: "; read newdir; cd +"$newdir"'
 
-alias tarcz="tar cvzf"
-alias tarxz="tar xvzf"
-alias tarcj="tar cvjf"
-alias tarxj="tar xvjf"
+alias tcz="tar cvzf"
+alias txz="tar xvzf"
+alias tcj="tar cvjf"
+alias txj="tar xvjf"
 
 case "${OSTYPE}" in
   freebsd*|darwin*)
+  alias l="ls -G -w"
   alias ls="ls -G -w"
   ;;
   linux*)
+  alias l="ls --color"
   alias ls="ls --color"
   ;;
 esac
@@ -27,8 +31,10 @@ esac
 alias la="ls -lhAF"
 alias ps="ps -fU`whoami` --forest"
 
-alias findall="sudo find / -name"
-alias findhere="find ./ -name"
+alias fall="sudo find / -name"
+alias fhere="find ./ -name"
+
+gr(){ grep -r $1 ./* }
 
 
 # special aliases
