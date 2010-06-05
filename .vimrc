@@ -395,4 +395,8 @@ if has('autocmd')
   autocmd BufReadPost * call AU_ReCheck_FENC()
 endif
 
-source ~/.vimrc.local
+
+let readfile = "~/.vimrc.local"
+if filereadable(readfile)
+  source ~/.vimrc.local
+endif
