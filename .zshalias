@@ -3,6 +3,7 @@
 # aliases for normal commands
 
 alias v="vim"
+alias g="gvim"
 
 alias rr="rm -rf"
 alias rm="rm -i"
