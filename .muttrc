@@ -23,7 +23,6 @@ set fast_reply			# skip initial prompts when replying
 set forward_decode		# weed and MIME decode forwaded messages
 set forward_format="[%a: %s]"	# subject to use when forwarding messages
 set forward_quote		# quote the header and body of forward msgs
-#set index_format="%4C %Z %{%m/%d} %-15.15F (%4c) %s" # format of the index
 set index_format="%4C %Z %{%b %d} %-15.15L %?M?(#%03M)&(%4l)? %?y?(%.20Y) ?%s"
 set header			# include message header when replying
 set history=20			# number of lines of history to remember
@@ -49,7 +48,6 @@ set reply_regexp="^(re:[ \t]*)+"# how to identify replies in the subject:
 set reverse_name		# use my address as it appears in the message
 set nosave_empty		# remove files when no messages are left
 set shell="/usr/bin/zsh"		# program to use for shell escapes
-set signature="~/.mutt/signature"	# file which contains my signature
 
 # I subscribe to a lot of mailing lists, so this is _very_ useful.  This
 # groups messages on the same subject to make it easier to follow a
@@ -127,24 +125,9 @@ mono body bold "^Bad signature from.*"
 #		pager		text viewer
 #		
 
-macro generic "<esc>1" ":set from=ankerasoy@gmail.com"
-
-# 現在の msmtp アカウントを切り替えたり見たりするための <tab> と = を定義
-macro compose \Cx_ ":set sendmail"
-macro compose \Cx| "\Cx_ = \"/usr/bin/msmtp"
-macro compose \Cx& ":macro compose \\t \\Cx"
-macro compose <tab> "\Cx0"
-macro compose = "\Cx_\n"
-
-# 以下にアカウントを記す
-# 行の最初の部分のアカウントの番号と、
-# '&' の後の次のアカウントの番号を書くのを忘れないこと
-macro compose \Cx0 "\Cx|\"\n\Cx&1\n\Cx_\n" # default and switch to 1
-macro compose \Cx1 "\Cx| -a lab\"\n\Cx&2\n\Cx_\n" # switch to 2
-macro compose \Cx2 "\Cx| -a gmail\"\n\Cx&0\n\Cx_\n" # switch to 0
-
 
 bind index J next-new
+bind index K previous-new
 bind index \Cf next-page
 bind index \Cb previous-page
 bind index n search-next
@@ -162,11 +145,12 @@ macro index "\""	"<enter-command> set realname=\"real hairy macro\" ?realname<En
 macro index f1	"<enter-command>woohoo!"
 macro index S "<save-message>+spam<Enter>"
 
-bind pager h previous-entry
-bind pager k previous-line
-bind pager \Cj next-entry
-bind pager \Ck previous-entry
-bind pager l next-entry
+bind pager J next-line
+bind pager K previous-line
+bind pager \Cj half-down
+bind pager \Ck half-up
+bind pager j next-entry
+bind pager k previous-entry
 bind pager \Cf next-page
 bind pager \Cb previous-page
 bind pager ? search-reverse
@@ -318,41 +302,25 @@ auto_view application/x-gzip
 
 set status_on_top
 
-set imap_user="ankerasoy@gmail.com"
-set folder="imaps://imap.gmail.com"
-set spoolfile="imaps://imap.gmail.com/INBOX"
-set record="imaps://imap.gmail.com/[Gmail]/Sent Mail"
-set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
-set imap_check_subscribed
-set read_inc=100
-set header_cache="~/.mutt/cache/headers/"
-set message_cachedir="~/.mutt/cache/bodies/"
-set certificate_file =~/.mutt/certificates
-
 set move = no  #Stop asking to "move read messages to mbox"!
 set imap_keepalive = 900
-
-set sendmail="/usr/bin/msmtp -a lab"
 
 set charset="UTF-8"
 set send_charset="iso-2022-jp:UTF-8"
 
-set envelope_from=yes
-
 set implicit_autoview=yes
 set mailcap_path="~/.mutt/mailcap"
+set signature="~/.mutt/signature"	# file which contains my signature
 
-set use_from			# always generate the `From:' header field
-
-set sort=threads		# primary sorting method
-set sort_aux=last-date-received	# how to sort subthreads
+set sort=reverse-threads # primary sorting method
+set sort_aux=date-received	# how to sort subthreads
 set sort_browser=reverse-date	# how to sort files in the dir browser
 
 set mail_check=90		# how often to poll for new mail
 set timeout=15
 set mbox_type=MH
 set mbox=+inbox
-my_hdr X-Mailer: Mutt 1.5.18 (2008-05-17)
+my_hdr X-Mailer: Mutt 1.5.20 (2009-06-14)
 
 set alias_file=~/.mutt/aliases
 set sort_alias= alias
@@ -362,5 +330,7 @@ source $alias_file
 set query_command = "abook --mutt-query '%s'"
 macro generic,index,pager \ca "<shell-escape>abook<return>" "launch abook"
 macro index,pager A "<pipe-message>abook --add-email<return>" "add the sender address to abook"
+
+source ~/.muttrc.local
 
 # EOF

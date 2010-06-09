@@ -92,14 +92,14 @@ nnoremap <Space>k <C-b>
 
 " for programing
 inoremap <expr> q smartchr#one_of('q', "'", '"', 'q')
-inoremap <expr> k smartchr#one_of('k', '(  )<Left><Left>', 'k')
-inoremap <expr> K smartchr#one_of('K', '{  }<Left><Left>', 'K')
+inoremap <expr> k smartchr#one_of('k', '()<Left>', '(  )<Left><Left>', 'k')
+inoremap <expr> K smartchr#one_of('K', '{}<Left>', '{  }<Left><Left>', 'K')
 inoremap <expr> = smartchr#one_of('=', '==', '=~', '<=>', '=')
 inoremap <expr> > smartchr#one_of('>', '->', '=>', '>>', '>')
 
 " for perl
 inoremap <expr> m smartchr#one_of('m', 'my $', 'mm', 'my @', 'm')
-inoremap <expr> d smartchr#one_of('d', '$', 'dd', 'd')
+inoremap <expr> d smartchr#one_of('d', '$', '$d', 'dd', 'd')
 inoremap <expr> a smartchr#one_of('a', '@', '@_', 'a')
 inoremap <expr> p smartchr#one_of('p', '%', 'pp', 'p')
 
