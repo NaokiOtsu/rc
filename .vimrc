@@ -92,8 +92,8 @@ nnoremap <Space>k <C-b>
 
 " for programing
 inoremap <expr> q smartchr#one_of('q', "'", '"', 'q')
-inoremap <expr> k smartchr#one_of('k', '()<Left>', '(  )<Left><Left>', 'k')
-inoremap <expr> K smartchr#one_of('K', '{}<Left>', '{  }<Left><Left>', 'K')
+inoremap <expr> k smartchr#one_of('k', '()', '(  )', 'k')
+inoremap <expr> K smartchr#one_of('K', '{}', '{  }', 'K')
 inoremap <expr> = smartchr#one_of('=', '==', '=~', '<=>', '=')
 inoremap <expr> > smartchr#one_of('>', '->', '=>', '>>', '>')
 
