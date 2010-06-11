@@ -35,7 +35,7 @@ alias ps="ps -fU`whoami` --forest"
 alias fall="sudo find / -name"
 alias fhere="find ./ -name"
 
-gr(){ grep -r $1 ./* }
+g(){ grep -r "$*" ./* }
 
 
 # special aliases
