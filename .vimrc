@@ -90,19 +90,6 @@ nnoremap <Space>] <C-w>]
 nnoremap <Space>j <C-f>
 nnoremap <Space>k <C-b>
 
-" for programing
-inoremap <expr> q smartchr#one_of('q', "'", '"', 'q')
-inoremap <expr> k smartchr#one_of('k', '()', '(  )', 'k')
-inoremap <expr> K smartchr#one_of('K', '{}', '{  }', 'K')
-inoremap <expr> = smartchr#one_of('=', '==', '=~', '<=>', '=')
-inoremap <expr> > smartchr#one_of('>', '->', '=>', '>>', '>')
-
-" for perl
-inoremap <expr> m smartchr#one_of('m', 'my $', 'mm', 'my @', 'm')
-inoremap <expr> d smartchr#one_of('d', '$', '$d', 'dd', 'd')
-inoremap <expr> a smartchr#one_of('a', '@', '@_', 'a')
-inoremap <expr> p smartchr#one_of('p', '%', 'pp', 'p')
-
 " for command line
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
