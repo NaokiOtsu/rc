@@ -117,6 +117,12 @@ zle -N expand-to-home-or-insert
 bindkey "\\" expand-to-home-or-insert
 
 
+# source local zshrc
+
+if [ -e ~/.zshrc.local ]; then
+  source ~/.zshrc.local
+fi
+
 # setting for tmux
 
 if [ $SHLVL = 1 ]; then
