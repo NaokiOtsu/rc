@@ -96,6 +96,11 @@ cnoremap <C-l> <Right>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+" for perl
+inoremap <C-d> $
+inoremap <C-a> @
+inoremap <C-p> %
+
 " for others
 nnoremap co zo
 nnoremap cc zc
