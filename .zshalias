@@ -36,7 +36,13 @@ alias fall="sudo find / -name"
 alias fhere="find ./ -name"
 
 g(){ grep -r "$*" ./* }
+g1(){ grep -r -1 "$*" ./* }
+g2(){ grep -r -2 "$*" ./* }
+g3(){ grep -r -3 "$*" ./* }
+g4(){ grep -r -4 "$*" ./* }
+g5(){ grep -r -5 "$*" ./* }
 
+gl(){ grep -r "$*" ./* | less }
 
 # special aliases
 
