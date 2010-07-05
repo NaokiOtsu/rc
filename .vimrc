@@ -46,6 +46,7 @@ set showcmd
 set wildmode=list,full
 
 set virtualedit+=block
+set clipboard+=autoselect,unnamed
 
 set modeline
 
@@ -213,47 +214,57 @@ imap <Leader>wt <Esc><Plug>Csurround wt
 " for neocomplcache.vim
 "---------------------------------------------------------------------
 
-" Don't use autocomplpop.
-let g:AutoComplPop_NotEnableAtStartup = 1
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
 " Use neocomplcache.
-let g:NeoComplCache_EnableAtStartup = 1
+let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
-let g:NeoComplCache_SmartCase = 1
-" Use previous keyword completion.
-let g:NeoComplCache_PreviousKeywordCompletion = 1
-" Use preview window.
-let g:NeoComplCache_EnableInfo = 1
+let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
-let g:NeoComplCache_EnableCamelCaseCompletion = 1
+let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
-let g:NeoComplCache_EnableUnderbarCompletion = 1
+let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
-let g:NeoComplCache_MinSyntaxLength = 3
-" Set skip input time.
-let g:NeoComplCache_SkipInputTime = '0.1'
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
-let g:NeoComplCache_DictionaryFileTypeLists = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions',
+    \ 'javascript' : $HOME.'/.vim/dic/js.dic',
+    \ 'perl' : $HOME.'/.vim/perl-suport/wordlists/perl.list'
+    \ }
 
 " Define keyword.
-if !exists('g:NeoComplCache_KeywordPatterns')
-    let g:NeoComplCache_KeywordPatterns = {}
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
 endif
-let g:NeoComplCache_KeywordPatterns['default'] = '\v\h\w*'
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-nmap <silent><C-e>     <Plug>(neocomplcache_keyword_caching)
-imap <expr><silent><C-e>     pumvisible() ? "\<C-e>" : "\<Plug>(neocomplcache_keyword_caching)"
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <C-j> &filetype == 'vim' ? "\<C-x>\<C-v>\<C-p>" : "\<C-x>\<C-o>\<C-p>"
-inoremap <expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
-inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  (pumvisible() ? "\<C-y>":'') . "\<C-f>\<CR>X\<BS>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> pumvisible() ? neocomplcache#close_popup()."\<C-h>" : "\<C-h>"
+inoremap <expr><BS> pumvisible() ? neocomplcache#close_popup()."\<C-h>" : "\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+" AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 1
+inoremap <expr><CR>  (pumvisible() ? "\<C-e>":'') . (&indentexpr != '' ? "\<C-f>\<CR>X\<BS>":"\<CR>")
+inoremap <expr><C-h> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
+inoremap <expr><BS> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
 
 
 "---------------------------------------------------------------------

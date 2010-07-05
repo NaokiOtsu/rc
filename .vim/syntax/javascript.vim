@@ -1,9 +1,16 @@
 " Vim syntax file
 " Language:     JavaScript
 " Maintainer:   Yi Zhao (ZHAOYI) <zzlinux AT hotmail DOT com>
-" Last Change:  June 4, 2009
-" Version:      0.7.7
-" Changes:      Add "undefined" as a type keyword
+" Last Change:  May 17, 2007
+" Version:      0.7.5
+" Changes:      1, Get the vimdiff problem fixed finally. 
+"                Matthew Gallant reported the problem and test the fix. ;)
+"               2, Follow the suggestioin from Ingo Karkat.
+"                The 'foldtext' and 'foldlevel' settings should only be 
+"                changed if the file being edited is pure JavaScript, 
+"                not if JavaScript syntax is embedded inside other syntaxes.
+"               3, Remove function FT_JavaScriptDoc(). 
+"                Since VIM do the better than me. 
 "
 " TODO:
 "  - Add the HTML syntax inside the JSDoc
@@ -27,6 +34,7 @@ endif
 setlocal iskeyword+=$
 
 syntax sync fromstart
+syntax sync maxlines=200
 
 "" JavaScript comments
 syntax keyword javaScriptCommentTodo    TODO FIXME XXX TBD contained
@@ -58,7 +66,7 @@ syntax case match
 syntax match   javaScriptSpecial        "\\\d\d\d\|\\x\x\{2\}\|\\u\x\{4\}\|\\."
 syntax region  javaScriptStringD        start=+"+  skip=+\\\\\|\\$"+  end=+"+  contains=javaScriptSpecial,@htmlPreproc
 syntax region  javaScriptStringS        start=+'+  skip=+\\\\\|\\$'+  end=+'+  contains=javaScriptSpecial,@htmlPreproc
-syntax region  javaScriptRegexpString   start=+/\(\*\|/\)\@!+ skip=+\\\\\|\\/+ end=+/[gim]\{,3}+ contains=javaScriptSpecial,@htmlPreproc oneline
+syntax region  javaScriptRegexpString   start=+/\(\*\|/\)\@!+ skip=+\\\\\|\\/+ end=+/[gim]\{-,3}+ contains=javaScriptSpecial,@htmlPreproc oneline
 syntax match   javaScriptNumber         /\<-\=\d\+L\=\>\|\<0[xX]\x\+\>/
 syntax match   javaScriptFloat          /\<-\=\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%([eE][+-]\=\d\+\)\=\>/
 syntax match   javaScriptLabel          /\(?\s*\)\@<!\<\w\+\(\s*:\)\@=/
@@ -68,7 +76,7 @@ syntax keyword javaScriptPrototype      prototype
 
 "" Programm Keywords
 syntax keyword javaScriptSource         import export
-syntax keyword javaScriptType           const this undefined var void yield 
+syntax keyword javaScriptType           const this var void yield
 syntax keyword javaScriptOperator       delete new in instanceof let typeof
 syntax keyword javaScriptBoolean        true false
 syntax keyword javaScriptNull           null
@@ -147,9 +155,7 @@ syntax match   javaScriptParensErrB     contained ")"
 syntax match   javaScriptParensErrC     contained "}"
 
 if main_syntax == "javascript"
-  syntax sync clear
-  syntax sync ccomment javaScriptComment minlines=200
-  syntax sync match javaScriptHighlight grouphere javaScriptBlock /{/
+  syntax sync ccomment javaScriptComment
 endif
 
 "" Fold control
@@ -242,5 +248,84 @@ let b:current_syntax = "javascript"
 if main_syntax == 'javascript'
   unlet main_syntax
 endif
+
+
+if exists('b:did_indent')
+  finish
+endif
+let b:did_indent = 1
+
+setlocal indentexpr=GetJsIndent()
+setlocal indentkeys=0{,0},0),:,!^F,o,O,e,*<Return>,=*/
+" Clean CR when the file is in Unix format
+if &fileformat == "unix" 
+    silent! %s/\r$//g
+endif
+" Only define the functions once per Vim session.
+if exists("*GetJsIndent")
+    finish 
+endif
+function! GetJsIndent()
+    let pnum = prevnonblank(v:lnum - 1)
+    if pnum == 0
+       return 0
+    endif
+    let line = getline(v:lnum)
+    let pline = getline(pnum)
+    let ind = indent(pnum)
+    
+    if pline =~ '{\s*$\|[\s*$\|(\s*$'
+	let ind = ind + &sw
+    endif
+    
+    if pline =~ ';\s*$' && line =~ '^\s*}'
+        let ind = ind - &sw
+    endif
+    
+    if pline =~ '\s*]\s*$' && line =~ '^\s*),\s*$'
+      let ind = ind - &sw
+    endif
+
+    if pline =~ '\s*]\s*$' && line =~ '^\s*}\s*$'
+      let ind = ind - &sw
+    endif
+    
+    if line =~ '^\s*});\s*$\|^\s*);\s*$' && pline !~ ';\s*$'
+      let ind = ind - &sw
+    endif
+    
+    if line =~ '^\s*})' && pline =~ '\s*,\s*$'
+      let ind = ind - &sw
+    endif
+    
+    if line =~ '^\s*}();\s*$' && pline =~ '^\s*}\s*$'
+      let ind = ind - &sw
+    endif
+
+    if line =~ '^\s*}),\s*$' 
+      let ind = ind - &sw
+    endif
+
+    if pline =~ '^\s*}\s*$' && line =~ '),\s*$'
+       let ind = ind - &sw
+    endif
+   
+    if pline =~ '^\s*for\s*' && line =~ ')\s*$'
+       let ind = ind + &sw
+    endif
+
+    if line =~ '^\s*}\s*$\|^\s*]\s*$\|\s*},\|\s*]);\s*\|\s*}]\s*$\|\s*};\s*$\|\s*})$\|\s*}).el$' && pline !~ '\s*;\s*$\|\s*]\s*$' && line !~ '^\s*{' && line !~ '\s*{\s*}\s*'
+          let ind = ind - &sw
+    endif
+
+    if pline =~ '^\s*/\*'
+      let ind = ind + 1
+    endif
+
+    if pline =~ '\*/$'
+      let ind = ind - 1
+    endif
+    return ind
+endfunction
 
 " vim: ts=4
