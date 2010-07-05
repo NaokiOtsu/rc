@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: vimfiler.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 09 Jun 2010
+" Last Modified: 21 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -26,7 +26,7 @@
 "=============================================================================
 
 " Check vimproc.
-let s:is_vimproc = exists('*vimproc#system')
+let s:exists_vimproc_system = exists('*vimproc#system')
 
 let s:last_vimfiler_bufnr = bufnr('%')
 
@@ -62,9 +62,9 @@ function! vimfiler#default_settings()"{{{
 
   call vimfiler#mappings#define_default_mappings()
 endfunction"}}}
-function! vimfiler#set_execute_file(exts, program)"{{{
+function! vimfiler#set_execute_file(exts, command)"{{{
   for ext in split(a:exts, ',')
-    let g:vimfiler_execute_file_list[ext] = a:program
+    let g:vimfiler_execute_file_list[ext] = a:command
   endfor
 endfunction"}}}
 function! vimfiler#set_extensions(kind, exts)"{{{
@@ -333,8 +333,8 @@ endfunction"}}}
 function! vimfiler#iswin()"{{{
   return has('win32') || has('win64')
 endfunction"}}}
-function! vimfiler#is_vimproc()"{{{
-  return s:is_vimproc
+function! vimfiler#exists_vimproc()"{{{
+  return s:exists_vimproc_system
 endfunction"}}}
 function! vimfiler#system(str, ...)"{{{
   let l:command = a:str
@@ -343,7 +343,7 @@ function! vimfiler#system(str, ...)"{{{
     let l:command = iconv(l:command, &encoding, &termencoding)
     let l:input = iconv(l:input, &encoding, &termencoding)
   endif
-  let l:output = s:is_vimproc ? (a:0 == 0 ? vimproc#system(l:command) : vimproc#system(l:command, l:input))
+  let l:output = vimfiler#exists_vimproc() ? (a:0 == 0 ? vimproc#system(l:command) : vimproc#system(l:command, l:input))
         \: (a:0 == 0 ? system(l:command) : system(l:command, l:input))
   if &termencoding != '' && &termencoding != &encoding
     let l:output = iconv(l:output, &termencoding, &encoding)
@@ -545,10 +545,6 @@ function! vimfiler#get_filetype(filename)"{{{
   
   if isdirectory(l:filename)
     return '[DIR]'
-  elseif (!vimfiler#iswin() && executable(l:filename))
-        \|| has_key(g:vimfiler_extensions.execute, l:ext)
-    " Execute.
-    return '[EXE]'
   elseif has_key(g:vimfiler_extensions.text, l:ext)
     " Text.
     return '[TXT]'
@@ -564,6 +560,10 @@ function! vimfiler#get_filetype(filename)"{{{
   elseif l:filename =~ '^\.' || has_key(g:vimfiler_extensions.system, l:ext)
     " System.
     return '[SYS]'
+  elseif (!vimfiler#iswin() && executable(l:filename))
+        \|| has_key(g:vimfiler_extensions.execute, l:ext)
+    " Execute.
+    return '[EXE]'
   else
     " Others filetype.
     return '     '
@@ -720,6 +720,10 @@ endfunction"}}}
 
 " Event functions.
 function! s:event_bufwin_enter()"{{{
+  if !exists('b:vimfiler')
+    return
+  endif
+  
   lcd `=b:vimfiler.current_dir`
   call vimfiler#redraw_screen()
 endfunction"}}}

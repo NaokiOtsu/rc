@@ -126,6 +126,23 @@ BUGS						*vimfiler-bugs*
 ==============================================================================
 CHANGELOG					*vimfiler-changelog*
 
+ChangeLog 1.50{{{
+2010-06-25
+- Improved mappings.
+
+2010-06-22
+- Use vimproc#system_bg().
+
+2010-06-21
+- Improved marked file syntax.
+- Added <Plug>(vimfiler_move_to_other_window) mapping.
+- Fixed error.
+- Use vimproc#open().
+- Added <Plug>(vimfiler_switch_vim_buffer_mode) and <Plug>(vimfiler_restore_vimfiler_mode) mappings.
+
+2010-06-18
+- Use command.
+
 2010-06-15
 - Improved wincmd.
 
@@ -248,6 +265,7 @@ CHANGELOG					*vimfiler-changelog*
 * Improved marks.
 * Improved cd.
 
+  }}}
 ChangeLog 1.x-1.00{{{
     1.02 :
     - Added <Plug>(vimfiler_execute) and <Plug>(vimfiler_move_to_current_directory) mappings.
