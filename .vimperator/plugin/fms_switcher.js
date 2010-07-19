@@ -2,7 +2,7 @@ let PLUGIN_INFO =
 <VimperatorPlugin>
 <name>fms_switcher</name>
 <description>This script allows you to switch FireMobileSimulator status with Vimp CLI.</description>
-<version>1.0.0</version>
+<version>1.0.1</version>
 <author>zentooo</author>
 <license>Creative Commons</license>
 <detail><![CDATA[
@@ -12,8 +12,9 @@ let PLUGIN_INFO =
     == Commands ==
     :fms off:
         turn off FireMobileSimulator's mobile emulation.
-    :fms [deviceName]:
+    :fms [deviceName] [uid(optional)]:
         turn on FireMobileSimulator's mobile emulation with given deviceName.
+        If uid given, change the uid configuration of that carrier.
 ]]></detail>
 </VimperatorPlugin>;
 
@@ -21,28 +22,38 @@ let PLUGIN_INFO =
 liberator.modules.commands.addUserCommand(
   ["fms"],
   "Switch FireMobileSimulator status",
-  function(args){
+  function(args) {
     var deviceName = args[0];
+    var uid = args[1];
 
     if (deviceName == "off") {
       firemobilesimulator.core.resetDevice();
+      liberator.execute("reload");
       return;
     }
 
-    var deviceList = firemobilesimulator.common.pref.getListPref("msim.devicelist", ["label"]);
+    var deviceList = firemobilesimulator.common.pref.getListPref("msim.devicelist", ["label", "carrier"]);
     var deviceIndex = deviceList.map(function(item) { return item.label } ).indexOf(deviceName);
+    var carrier = deviceList[deviceIndex].carrier;
 
     if (deviceIndex != -1) {
       firemobilesimulator.core.setDevice(deviceIndex + 1);
+      firemobilesimulator.common.pref.setUnicharPref("msim.config." + carrier + ".uid", uid);
+
+      if ( carrier === "DC" ) {
+        firemobilesimulator.common.pref.setUnicharPref("msim.config." + carrier + ".guid", uid);
+      }
     }
     else {
       liberator.echoerr('Unsupported fms command: ' + deviceName);
     }
+
+    liberator.execute("reload");
   },
   {
     completer: function(context, arg) {
       context.title = ["Option", "User Agent"];
-      
+
       var suggestions = firemobilesimulator.common.pref.getListPref("msim.devicelist", ["label", "useragent"]).map(function(item) { return [item.label, item.useragent]; });
 
       suggestions.push(["off", "disable FireMobileSimulator"]);
