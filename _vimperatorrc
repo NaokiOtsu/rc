@@ -111,9 +111,9 @@ let g:hintchars="jfkdlsurieowvncm"
 
 
 " for twitter.js
-nnoremap <Leader>t :twitter<Space>
-nnoremap <Leader>T :twitter!<Space>
-nnoremap <Leader>@ :twitter!@<CR>
+nnoremap <Leader>t :tw<Space>
+nnoremap <Leader>T :tw!<Space>
+nnoremap <Leader>@ :tw!@<CR>
 nnoremap <Leader>mt :mr<Space>twitter-search-pcod-no-jp<Space>
 nnoremap <Leader>mT :mr<Space>twitter-search-pcod-no-jp<Space>["zentooo"]<CR>
 nnoremap <Leader>mf :mr<Space>favotter-new<Space> zentooo <CR>
