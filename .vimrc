@@ -176,6 +176,7 @@ autocmd FileType html,xml,xsl,erb source ~/.vim/plugin/closetag.vim
 
 autocmd FileType javascript :set dictionary=~/.vim/dic/js.dic
 autocmd FileType scala :set dictionary=~/.vim/dic/scala.dic
+autocmd BufNewFile,BufRead *.scala set filetype=scala
 
 autocmd BufNewFile *.user.js 0r ~/.vim/skeleton/greasemonkey.js
 
