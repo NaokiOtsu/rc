@@ -126,8 +126,16 @@ nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
 nnoremap Y y$
 
 " yank and paste clipboard
-noremap <Space>y "+y<CR>
-noremap <Space>p "+p<CR>
+if has('mac') && !has('gui')
+  nnoremap <silent> <Space>y :.w !pbcopy<CR><CR>
+  vnoremap <silent> <Space>y :w !pbcopy<CR><CR>
+  nnoremap <silent> <Space>p :r !pbpaste<CR>
+  vnoremap <silent> <Space>p :r !pbpaste<CR>
+else
+  " GVim(Mac & Win)
+  noremap <Space>y "+y<CR>
+  noremap <Space>p "+p<CR>
+endif
 
 "repeat command
 nnoremap c. q:k<Cr>
@@ -158,7 +166,7 @@ nnoremap sl <C-W>l
 nnoremap + <C-W>+
 nnoremap - <C-W>-
 
-nnoremap ) <C-W>> 
+nnoremap ) <C-W>>
 nnoremap ( <C-W><LT>
 
 function! s:big()
