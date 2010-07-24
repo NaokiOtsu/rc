@@ -125,17 +125,17 @@ nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
 " replace Y
 nnoremap Y y$
 
-" yank and paste clipboard
-if has('mac') && !has('gui')
-  nnoremap <silent> <Space>y :.w !pbcopy<CR><CR>
-  vnoremap <silent> <Space>y :w !pbcopy<CR><CR>
-  nnoremap <silent> <Space>p :r !pbpaste<CR>
-  vnoremap <silent> <Space>p :r !pbpaste<CR>
-else
+"yank and paste clipboard
+"if has('mac') && !has('gui')
+  "nnoremap <silent> <Space>y :.w !pbcopy<CR><CR>
+  "vnoremap <silent> <Space>y :w !pbcopy<CR><CR>
+  "nnoremap <silent> <Space>p :r !pbpaste<CR>
+  "vnoremap <silent> <Space>p :r !pbpaste<CR>
+"else
   " GVim(Mac & Win)
   noremap <Space>y "+y<CR>
   noremap <Space>p "+p<CR>
-endif
+"endif
 
 "repeat command
 nnoremap c. q:k<Cr>
@@ -272,7 +272,7 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 1
 "inoremap <expr><CR>  (pumvisible() ? "\<C-e>":'') . (&indentexpr != '' ? "\<C-f>\<CR>X\<BS>":"\<CR>")
-"inoremap <expr><C-h> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
+inoremap <expr><C-h> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
 "inoremap <expr><BS> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
 
 
