@@ -123,3 +123,9 @@ elif which xsel >/dev/null 2>&1 ; then
   # Linux
   alias -g C='| xsel --input --clipboard'
 fi
+
+# source local zshalias
+
+if [ -e ~/.zshalias.local ]; then
+  source ~/.zshalias.local
+fi
