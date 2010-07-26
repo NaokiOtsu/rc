@@ -37,14 +37,14 @@ let PLUGIN_INFO =
 <VimperatorPlugin>
   <name>Stella</name>
   <name lang="ja">すてら</name>
-  <description>For Niconico/YouTube, Add control commands and information display(on status line).</description>
-  <description lang="ja">ニコニコ動画/YouTube 用。操作コマンドと情報表示(ステータスライン上に)追加します。</description>
-  <version>0.20.9</version>
+  <description>Show video informations on the status line.</description>
+  <description lang="ja">ステータスラインに動画の再生時間などを表示する。</description>
+  <version>0.19.3</version>
   <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
   <license>new BSD License (Please read the source code comments of this plugin)</license>
   <license lang="ja">修正BSDライセンス (ソースコードのコメントを参照してください)</license>
-  <minVersion>2.0</minVersion>
-  <maxVersion>2.2pre</maxVersion>
+  <minVersion>2.0pre</minVersion>
+  <maxVersion>2.0pre</maxVersion>
   <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/stella.js</updateURL>
   <detail><![CDATA[
     == Commands ==
@@ -64,7 +64,7 @@ let PLUGIN_INFO =
         seek to specified position.
         TIMECODE formats
           - :stseek 1:30 # 1分30秒
-          label.style.marginRight = (r || 0) + 'px';
+          - :stseek 1.5  # 1.5分。90秒
           - :stseek 90   # 90秒
       :stse[ek]! <TIMECODE>:
         seek to the specified position from current position at relatively.
@@ -136,6 +136,7 @@ let PLUGIN_INFO =
 /* {{{
 TODO
    ・Icons
+   ・auto fullscreen
    ・動的な command の追加削除 (nice rabbit!)
    ・ツールチップみたいな物で、マウスオー馬したときに動画情報を得られるようにしておく。
    ・外から呼ぶべきでない関数(プライベート)をわかりやすくしたい
@@ -146,7 +147,6 @@ TODO
       -> isReady とか
    ・パネルなどの要素にクラス名をつける
    ・上書き保存
-   ・Fx の pref と liberator.globalVariables の両方で設定をできるようにする (Setting)
 
 FIXME
     ・this.last.fullscreen = value;
@@ -174,7 +174,7 @@ Thanks:
   * Const                                                                        {{{
   *********************************************************************************/
 
-  const ID_PREFIX = 'anekos-stella-';
+  const ID_PREFIX = 'anekos-stela-';
   const InVimperator = !!(liberator && modules && modules.liberator);
   const DOUBLE_CLICK_INTERVAL = 300;
 
@@ -200,7 +200,7 @@ Thanks:
       let file;
 
       if (filepath) {
-        file = io.File(io.expandPath(filepath));
+        file = io.getFile(io.expandPath(filepath));
       } else {
         file = dm.userDownloadsDirectory;
       }
@@ -367,27 +367,13 @@ Thanks:
   // }}}
 
   /*********************************************************************************
-  * Setting                                                                      {{{
-  *********************************************************************************/
-
-  function Setting () {
-    this.niconico = {
-      autoFullscreenDelay: 4000
-    };
-  }
-
-  // }}}
-
-  /*********************************************************************************
   * Player                                                                       {{{
   *********************************************************************************/
 
-  function Player (stella) {
+  function Player () {
     let self = this;
 
     this.initialize.apply(this, arguments);
-
-    this.stella = stella;
 
     this.last = {
       fullscreen: false
@@ -670,7 +656,7 @@ Thanks:
       playEx: 'x',
       playOrPause: 'x',
       relatedIDs: 'r',
-      repeating: '',
+      repeating: 'rw',
       title: 'r',
       totalTime: 'r',
       volume: 'rw'
@@ -986,12 +972,12 @@ Thanks:
     get relatedIDs () {
       if (this.__rid_last_url == U.currentURL())
         return this.__rid_cache || [];
+      this.__rid_last_url = U.currentURL();
 
       let videos = [];
-      let failed = false;
 
       // API で取得
-      try {
+      {
         let uri = 'http://www.nicovideo.jp/api/getrelation?sort=p&order=d&video=' + this.id;
         let xhr = new XMLHttpRequest();
         xhr.open('GET', uri, false);
@@ -1005,18 +991,15 @@ Thanks:
               video[c.nodeName] = c.textContent;
           videos.push(new RelatedID(video.url.replace(/^.+?\/watch\//, ''), video.title));
         }
-      } catch (e) {
-        liberator.log('stella: ' + e)
-        failed = true;
       }
 
       // コメント欄からそれっぽいのを取得する
       // コメント欄のリンクの前のテキストをタイトルと見なす
       // textContent を使うと改行が理解できなくなるので、innerHTML で頑張ったけれど頑張りたくない
-      try {
-        let xpath = 'id("des_2")/table[2]/tbody/tr/td[2]';
+      {
+        let xpath = '//*[@id="des_2"]/table/tbody/tr/td/div[2]';
         let comment = U.xpathGet(xpath).innerHTML;
-        let links = U.xpathGets(xpath + '/p/a')
+        let links = U.xpathGets(xpath + '/a')
                      .filter(function (it) /watch\//.test(it.href))
                      .map(function(v) v.textContent);
         links.forEach(function (link) {
@@ -1024,17 +1007,9 @@ Thanks:
           if (r)
             videos.push(new RelatedID(link, r[1].slice(-20)));
         });
-      } catch (e) {
-        liberator.log('stella: ' + e)
-        //failed = true;
       }
 
-      if (!failed) {
-        this.__rid_last_url = U.currentURL();
-        this.__rid_cache = videos;
-      }
-
-      return videos;
+      return this.__rid_cache = videos;
     },
 
     get relatedTags() {
@@ -1232,8 +1207,7 @@ Thanks:
       label: 'Relations',
       id: ID_PREFIX + 'relations-menupopup',
       sub: []
-    },
-    'cancel',
+    }
   ];
 
   function buildContextMenu (setting) {
@@ -1306,9 +1280,8 @@ Thanks:
   * Stella                                                                       {{{
   *********************************************************************************/
 
-  function Stella (setting) {
+  function Stella () {
     this.initialize.apply(this, arguments);
-    this.setting = setting;
   }
 
   Stella.MAIN_PANEL_ID  = ID_PREFIX + 'main-panel',
@@ -1321,13 +1294,12 @@ Thanks:
       let self = this;
 
       this.players = {
-        niconico: new NicoPlayer(this.stella),
-        youtube: new YouTubePlayer(this.stella)
+        niconico: new NicoPlayer(),
+        youtube: new YouTubePlayer()
       };
 
       this.createStatusPanel();
       this.onLocationChange();
-      this.hidden = true;
 
       this.__onResize = window.addEventListener('resize', U.bindr(this, this.onResize), false);
       this.progressListener = new WebProgressListener({onLocationChange: U.bindr(this, this.onLocationChange)});
@@ -1348,7 +1320,7 @@ Thanks:
 
     get isValid () (this.where),
 
-    get player () (this.where && this.players[this.where]),
+    get player () this.players[this.where],
 
     get statusBar () document.getElementById('status-bar'),
 
@@ -1373,11 +1345,11 @@ Thanks:
           cmdName.replace(/[\[\]]+/g, '') + ' - Stella',
           (funcS instanceof Function)
             ? funcS
-            : function (arg) {
+            : function (arg, bang) {
                 if (!self.isValid)
                   U.raise('Stella: Current page is not supported');
                 let p = self.player;
-                let func = arg.bang ? funcB : funcS;
+                let func = bang ? funcB : funcS;
                 if (p.has(func, 'rwt'))
                   p.toggle(func);
                 else if (p.has(func, 'rw'))
@@ -1494,7 +1466,7 @@ Thanks:
       let stbar = document.getElementById('status-bar');
       stbar.insertBefore(panel, document.getElementById('liberator-statusline').nextSibling);
 
-      let relmenu = document.getElementById('anekos-stella-relations-menupopup');
+      let relmenu = document.getElementById('anekos-stela-relations-menupopup');
 
       panel.addEventListener('DOMMouseScroll', U.bindr(this, this.onMouseScroll), true);
     },
@@ -1530,11 +1502,7 @@ Thanks:
     update: function () {
       if (!(this.isValid && this.player.ready))
         return;
-      this.labels.main.text =
-        let (v = this.player.statusText)
-          (this.__currentTimeTo == undefined) ? v
-                                              : v.replace(/^\d*\:\d*/,
-                                                          U.toTimeCode(this.__currentTimeTo));
+      this.labels.main.text = this.player.statusText;
       this.labels.volume.text = this.player.volume;
       for (let name in this.toggles) {
         this.toggles[name].text = (this.player[name] ? String.toUpperCase : U.id)(name[0]);
@@ -1599,35 +1567,12 @@ Thanks:
       this.player.currentTime = parseInt(this.player.totalTime * per);
     },
 
-    onMouseScroll: (function () {
-      let timerHandle;
-      return function (event) {
-        if (!(this.isValid && this.player.ready && event.detail))
-          return;
-        if (event.target == this.labels.main) {
-          if (this.__currentTimeTo == undefined)
-            this.__currentTimeTo = this.player.currentTime;
-          this.__currentTimeTo += (event.detail > 0) ? -5 : 5;
-          this.__currentTimeTo = Math.min(Math.max(this.__currentTimeTo, 0), this.player.totalTime);
-          clearTimeout(timerHandle);
-          timerHandle = setTimeout(
-            U.bindr(this, function () {
-              this.player.currentTime = this.__currentTimeTo;
-              liberator.log({
-                pl: this.player.currentTime,
-                to: this.__currentTimeTo
-              })
-              delete this.__currentTimeTo;
-            }),
-            1000
-          );
-          this.update();
-        } else {
-          this.player.volume += (event.detail > 0) ? -5 : 5;
-          this.update();
-        }
+    onMouseScroll: function (event) {
+      if (this.isValid && this.player.ready && event.detail) {
+        this.player.volume += (event.detail > 0) ? -5 : 5;
+        this.update();
       }
-    })(),
+    },
 
     onMutedClick: function (event) this.player.toggle('muted'),
 
@@ -1643,10 +1588,7 @@ Thanks:
             if (!this.player.ready)
               return;
             clearInterval(this.__autoFullscreenTimer)
-            setTimeout(
-              U.bindr(this, function () (this.player.fullscreen = true)),
-              this.setting.niconico.autoFullscreenDelay
-            );
+            setTimeout(U.bindr(this, function () (this.player.fullscreen = true), 1000));
             delete this.__autoFullscreenTimer;
           }),
           200
@@ -1655,7 +1597,7 @@ Thanks:
       this.storage.alreadyAutoFullscreen = true;
     },
 
-    onRepeatingClick: function () this.player.toggle('repeating'),
+    onRepeatClick: function () this.player.toggle('repeating'),
 
     onRelationsRootPopupshowing: function () {
       let self = this;
@@ -1666,7 +1608,7 @@ Thanks:
       if (!this.player)
         return;
 
-      let relmenu = document.getElementById('anekos-stella-relations-menupopup');
+      let relmenu = document.getElementById('anekos-stela-relations-menupopup');
       let rels = this.player.relations;
 
       while (relmenu.firstChild)
@@ -1723,7 +1665,7 @@ Thanks:
     let estella = liberator.globalVariables.stella;
 
     let install = function () {
-      let stella = liberator.globalVariables.stella = new Stella(new Setting());
+      let stella = liberator.globalVariables.stella = new Stella();
       stella.addUserCommands();
       liberator.log('Stella: installed.');
     };
