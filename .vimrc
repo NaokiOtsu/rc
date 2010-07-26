@@ -78,21 +78,24 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 " mapleader
 let mapleader = ","
 
+" for scratch
+nnoremap <Leader>s :Scratch<CR>
+
 " for basics
-nnoremap <Space>w :<C-u>write<Return>
-nnoremap <Space>q :<C-u>quit<Return>
-nnoremap <Space>Q :<C-u>quit!<Return>
+nnoremap <Space>w :<C-u>write<CR>
+nnoremap <Space>q :<C-u>quit<CR>
+nnoremap <Space>Q :<C-u>quit!<CR>
 
-nnoremap <Space>v :<C-u>tabnew ~/.vimrc<Cr>
-nnoremap <Space>s :<C-u>source ~/.vimrc<Cr>
+nnoremap <Space>v :<C-u>tabnew ~/.vimrc<CR>
+nnoremap <Space>s :<C-u>source ~/.vimrc<CR>
 
-nnoremap <Space>zz :<C-u>tabnew ~/.zshrc<Cr>
-nnoremap <Space>ze :<C-u>tabnew ~/.zshenv<Cr>
-nnoremap <Space>za :<C-u>tabnew ~/.zshalias<Cr>
+nnoremap <Space>zz :<C-u>tabnew ~/.zshrc<CR>
+nnoremap <Space>ze :<C-u>tabnew ~/.zshenv<CR>
+nnoremap <Space>za :<C-u>tabnew ~/.zshalias<CR>
 
-nnoremap <Space>zlz :<C-u>tabnew ~/.zshrc.local<Cr>
-nnoremap <Space>zle :<C-u>tabnew ~/.zshenv.local<Cr>
-nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<Cr>
+nnoremap <Space>zlz :<C-u>tabnew ~/.zshrc.local<CR>
+nnoremap <Space>zle :<C-u>tabnew ~/.zshenv.local<CR>
+nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<CR>
 
 nnoremap <Space>] <C-w>]
 "nnoremap <Space>j <C-f>
@@ -250,6 +253,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ 'vimshell' : $HOME.'/.vimshell_hist',
     \ 'scheme' : $HOME.'/.gosh_completions',
     \ 'javascript' : $HOME.'/.vim/dic/js.dic',
+    \ 'html' : $HOME.'/.vim/dic/html.dic',
     \ 'perl' : $HOME.'/.vim/perl-suport/wordlists/perl.list'
     \ }
 
