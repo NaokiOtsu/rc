@@ -82,14 +82,21 @@ let mapleader = ","
 nnoremap <Space>w :<C-u>write<Return>
 nnoremap <Space>q :<C-u>quit<Return>
 nnoremap <Space>Q :<C-u>quit!<Return>
+
 nnoremap <Space>v :<C-u>tabnew ~/.vimrc<Cr>
 nnoremap <Space>s :<C-u>source ~/.vimrc<Cr>
+
 nnoremap <Space>zz :<C-u>tabnew ~/.zshrc<Cr>
-nnoremap <Space>za :<C-u>tabnew ~/.zshalias<Cr>
 nnoremap <Space>ze :<C-u>tabnew ~/.zshenv<Cr>
+nnoremap <Space>za :<C-u>tabnew ~/.zshalias<Cr>
+
+nnoremap <Space>zlz :<C-u>tabnew ~/.zshrc.local<Cr>
+nnoremap <Space>zle :<C-u>tabnew ~/.zshenv.local<Cr>
+nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<Cr>
+
 nnoremap <Space>] <C-w>]
-nnoremap <Space>j <C-f>
-nnoremap <Space>k <C-b>
+"nnoremap <Space>j <C-f>
+"nnoremap <Space>k <C-b>
 
 " for command line
 cnoremap <C-h> <Left>
@@ -158,10 +165,10 @@ nnoremap ss <C-W>s
 nnoremap sc <C-W>c
 nnoremap so <C-W>o
 
-nnoremap sj <C-W>j
-nnoremap sk <C-W>k
-nnoremap sh <C-W>h
-nnoremap sl <C-W>l
+nnoremap <Space>j <C-W>j
+nnoremap <Space>k <C-W>k
+nnoremap <Space>h <C-W>h
+nnoremap <Space>l <C-W>l
 
 nnoremap + <C-W>+
 nnoremap - <C-W>-
@@ -273,7 +280,7 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 let g:neocomplcache_enable_auto_select = 1
 "inoremap <expr><CR>  (pumvisible() ? "\<C-e>":'') . (&indentexpr != '' ? "\<C-f>\<CR>X\<BS>":"\<CR>")
 inoremap <expr><C-h> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
-"inoremap <expr><BS> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
+inoremap <expr><BS> pumvisible() ? neocomplcache#cancel_popup()."\<C-h>" : "\<C-h>"
 
 
 "---------------------------------------------------------------------
