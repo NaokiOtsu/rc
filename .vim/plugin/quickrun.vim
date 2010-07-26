@@ -180,7 +180,7 @@ augroup plugin-quickrun
   autocmd Filetype gnuplot  call s:set_quickrun_command('gnuplot')
   autocmd Filetype haskell  call s:set_quickrun_command('runghc')
   autocmd Filetype io  call s:set_quickrun_command('io')
-  autocmd Filetype javascript  call s:set_quickrun_command('js')
+  autocmd Filetype javascript  call s:set_quickrun_command('rhino')
   autocmd Filetype mkd  call s:set_quickrun_command(
   \ 'function __mkd__() { pandoc -f markdown -t html -o /tmp/__markdown.html $1; open /tmp/__markdown.html } && __mkd__')
   autocmd Filetype objc  call s:set_quickrun_command('function __rungcc__() { gcc $1 && ./a.out } && __rungcc__')
