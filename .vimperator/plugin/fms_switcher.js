@@ -29,6 +29,7 @@ liberator.modules.commands.addUserCommand(
     if (deviceName == "off") {
       firemobilesimulator.core.resetDevice();
       liberator.execute("reload");
+      liberator.echo("FireMobileSimulator disabled");
       return;
     }
 
@@ -36,12 +37,19 @@ liberator.modules.commands.addUserCommand(
     var deviceIndex = deviceList.map(function(item) { return item.label } ).indexOf(deviceName);
     var carrier = deviceList[deviceIndex].carrier;
 
-    if (deviceIndex != -1) {
-      firemobilesimulator.core.setDevice(deviceIndex + 1);
-      firemobilesimulator.common.pref.setUnicharPref("msim.config." + carrier + ".uid", uid);
+    var resultString = "Switched device to " + deviceName;
 
-      if ( carrier === "DC" ) {
-        firemobilesimulator.common.pref.setUnicharPref("msim.config." + carrier + ".guid", uid);
+    if ( deviceIndex != -1 ) {
+      firemobilesimulator.core.setDevice(deviceIndex + 1);
+
+      if ( typeof uid !== "undefined" ) {
+        firemobilesimulator.common.pref.setUnicharPref("msim.config." + carrier + ".uid", uid);
+
+        if ( carrier === "DC" ) {
+          firemobilesimulator.common.pref.setUnicharPref("msim.config." + carrier + ".guid", uid);
+        }
+
+        resultString += ", uid = " + uid;
       }
     }
     else {
@@ -49,6 +57,7 @@ liberator.modules.commands.addUserCommand(
     }
 
     liberator.execute("reload");
+    liberator.echo(resultString);
   },
   {
     completer: function(context, arg) {
