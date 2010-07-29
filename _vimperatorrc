@@ -1,6 +1,3 @@
-source! ~/_vimperatorrc.local
-
-
 "+----------------------------------------------------------------------------------------+
 " base settings
 "+----------------------------------------------------------------------------------------+
@@ -210,6 +207,8 @@ command! cal :js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 js let(e=document.getElementById("liberator-visualbell"),p=e.parentNode){e.removeAttribute("width");e.removeAttribute("height");p.appendChild(p.removeChild(e));}
 
 
+" read local conf
+source! ~/_vimperatorrc.local
 
 "complete!
 echo ".vimperatorrc sourced"
