@@ -218,10 +218,10 @@ hi TabLineFill term=reverse cterm=reverse ctermfg=white ctermbg=black
 "---------------------------------------------------------------------
 " for surround.vim
 "---------------------------------------------------------------------
-nmap <Leader>q <Plug>Csurround w"
+nmap <Leader>q <Plug>Csurround w'
 imap <Leader>q <Esc><Plug>Csurround w"<Right>wa
-nmap <Leader>sq <Plug>Csurround w'
-imap <Leader>sq <Esc><Plug>Csurround w'<Right>wa
+nmap <Leader>Q <Plug>Csurround w"
+imap <Leader>Q <Esc><Plug>Csurround w'<Right>wa
 
 nmap <Leader>t <Plug>Yssurround t
 imap <Leader>t <Esc><Plug>Yssurround t
