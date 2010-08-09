@@ -53,6 +53,7 @@ md(){ mkdir -p $1; cd $1 }
 
 gl(){ ack "$*" | less }
 
+
 # perl aliases
 
 alias sub="perl -pi -e"
@@ -60,7 +61,7 @@ alias psh="perl -de 1"
 
 alias testcover="cover -delete ; ./Build testcover; cover"
 pmver(){ perl -M$1 -le "print $1->VERSION"; }
-
+http() { plackup -p $1 -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
 
 # global aliases
 
