@@ -84,7 +84,7 @@ nnoremap <Leader>s :Scratch<CR>
 " for basics
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>q :<C-u>quit<CR>
-nnoremap <Space>Q :<C-u>quit!<CR>
+nnoremap <Space>a :<C-u>wqall<CR>
 
 nnoremap <Space>v :<C-u>tabnew ~/.vimrc<CR>
 nnoremap <Space>s :<C-u>source ~/.vimrc<CR>
