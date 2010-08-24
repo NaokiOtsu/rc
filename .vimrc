@@ -151,8 +151,12 @@ nnoremap c. q:k<Cr>
 cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ?  getcmdtype() == '?' ? '\?' : '?'
 
-"replace word under cursor
+"substitute word under cursor
 nnoremap <expr> s* ':%substitute/\<' . expand('<cword>') . '\>/'
+
+"replace word under cursor with yanked string
+nnoremap <silent> ciy ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
+nnoremap <silent> cy   ce<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 
 "tabnew with gf
 nnoremap gf <C-w>gf
