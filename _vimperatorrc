@@ -50,6 +50,8 @@ nnoremap <A-s> :dialog preferences<CR>
 " show addons
 nnoremap <A-a> :addon<CR>
 
+" source
+nnoremap ,v :source ~/_vimperatorrc<CR>
 
 "+----------------------------------------------------------------------------------------+
 " keymap (Command Mode)
