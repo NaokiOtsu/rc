@@ -38,7 +38,7 @@ alias fhere="find ./ -name"
 
 # special aliases
 
-alias cl="tmux default-path $PWD; tmux new-window"
+cl() { tmux new-window -n $1; tmux send-keys -t:$1 "cd $1; clear" C-m }
 
 alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
 
