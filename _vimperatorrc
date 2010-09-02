@@ -109,14 +109,14 @@ let g:hintsio="iO"
 let g:hintchars="jfkdlsurieowvncm"
 
 
-" for twitter.js
+" for twittperator.js
 nnoremap <Leader>t :tw<Space>
 nnoremap <Leader>T :tw!<Space>
 nnoremap <Leader>@ :tw!@<CR>
-nnoremap <Leader>mt :mr<Space>twitter-search-pcod-no-jp<Space>
-nnoremap <Leader>mT :mr<Space>twitter-search-pcod-no-jp<Space>["zentooo"]<CR>
-nnoremap <Leader>mf :mr<Space>favotter-new<Space> zentooo <CR>
-nnoremap <Leader>mF :mr<Space>favotter-new<Space>
+
+let g:twittperator_use_chirp = 1
+let g:twittperator_plugin_dump_msg = 1
+let g:twittperator_plugin_reply_popup_alert = 1
 
 
 " for noscript.js
@@ -130,6 +130,11 @@ vnoremap <Leader>q :tombloo Quote
 
 " for multi_requester.js
 nnoremap <Leader>a :mr alc<Space>
+
+nnoremap <Leader>mt :mr<Space>twitter-search-pcod-no-jp<Space>
+nnoremap <Leader>mT :mr<Space>twitter-search-pcod-no-jp<Space>["zentooo"]<CR>
+nnoremap <Leader>mf :mr<Space>favotter-new<Space> zentooo <CR>
+nnoremap <Leader>mF :mr<Space>favotter-new<Space>
 
 
 " for append_anchor.js
@@ -199,10 +204,6 @@ js <<EOM
   document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
 })();
 EOM
-
-
-" cal command
-command! cal :js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 
 
 " remove visualbell attribute
