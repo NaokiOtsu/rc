@@ -107,7 +107,7 @@ cnoremap <C-n> <Down>
 " for perl
 inoremap <C-d> $
 inoremap <C-a> @
-inoremap <C-p> %
+inoremap <C-p> <C-x><C-o>
 
 " for others
 nnoremap co zo
@@ -123,8 +123,10 @@ cmap <C-x> <C-r>=expand('%:p:h')<CR>/
 cmap <C-z> <C-r>=expand('%:p:r')<CR>
 
 " for alc
-inoremap <Leader>a <Esc>:Ref alc<Space>
 nnoremap <Leader>a <Esc>:Ref alc<Space>
+
+" for perldoc
+nnoremap <Leader>p <Esc>:Perldoc<Space>
 
 " add \n
 nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
