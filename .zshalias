@@ -62,6 +62,8 @@ alias psh="perl -de 1"
 
 alias testcover="cover -delete ; ./Build testcover; cover"
 pmver(){ perl -M$1 -le "print $1->VERSION"; }
+pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
+
 http() { plackup -p $1 -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
 
 # global aliases
