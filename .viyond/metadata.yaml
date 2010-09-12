@@ -44,6 +44,11 @@ scala.vim:repo-879823:
   git_uri: git://github.com/vim-scripts/scala.vim.git
   name: scala.vim
   username: vim-scripts
+unite.vim:repo-779996:
+  description: 'unite all sources'
+  git_uri: git://github.com/Shougo/unite.vim.git
+  name: unite.vim
+  username: Shougo
 vim-jquery:repo-820156:
   description: 'Vim syntax file to add some colorations for jQuery keywords and css selectors'
   git_uri: git://github.com/bronson/vim-jquery.git

@@ -322,6 +322,17 @@ set viewoptions-=options
 
 
 "---------------------------------------------------------------------
+" for unite.vim
+"---------------------------------------------------------------------
+nnoremap <silent> <Space>uu :<C-u>tabnew<CR>:tabmove<CR>:UniteWithBufferDir file_mru<CR>
+nnoremap <silent> <Space>uf :<C-u>tabnew<CR>:tabmove<CR>:Unite file<CR>
+nnoremap <silent> <Space>ur :Unite register<CR>
+let g:unite_enable_start_insert = 1
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
+
+"---------------------------------------------------------------------
 " for fuzzyfinder
 "---------------------------------------------------------------------
 nnoremap <silent> <Space>ff :<C-u>tabnew<CR>:tabmove<CR>:FufFile!<CR>
