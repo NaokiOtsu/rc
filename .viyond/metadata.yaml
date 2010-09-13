@@ -1,0 +1,81 @@
+---
+FuzzyFinder:repo-880120:
+  description: 'buffer/file/command/tag/etc explorer with fuzzy matching'
+  git_uri: git://github.com/vim-scripts/FuzzyFinder.git
+  name: FuzzyFinder
+  username: vim-scripts
+closetag.vim:repo-877008:
+  description: 'Functions and mappings to close open HTML/XML tags'
+  git_uri: git://github.com/vim-scripts/closetag.vim.git
+  name: closetag.vim
+  username: vim-scripts
+css.vim:repo-453907:
+  description: 'add css3 and html5 support to css.vim'
+  git_uri: git://github.com/xenoterracide/css.vim.git
+  name: css.vim
+  username: xenoterracide
+fuzzyfinder_textmate:repo-61337:
+  description: 'A vim script that extends the fuzzyfinder plugin to support TextMate style file searches (e.g. cmd-T) (Unmaintained now, see http://weblog.jamisbuck.org/2009/1/28/the-future-of-fuzzyfinder-textmate)'
+  git_uri: git://github.com/jamis/fuzzyfinder_textmate.git
+  name: fuzzyfinder_textmate
+  username: jamis
+neocomplcache:repo-108625:
+  description: 'Ultimate auto-completion system for Vim.'
+  git_uri: git://github.com/Shougo/neocomplcache.git
+  name: neocomplcache
+  username: Shougo
+nerdcommenter:repo-3287:
+  description: 'Vim plugin for intensely orgasmic commenting'
+  git_uri: git://github.com/scrooloose/nerdcommenter.git
+  name: nerdcommenter
+  username: scrooloose
+perl-completion.vim:repo-882307:
+  description: 'perl omni completion'
+  git_uri: git://github.com/vim-scripts/perl-completion.vim.git
+  name: perl-completion.vim
+  username: vim-scripts
+perldoc-vim:repo-56254:
+  description: 'Perldoc plugin for vim'
+  git_uri: git://github.com/hotchpotch/perldoc-vim.git
+  name: perldoc-vim
+  username: hotchpotch
+scala.vim:repo-879823:
+  description: 'syntaxic coloration for Scala code'
+  git_uri: git://github.com/vim-scripts/scala.vim.git
+  name: scala.vim
+  username: vim-scripts
+unite.vim:repo-779996:
+  description: 'unite all sources'
+  git_uri: git://github.com/Shougo/unite.vim.git
+  name: unite.vim
+  username: Shougo
+vim-jquery:repo-820156:
+  description: 'Vim syntax file to add some colorations for jQuery keywords and css selectors'
+  git_uri: git://github.com/bronson/vim-jquery.git
+  name: vim-jquery
+  username: bronson
+vim-quickrun:repo-215219:
+  description: 'Run commands quickly.'
+  git_uri: git://github.com/thinca/vim-quickrun.git
+  name: vim-quickrun
+  username: thinca
+vim-ref:repo-273204:
+  description: 'Integrated reference viewer.'
+  git_uri: git://github.com/thinca/vim-ref.git
+  name: vim-ref
+  username: thinca
+vim-surround:repo-51480:
+  description: 'surround.vim: quoting/parenthesizing made simple'
+  git_uri: git://github.com/tpope/vim-surround.git
+  name: vim-surround
+  username: tpope
+vim-yankring:repo-825945:
+  description: 'Mirror of yankring.vim'
+  git_uri: git://github.com/chrismetcalf/vim-yankring.git
+  name: vim-yankring
+  username: chrismetcalf
+zencoding-vim:repo-524305:
+  description: 'zen-coding for vim: http://code.google.com/p/zen-coding/'
+  git_uri: git://github.com/mattn/zencoding-vim.git
+  name: zencoding-vim
+  username: mattn
