@@ -64,6 +64,11 @@ vim-ref:repo-273204:
   git_uri: git://github.com/thinca/vim-ref.git
   name: vim-ref
   username: thinca
+vim-repeat:repo-434142:
+  description: "repeat.vim: enable repeating supported plugin maps with \".\""
+  git_uri: git://github.com/tpope/vim-repeat.git
+  name: vim-repeat
+  username: tpope
 vim-surround:repo-51480:
   description: 'surround.vim: quoting/parenthesizing made simple'
   git_uri: git://github.com/tpope/vim-surround.git
