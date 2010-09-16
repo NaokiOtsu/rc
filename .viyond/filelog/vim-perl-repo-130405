@@ -1,0 +1,11 @@
+ftplugin/perl.vim
+ftplugin/perl6.vim
+ftplugin/xs.vim
+indent/perl.vim
+indent/perl6.vim
+syntax/perl.vim
+syntax/perl6.vim
+syntax/pod.vim
+syntax/tt2.vim
+syntax/tt2html.vim
+syntax/xs.vim

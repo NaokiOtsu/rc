@@ -95,8 +95,6 @@ nnoremap <Space>zle :<C-u>tabnew ~/.zshenv.local<CR>
 nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<CR>
 
 nnoremap <Space>] <C-w>]
-"nnoremap <Space>j <C-f>
-"nnoremap <Space>k <C-b>
 
 " for command line
 cnoremap <C-h> <Left>
@@ -319,6 +317,12 @@ autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | e
 autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent loadview | endif
 " Don't save options.
 set viewoptions-=options
+
+
+"---------------------------------------------------------------------
+" for ack.vim
+"---------------------------------------------------------------------
+nnoremap <Space>c :Ack<Space>
 
 
 "---------------------------------------------------------------------

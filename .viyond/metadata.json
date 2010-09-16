@@ -65,6 +65,12 @@
       "description" : "surround.vim: quoting/parenthesizing made simple",
       "username" : "tpope"
    },
+   "vim-perl-repo-130405" : {
+      "git_uri" : "git://github.com/petdance/vim-perl.git",
+      "name" : "vim-perl",
+      "description" : "Support for Perl 5 and Perl 6 in Vim",
+      "username" : "petdance"
+   },
    "scala.vim-repo-879823" : {
       "git_uri" : "git://github.com/vim-scripts/scala.vim.git",
       "name" : "scala.vim",
@@ -106,5 +112,11 @@
       "name" : "nerdcommenter",
       "description" : "Vim plugin for intensely orgasmic commenting",
       "username" : "scrooloose"
+   },
+   "ack.vim-repo-111336" : {
+      "git_uri" : "git://github.com/mileszs/ack.vim.git",
+      "name" : "ack.vim",
+      "description" : "Vim plugin for the Perl module / CLI script 'ack'",
+      "username" : "mileszs"
    }
 }
