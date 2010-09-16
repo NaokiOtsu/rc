@@ -1,0 +1,16 @@
+autoload/unite/kinds/buffer.vim
+autoload/unite/kinds/directory.vim
+autoload/unite/kinds/file.vim
+autoload/unite/kinds/word.vim
+autoload/unite/mappings.vim
+autoload/unite/sources/buffer.vim
+autoload/unite/sources/file.vim
+autoload/unite/sources/file_mru.vim
+autoload/unite/sources/register.vim
+autoload/unite/util.vim
+autoload/unite.vim
+doc/unite.txt
+plugin/unite/buffer.vim
+plugin/unite/file_mru.vim
+plugin/unite.vim
+syntax/unite.vim
