@@ -167,14 +167,14 @@ nnoremap gf <C-w>gf
 "---------------------------------------------------------------------
 " Key mappings for vim windows
 "---------------------------------------------------------------------
+nnoremap sj <C-W>j
+nnoremap sk <C-W>k
+nnoremap sh <C-W>h
+nnoremap sl <C-W>l
+nnoremap so <C-W>o
 nnoremap ss <C-W>s
 nnoremap sc <C-W>c
 nnoremap so <C-W>o
-
-nnoremap <Space>j <C-W>j
-nnoremap <Space>k <C-W>k
-nnoremap <Space>h <C-W>h
-nnoremap <Space>l <C-W>l
 
 nnoremap + <C-W>+
 nnoremap - <C-W>-
