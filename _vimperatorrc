@@ -145,6 +145,10 @@ let g:auto_append_anchor = "true"
 let g:hint_tombloo_key = 'r'
 
 
+" for open-frame.js
+nnoremap ;f :tabopenframe<CR>
+
+
 " for ldrize_cooperation.js
 let g:ldrc_intelligence_bind = "true"
 let:g:ldrc_skip = "0.25"
