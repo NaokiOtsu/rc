@@ -66,11 +66,6 @@ setopt hist_no_store
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
 
-
-# alias #
-
-source ~/.zshalias
-
 # prompt settings
 
 function rprompt-git-current-branch {
@@ -116,6 +111,11 @@ expand-to-home-or-insert () {
 zle -N expand-to-home-or-insert
 bindkey "\\" expand-to-home-or-insert
 
+
+# include other files
+
+source ~/.zshalias
+source ~/.zshenv
 
 # source local zshrc
 
