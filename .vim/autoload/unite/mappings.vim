@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: mappings.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 15 Sep 2010
+" Last Modified: 20 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -27,7 +27,27 @@
 " Define default mappings.
 function! unite#mappings#define_default_mappings()"{{{
   " Plugin keymappings"{{{
-  inoremap <silent><buffer> <Plug>(unite_exit)  :<C-u>call <SID>exit()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_exit)  :<C-u>call <SID>exit()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_do_default_action)  :<C-u>call unite#mappings#do_action('default')<CR>
+  nnoremap <silent><buffer> <Plug>(unite_do_delete_action)  :<C-u>call unite#mappings#do_action('delete')<CR>
+  nnoremap <silent><buffer> <Plug>(unite_do_bookmark_action)  :<C-u>call unite#mappings#do_action('bookmark')<CR>
+  nnoremap <silent><buffer> <Plug>(unite_do_preview_action)  :<C-u>call unite#mappings#do_action('preview')<CR>
+  nnoremap <silent><buffer> <Plug>(unite_choose_action)  :<C-u>call <SID>choose_action()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_insert_enter)  :<C-u>call <SID>insert_enter()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_insert_head)  :<C-u>call <SID>insert_head()<CR>
+  nnoremap <silent><buffer><expr> <Plug>(unite_append_enter)  col('.') == col('$') ? "\:<C-u>call \<SID>append_enter()\<CR>" : ":\<C-u>call \<SID>append_end()\<CR>"
+  nnoremap <silent><buffer> <Plug>(unite_append_end)  :<C-u>call <SID>append_end()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_toggle_mark_current_candidate)  :<C-u>call <SID>toggle_mark()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_redraw)  :<C-u>call <SID>redraw()<CR>
+  nnoremap <silent><buffer> <Plug>(unite_search_next_source)  :<C-u>call <SID>search_source(1)<CR>
+  nnoremap <silent><buffer> <Plug>(unite_search_previous_source)  :<C-u>call <SID>search_source(0)<CR>
+  nnoremap <silent><buffer> <Plug>(unite_print_candidate)  :<C-u>call <SID>print_candidate()<CR>
+  nnoremap <silent><expr><buffer> <Plug>(unite_edit_candidate) line('.') <= 2 ?
+        \ ":\<C-u>call \<SID>insert_enter()\<CR>" : ":\<C-u>call \<SID>insert_selected_candidate()\<CR>"
+  
+  vnoremap <buffer><silent> <Plug>(unite_toggle_mark_selected_candidates)  :<C-u>call <SID>toggle_mark_candidates(getpos("'<")[1], getpos("'>")[1])<CR>
+  
+  inoremap <silent><buffer> <Plug>(unite_exit)  <ESC>:<C-u>call <SID>exit()<CR>
   inoremap <buffer><expr> <Plug>(unite_insert_leave)  line('.') == 2 ? "\<ESC>j" : "\<ESC>0"
   inoremap <expr><buffer> <Plug>(unite_delete_backward_char)  col('.') == 2 ? '' : "\<C-h>"
   inoremap <expr><buffer> <Plug>(unite_delete_backward_line)  repeat("\<C-h>", col('.')-2)
@@ -36,25 +56,10 @@ function! unite#mappings#define_default_mappings()"{{{
   inoremap <expr><buffer> <Plug>(unite_select_previous_line)  pumvisible() ? "\<C-p>" : "\<Up>"
   inoremap <expr><buffer> <Plug>(unite_select_next_page)  pumvisible() ? "\<PageDown>" : repeat("\<Down>", winheight(0))
   inoremap <expr><buffer> <Plug>(unite_select_previous_page)  pumvisible() ? "\<PageUp>" : repeat("\<Up>", winheight(0))
-  inoremap <silent><buffer> <Plug>(unite_do_default_action) <C-o>:call <SID>do_action('default')<CR>
-  inoremap <silent><buffer> <Plug>(unite_toggle_mark_current_file)  <C-o>:<C-u>call <SID>toggle_mark()<CR>
+  inoremap <silent><buffer> <Plug>(unite_do_default_action) <C-o>:call unite#mappings#do_action('default')<CR>
+  inoremap <silent><buffer> <Plug>(unite_toggle_mark_current_candidate)  <C-o>:<C-u>call <SID>toggle_mark()<CR>
   inoremap <silent><buffer> <Plug>(unite_choose_action)  <C-o>:<C-u>call <SID>choose_action()<CR>
-  
-  nnoremap <silent><buffer> <Plug>(unite_exit)  :<C-u>call <SID>exit()<CR>
-  nnoremap <silent><buffer> <Plug>(unite_do_default_action)  :<C-u>call <SID>do_action('default')<CR>
-  nnoremap <silent><buffer> <Plug>(unite_do_delete_action)  :<C-u>call <SID>do_action('delete')<CR>
-  nnoremap <silent><buffer> <Plug>(unite_choose_action)  :<C-u>call <SID>choose_action()<CR>
-  nnoremap <silent><buffer> <Plug>(unite_insert_enter)  :<C-u>call <SID>insert_enter()<CR>
-  nnoremap <silent><buffer> <Plug>(unite_insert_head)  :<C-u>call <SID>insert_head()<CR>
-  nnoremap <silent><buffer><expr> <Plug>(unite_append_enter)  col('.') == col('$') ? "\:<C-u>call \<SID>append_enter()\<CR>" : ":\<C-u>call \<SID>append_end()\<CR>"
-  nnoremap <silent><buffer> <Plug>(unite_append_end)  :<C-u>call <SID>append_end()<CR>
-  nnoremap <silent><buffer> <Plug>(unite_toggle_mark_current_file)  :<C-u>call <SID>toggle_mark()<CR>
-  nnoremap <silent><buffer> <Plug>(unite_redraw)  :<C-u>call <SID>redraw()<CR>
-  nnoremap <silent><buffer> <Plug>(unite_search_next_source)  :<C-u>call <SID>search_source(1)<CR>
-  nnoremap <silent><buffer> <Plug>(unite_search_previous_source)  :<C-u>call <SID>search_source(0)<CR>
-  nnoremap <silent><buffer> <Plug>(unite_print_candidate)  :<C-u>call <SID>print_candidate()<CR>
-  nnoremap <silent><expr><buffer> <Plug>(unite_edit_candidate) line('.') <= 2 ?
-        \ ":\<C-u>call \<SID>insert_enter()\<CR>" : ":\<C-u>call \<SID>insert_selected_candidate()\<CR>"
+  inoremap <silent><buffer> <Plug>(unite_move_head)  <C-o>:<C-u>call <SID>insert_head()<CR>
   "}}}
   
   if exists('g:unite_no_default_keymappings') && g:unite_no_default_keymappings
@@ -70,16 +75,20 @@ function! unite#mappings#define_default_mappings()"{{{
   nmap <buffer> q <Plug>(unite_exit)
   nmap <buffer> <CR> <Plug>(unite_do_default_action)
   nmap <buffer> d <Plug>(unite_do_delete_action)
-  nmap <buffer> <Space> <Plug>(unite_toggle_mark_current_file)
+  nmap <buffer> b <Plug>(unite_do_bookmark_action)
+  nmap <buffer> <Space> <Plug>(unite_toggle_mark_current_candidate)
   nmap <buffer> <Tab> <Plug>(unite_choose_action)
   nmap <buffer> <C-n> <Plug>(unite_search_next_source)
   nmap <buffer> <C-p> <Plug>(unite_search_previous_source)
   nmap <buffer><expr><silent> l line('.') <= 2 ? 'l' : "\<Plug>(unite_do_default_action)"
-  nmap <buffer><expr><silent> h line('.') <= 2 ? 'h' : "i../\<ESC>"
   nmap <buffer> <silent> ~ i<Plug>(unite_delete_backward_line)~/<ESC>
   nmap <buffer> <C-g> <Plug>(unite_print_candidate)
   nmap <buffer> e <Plug>(unite_edit_candidate)
+  nmap <buffer> p <Plug>(unite_do_preview_action)
   nmap <buffer> <C-l> <Plug>(unite_redraw)
+
+  " Visual mode key-mappings.
+  xmap <buffer> <Space> <Plug>(unite_toggle_mark_selected_candidates)
 
   " Insert mode key-mappings.
   inoremap <buffer><expr> /    getline(2) == '>' ? '/' : '*/'
@@ -95,7 +104,9 @@ function! unite#mappings#define_default_mappings()"{{{
   imap <buffer> <BS>     <Plug>(unite_delete_backward_char)
   imap <buffer> <C-u>     <Plug>(unite_delete_backward_line)
   imap <buffer> <C-w>     <Plug>(unite_delete_backward_word)
-  imap <buffer><expr> <Space>  line('.') == 2 ? ' ' : "\<Plug>(unite_toggle_mark_current_file)"
+  imap <buffer> <C-a>     <Plug>(unite_move_head)
+  imap <buffer> <Home>     <Plug>(unite_move_head)
+  imap <buffer><expr> <Space>  line('.') == 2 ? ' ' : "\<Plug>(unite_toggle_mark_current_candidate)"
 endfunction"}}}
 
 " key-mappings functions.
@@ -105,10 +116,7 @@ function! unite#mappings#narrowing(word)"{{{
   2
   startinsert!
 endfunction"}}}
-function! s:exit()"{{{
-  call unite#quit_session()
-endfunction"}}}
-function! s:do_action(action_name)"{{{
+function! unite#mappings#do_action(action_name)"{{{
   let l:candidates = unite#get_marked_candidates()
   if empty(l:candidates)
     if line('.') <= 2
@@ -126,22 +134,27 @@ function! s:do_action(action_name)"{{{
   endif
   
   for l:candidate in l:candidates
-    let l:kind = unite#available_kinds(l:candidate.kind)
-    let l:action_name = (a:action_name ==# 'default' ?
-          \ l:kind.default_action : a:action_name)
-    if has_key(l:kind.action_table, l:action_name)
-      let l:action = l:kind.action_table[l:action_name]
+    let l:action_table = unite#get_action_table(l:candidate.source, l:candidate.kind)
+    
+    let l:action_name = 
+          \ a:action_name ==# 'default' ?
+          \ unite#get_default_action(l:candidate.source, l:candidate.kind)
+          \ : a:action_name
+    
+    if has_key(l:action_table, l:action_name)
+      let l:action = l:action_table[l:action_name]
       
       " Check selectable flag.
       if has_key(l:action, 'is_selectable') && !l:action.is_selectable
             \ && len(l:candidates) > 1
         " Ignore.
+        echohl Error | execute 'echo' printf('"%s" isn''t selectable action.', l:action_name) | echohl None
         continue
       endif
       
       " Check quit flag.
       if !has_key(l:action, 'is_quit') || l:action.is_quit
-        call unite#leave_buffer()
+        call unite#quit_session()
       endif
       
       call l:action.func(l:candidate)
@@ -155,6 +168,9 @@ function! s:do_action(action_name)"{{{
 
   call unite#redraw()
 endfunction"}}}
+function! s:exit()"{{{
+  call unite#quit_session()
+endfunction"}}}
 function! s:toggle_mark()"{{{
   if line('.') <= 2
     " Ignore.
@@ -163,9 +179,25 @@ function! s:toggle_mark()"{{{
   
   let l:candidate = unite#get_unite_candidates()[line('.') - 3]
   let l:candidate.unite__is_marked = !l:candidate.unite__is_marked
-  call unite#redraw_current_line()
+  call unite#redraw_line()
   
   normal! j
+endfunction"}}}
+function! s:toggle_mark_candidates(start, end)"{{{
+  if a:start <= 2
+    " Ignore.
+    return
+  endif
+  
+  let l:cnt = a:start
+  while l:cnt <= a:end
+    let l:candidate = unite#get_unite_candidates()[l:cnt - 3]
+    let l:candidate.unite__is_marked = !l:candidate.unite__is_marked
+    
+    call unite#redraw_line(l:cnt)
+
+    let l:cnt += 1
+  endwhile
 endfunction"}}}
 function! s:choose_action()"{{{
   let l:candidates = unite#get_marked_candidates()
@@ -186,12 +218,14 @@ function! s:choose_action()"{{{
   
   let s:actions = {}
   for l:candidate in l:candidates
-    let l:kind = unite#available_kinds(l:candidate.kind)
-    for [l:action_name, l:action] in items(l:kind.action_table)
+    let l:action_table = unite#get_action_table(l:candidate.source, l:candidate.kind)
+    
+    for [l:action_name, l:action] in items(l:action_table)
       " Check selectable flag.
       if has_key(l:action, 'is_selectable') && !l:action.is_selectable
             \ && len(l:candidates) > 1
         " Ignore.
+        echohl Error | execute 'echo' printf('"%s" isn''t selectable action.', l:action_name) | echohl None
       else
         let s:actions[l:action_name] = l:action
       endif
@@ -229,7 +263,7 @@ function! s:choose_action()"{{{
     let l:actions = filter(keys(s:actions), printf('stridx(v:val, %s) == 0', string(l:input)))
     if empty(l:actions)
       echohl Error | echo 'Invalid action.' | echohl None
-    elseif len(l:actions) > 2
+    elseif len(l:actions) > 1
       echohl Error | echo 'Too match action.' | echohl None
     else
       break
@@ -239,7 +273,7 @@ function! s:choose_action()"{{{
   endwhile
   
   " Execute action.
-  call s:do_action(l:actions[0])
+  call unite#mappings#do_action(l:actions[0])
 endfunction"}}}
 function! s:insert_enter()"{{{
   if line('.') != 2 || col('.') == 1
@@ -250,8 +284,7 @@ function! s:insert_enter()"{{{
   endif
 endfunction"}}}
 function! s:insert_head()"{{{
-  normal! 0
-  normal! l
+  normal! 0l
   call s:insert_enter()
 endfunction"}}}
 function! s:append_enter()"{{{

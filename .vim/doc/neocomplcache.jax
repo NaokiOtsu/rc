@@ -58,7 +58,7 @@ http://d.hatena.ne.jp/yuitowest/20100907/1283865197
 INSTALL							*neocomplcache-install*
 
 1: 配布ファイルを解凍し、Vimスクリプトのディレクトリへインストールする
-   (普通は ~/.vim/ またはWindowsの場合、 Program Files/Vim/vimfiles)
+   (普通は ~/.vim/ またはWindowsの場合、 $HOME/vimfiles)
 2: neocomplcacheはデフォルトで無効化されている。有効にするためには、
 |:NeoComplCacheEnable|コマンドを実行するか、
 let g:neocomplcache_enable_at_startup = 1 を.vimrc内に記述する。
@@ -112,6 +112,11 @@ COMMANDS 						*neocomplcache-commands*
 		[bufname]のタグをキャッシュする。 [bufname]を省略すると、カ
 		レントバッファのファイルタイプを指定したことになる。 これを
 		実行しなければ、tags_completeは動作しない。
+
+:NeoComplCacheCachingInclude [bufname]			*:NeoComplCacheCachingInclude*
+		[bufname]のインクルードファイルを再キャッシュする。 [bufname]を
+		省略すると、カレントバッファのファイルタイプを指定したことにな
+		る。
 
 :NeoComplCacheDisableCaching [bufname]			*:NeoComplCacheDisableCaching*
 		[bufname]で示されるバッファをキャッシュしないようにする。 バッ
@@ -300,6 +305,13 @@ g:neocomplcache_disable_caching_buffer_name_pattern	*g:neocomplcache_disable_cac
 g:neocomplcache_lock_buffer_name_pattern		*g:neocomplcache_lock_buffer_name_pattern*
 		neocomplcacheの自動補完を無効化するバッファ名のパターンを正規表
 		現で設定する。空文字列だと無視される。
+		
+		初期値は空となっている。
+
+g:neocomplcache_force_caching_buffer_name_pattern	*g:neocomplcache_force_caching_buffer_name_pattern*
+		neocomplcacheが'readonly'や'nomodifiable'を無視して強制的にキャ
+		ッシュするバッファ名のパターンを正規表現で設定する。空文字列だ
+		と無視される。
 		
 		初期値は空となっている。
 
