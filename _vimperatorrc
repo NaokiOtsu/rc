@@ -146,7 +146,7 @@ let g:hint_tombloo_key = 'r'
 
 
 " for open-frame.js
-nnoremap ;f :tabopenframe<CR>
+nnoremap <Leader>f :tabopenframe<CR>
 
 
 " for ldrize_cooperation.js
