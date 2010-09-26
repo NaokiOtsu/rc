@@ -53,12 +53,6 @@
       "description" : "Run commands quickly.",
       "username" : "thinca"
    },
-   "FuzzyFinder-repo-880120" : {
-      "git_uri" : "git://github.com/vim-scripts/FuzzyFinder.git",
-      "name" : "FuzzyFinder",
-      "description" : "buffer/file/command/tag/etc explorer with fuzzy matching",
-      "username" : "vim-scripts"
-   },
    "vim-surround-repo-51480" : {
       "git_uri" : "git://github.com/tpope/vim-surround.git",
       "name" : "vim-surround",
@@ -101,17 +95,17 @@
       "description" : "Functions and mappings to close open HTML/XML tags",
       "username" : "vim-scripts"
    },
-   "vim-javascript-repo-293477" : {
-      "git_uri" : "git://github.com/pangloss/vim-javascript.git",
-      "name" : "vim-javascript",
-      "description" : "Vastly improved vim's javascript indentation.",
-      "username" : "pangloss"
-   },
    "nerdcommenter-repo-3287" : {
       "git_uri" : "git://github.com/scrooloose/nerdcommenter.git",
       "name" : "nerdcommenter",
       "description" : "Vim plugin for intensely orgasmic commenting",
       "username" : "scrooloose"
+   },
+   "vim-javascript-repo-293477" : {
+      "git_uri" : "git://github.com/pangloss/vim-javascript.git",
+      "name" : "vim-javascript",
+      "description" : "Vastly improved vim's javascript indentation.",
+      "username" : "pangloss"
    },
    "ack.vim-repo-111336" : {
       "git_uri" : "git://github.com/mileszs/ack.vim.git",

@@ -64,9 +64,6 @@ au BufRead,BufNew * match JpSpace /　/
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
 
-" rename command
-command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
-
 
 "---------------------------------------------------------------------
 " Key mappings
@@ -192,17 +189,7 @@ nnoremap s. <C-W>=
 " settings for filetypes
 "---------------------------------------------------------------------
 autocmd FileType html,xml,xsl,erb source ~/.vim/plugin/closetag.vim 
-
-autocmd FileType javascript :set dictionary=~/.vim/dic/js.dic
-autocmd FileType scala :set dictionary=~/.vim/dic/scala.dic
 autocmd BufNewFile,BufRead *.scala set filetype=scala
-
-autocmd BufNewFile *.user.js 0r ~/.vim/skeleton/greasemonkey.js
-
-autocmd FileType *
-      \   if &l:omnifunc == ''
-      \ |   setlocal omnifunc=syntaxcomplete#Complete
-      \ | endif
 
 
 "---------------------------------------------------------------------
@@ -211,8 +198,10 @@ autocmd FileType *
 map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
 
+set showtabline=2
+
 hi TabLine term=reverse cterm=reverse ctermfg=white ctermbg=black
-hi TabLineSel term=bold cterm=bold,underline ctermfg=5
+hi TabLineSel term=bold cterm=bold,underline ctermfg=6
 hi TabLineFill term=reverse cterm=reverse ctermfg=white ctermbg=black 
 
 
@@ -328,25 +317,19 @@ nnoremap <Space>c :Ack<Space>
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
-nnoremap <silent> <Space>uu :<C-u>tabnew<CR>:tabmove<CR>:Unite file<CR>
-nnoremap <silent> <Space>uf :<C-u>tabnew<CR>:tabmove<CR>:UniteWithBufferDir file_mru<CR>
-nnoremap <silent> <Space>ur :Unite register<CR>
-let g:unite_enable_start_insert = 1
+nnoremap <silent> <Space>u :Unite file<CR>
+nnoremap <silent> <Space>f :UniteWithCurrentDir file<CR>
+nnoremap <silent> <Space>y :Unite register<CR>
+nnoremap <silent> <Space>p :UniteBookmarkAdd<CR>
+nnoremap <silent> <Space>i :Unite bookmark<CR>
 let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
 
-
-"---------------------------------------------------------------------
-" for fuzzyfinder
-"---------------------------------------------------------------------
-nnoremap <silent> <Space>ff :<C-u>tabnew<CR>:tabmove<CR>:FufFile!<CR>
-nnoremap <silent> <Space>fb :<C-u>FufBuffer<Cr>
-if !exists('g:FuzzyFinderOptions')
-  let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'Dir':{}, 'MruFile':{}, 'MruCmd':{}, 'Bookmark':{}, 'Tag':{}, 'TaggedFile':{}}
-  let g:FuzzyFinderOptions.Base.key_open = '<C-m>'
-  let g:FuzzyFinderOptions.Base.key_open_split = '<Space>'
-  let g:FuzzyFinderOptions.Base.key_open_vsplit = '<CR>'
-endif
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+  nnoremap <buffer> o :call unite#mappings#do_action('tabopen')<CR>
+  inoremap <buffer> <C-m> <Esc>:call unite#mappings#do_action('tabopen')<CR>
+endfunction"}}}
 
 
 "---------------------------------------------------------------------
