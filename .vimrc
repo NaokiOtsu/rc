@@ -327,8 +327,8 @@ let g:unite_enable_smart_case = 1
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
-  nnoremap <buffer> o :call unite#mappings#do_action('tabopen')<CR>
-  inoremap <buffer> <C-m> <Esc>:call unite#mappings#do_action('tabopen')<CR>
+  nnoremap <silent><buffer> o :call unite#mappings#do_action('tabopen')<CR>
+  inoremap <silent><buffer> <C-o> <Esc>:call unite#mappings#do_action('tabopen')<CR>
 endfunction"}}}
 
 
