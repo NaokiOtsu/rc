@@ -1,17 +1,3 @@
 plugin/fakeclip.vim
 autoload/fakeclip.vim
-test/clipboard-mac.input
-test/pastebuffer-tmux.expected
-test/pastebuffer-gnuscreen.input
-test/ui.expected
-test/clipboard-cygwin.expected
-test/pastebuffer-gnuscreen.expected
-test/pastebuffer-tmux.input
-test/clipboard-cygwin.input
-test/clipboard-mac.expected
-test/clipboard-x.input
-test/clipboard-x.expected
-test/misc.input
-test/ui.input
-test/misc.expected
 doc/fakeclip.txt

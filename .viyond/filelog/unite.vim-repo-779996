@@ -15,7 +15,6 @@ autoload/unite/kinds/buffer.vim
 autoload/unite/kinds/word.vim
 autoload/unite/kinds/directory.vim
 autoload/unite.vim
-test/00-unite-source.vim
 syntax/unite.vim
 doc/unite.txt
 doc/unite.jax

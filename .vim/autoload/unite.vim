@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: unite.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 22 Sep 2010
+" Last Modified: 26 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -32,6 +32,14 @@ function! unite#set_dictionary_helper(variable, keys, pattern)"{{{
     endif
   endfor
 endfunction"}}}
+function! unite#set_substitute_pattern(buffer_name, pattern, subst)"{{{
+  let l:buffer_name = (a:buffer_name == '' ? 'default' : a:buffer_name)
+  if !has_key(s:substitute_pattern, l:buffer_name)
+    let s:substitute_pattern[l:buffer_name] = {}
+  endif
+  
+  let s:substitute_pattern[l:buffer_name][a:pattern] = a:subst
+endfunction"}}}
 
 " Constants"{{{
 
@@ -52,7 +60,9 @@ let s:default_kinds = {}
 let s:custom_sources = {}
 let s:custom_kinds = {}
 
-call unite#set_dictionary_helper(g:unite_substitute_patterns, '^\~', substitute($HOME, '\\', '/', 'g'))
+let s:substitute_pattern = {}
+call unite#set_substitute_pattern('default', '^\~', substitute($HOME, '\\', '/', 'g'))
+call unite#set_substitute_pattern('default', '^\@<!/', '*/')
 "}}}
 
 " Helper functions."{{{
@@ -203,6 +213,9 @@ function! unite#start(sources, ...)"{{{
   if !has_key(l:args, 'buffer_name')
     let l:args.buffer_name = ''
   endif
+  if !has_key(l:args, 'prompt')
+    let l:args.prompt = '>'
+  endif
   
   call s:initialize_unite_buffer(a:sources, l:args)
 
@@ -314,15 +327,6 @@ function! s:initialize_kinds()"{{{
   return s:default_kinds
 endfunction"}}}
 function! s:gather_candidates(text, args)"{{{
-  " Save options.
-  let l:ignorecase_save = &ignorecase
-
-  if g:unite_enable_smart_case && a:text =~ '\u'
-    let &ignorecase = 0
-  else
-    let &ignorecase = g:unite_enable_ignore_case
-  endif
-  
   let l:args = a:args
   let l:input_list = filter(split(a:text, '\\\@<! ', 1), 'v:val !~ "!"')
   let l:args.input = empty(l:input_list) ? '' : l:input_list[0]
@@ -346,7 +350,7 @@ function! s:gather_candidates(text, args)"{{{
         let b:unite.cached_candidates[l:source.name] = l:source_candidates
       endif
     else
-      let l:source_candidates = b:unite.cached_candidates[l:source.name]
+      let l:source_candidates = copy(b:unite.cached_candidates[l:source.name])
     endif
     
     for l:candidate in l:source_candidates
@@ -372,8 +376,6 @@ function! s:gather_candidates(text, args)"{{{
     let l:candidate.unite__is_marked = 0
   endfor
     
-  let &ignorecase = l:ignorecase_save
-  
   return l:candidates
 endfunction"}}}
 function! s:convert_lines(candidates)"{{{
@@ -389,10 +391,17 @@ function! s:convert_line(candidate)"{{{
 endfunction"}}}
 
 function! s:initialize_unite_buffer(sources, args)"{{{
-  while getbufvar(bufnr('%'), '&filetype') ==# 'unite'
+  let l:args = a:args
+  
+  if getbufvar(bufnr('%'), '&filetype') ==# 'unite'
+    if l:args.input == ''
+      " Get input text.
+      let l:args.input = getline(2)[len(l:args.prompt):]
+    endif
+    
     " Quit unite buffer.
     call unite#quit_session()
-  endwhile
+  endif
 
   " The current buffer is initialized.
   if unite#is_win()
@@ -400,8 +409,8 @@ function! s:initialize_unite_buffer(sources, args)"{{{
   else
     let l:buffer_name = '*unite*'
   endif
-  if a:args.buffer_name != ''
-    let l:buffer_name .= ' - ' . a:args.buffer_name
+  if l:args.buffer_name != ''
+    let l:buffer_name .= ' - ' . l:args.buffer_name
   endif
 
   let l:winnr = winnr()
@@ -432,11 +441,13 @@ function! s:initialize_unite_buffer(sources, args)"{{{
   let b:unite = {}
   let b:unite.old_winnr = l:winnr
   let b:unite.win_rest_cmd = l:win_rest_cmd
-  let b:unite.args = a:args
+  let b:unite.args = l:args
   let b:unite.candidates = []
   let b:unite.cached_candidates = {}
   let b:unite.sources = s:initialize_sources(a:sources)
   let b:unite.kinds = s:initialize_kinds()
+  let b:unite.buffer_name = (l:args.buffer_name == '') ? 'default' : l:args.buffer_name
+  let b:unite.prompt = l:args.prompt
   
   " Basic settings.
   setlocal number
@@ -483,14 +494,30 @@ function! s:redraw(is_force) "{{{
     setlocal modifiable
   endif
 
-  let l:input = getline(2)[1:]
-  for [l:pattern, l:subst] in items(g:unite_substitute_patterns)
-    let l:input = substitute(l:input, l:pattern, l:subst, 'g')
-  endfor
+  let l:input = getline(2)[len(b:unite.prompt):]
+
+  " Save options.
+  let l:ignorecase_save = &ignorecase
+
+  if g:unite_enable_smart_case && l:input =~ '\u'
+    let &ignorecase = 0
+  else
+    let &ignorecase = g:unite_enable_ignore_case
+  endif
+
+  if has_key(s:substitute_pattern, b:unite.buffer_name)
+    for [l:pattern, l:subst] in items(s:substitute_pattern[b:unite.buffer_name])
+      let l:input = substitute(l:input, l:pattern, l:subst, 'g')
+    endfor
+  endif
 
   let l:args = b:unite.args
   let l:args.is_force = a:is_force
+  
   let l:candidates = s:gather_candidates(l:input, l:args)
+
+  let &ignorecase = l:ignorecase_save
+
   let l:lines = s:convert_lines(l:candidates)
   if len(l:lines) < len(b:unite.candidates)
     if mode() !=# 'i' && line('.') == 2
@@ -540,14 +567,29 @@ function! s:on_insert_leave()  "{{{
   setlocal nocursorline
   setlocal nomodifiable
 
-  let l:input = getline(2)[1:]
-  for [l:pattern, l:subst] in items(g:unite_substitute_patterns)
-    let l:input = substitute(l:input, l:pattern, l:subst, 'g')
-  endfor
+  let l:input = getline(2)[len(b:unite.prompt):]
+
+  " Save options.
+  let l:ignorecase_save = &ignorecase
+
+  if g:unite_enable_smart_case && l:input =~ '\u'
+    let &ignorecase = 0
+  else
+    let &ignorecase = g:unite_enable_ignore_case
+  endif
+
+  if has_key(s:substitute_pattern, b:unite.buffer_name)
+    for [l:pattern, l:subst] in items(s:substitute_pattern[b:unite.buffer_name])
+      let l:input = substitute(l:input, l:pattern, l:subst, 'g')
+    endfor
+  endif
+  
   let l:input = unite#escape_match(l:input)
   let l:input_list = split(l:input, '\\\@<! ')
   call filter(l:input_list, 'v:val !~ "^!"')
   execute 'match IncSearch' string(join(l:input_list, '\|'))
+
+  let &ignorecase = l:ignorecase_save
 endfunction"}}}
 function! s:on_cursor_hold()  "{{{
   if line('.') == 2

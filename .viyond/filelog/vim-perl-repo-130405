@@ -6,16 +6,6 @@ syntax/xs.vim
 syntax/tt2html.vim
 syntax/tt2.vim
 syntax/perl6.vim
-t/define_all.vim
-t/01_highlighting.t
-t/vim_syntax.css
 ftplugin/perl.vim
 ftplugin/xs.vim
 ftplugin/perl6.vim
-t_source/perl/basic.t.html
-t_source/perl/advanced.t.html
-t_source/perl/basic.t
-t_source/perl/advanced.t
-t_source/backslashed-indenting.pl
-t_source/perl6/basic.t.html
-t_source/perl6/basic.t
