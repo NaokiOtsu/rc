@@ -64,6 +64,8 @@ au BufRead,BufNew * match JpSpace /　/
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
 
+" for psgi
+autocmd BufNewFile,BufRead *.psgi set filetype=perl
 
 "---------------------------------------------------------------------
 " Key mappings
