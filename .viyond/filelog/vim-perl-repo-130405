@@ -1,5 +1,3 @@
-indent/perl.vim
-indent/perl6.vim
 syntax/perl.vim
 syntax/pod.vim
 syntax/xs.vim

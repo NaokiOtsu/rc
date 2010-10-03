@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: file.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 19 Sep 2010
+" Last Modified: 29 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -35,6 +35,8 @@ let s:kind = {
       \}
 
 " Actions"{{{
+let s:kind.action_table = deepcopy(unite#kinds#openable#define().action_table)
+
 let s:kind.action_table.open = {
       \ 'is_selectable' : 1, 
       \ }
@@ -54,61 +56,6 @@ let s:kind.action_table.preview = {
       \ }
 function! s:kind.action_table.preview.func(candidate)"{{{
   pedit `=a:candidate.word`
-endfunction"}}}
-
-let s:kind.action_table.tabopen = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.tabopen.func(candidate)"{{{
-  tabedit `=a:candidate.word`
-endfunction"}}}
-
-let s:kind.action_table.split = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.split.func(candidate)"{{{
-  split
-  call unite#_take_action('open', a:candidate)
-endfunction"}}}
-
-let s:kind.action_table.vsplit = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.vsplit.func(candidate)"{{{
-  vsplit
-  call unite#_take_action('open', a:candidate)
-endfunction"}}}
-
-let s:kind.action_table.left = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.left.func(candidate)"{{{
-  leftabove vsplit
-  call unite#_take_action('open', a:candidate)
-endfunction"}}}
-
-let s:kind.action_table.right = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.right.func(candidate)"{{{
-  rightbelow vsplit
-  call unite#_take_action('open', a:candidate)
-endfunction"}}}
-
-let s:kind.action_table.above = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.above.func(candidate)"{{{
-  leftabove split
-  call unite#_take_action('open', a:candidate)
-endfunction"}}}
-
-let s:kind.action_table.below = {
-      \ 'is_selectable' : 1, 
-      \ }
-function! s:kind.action_table.below.func(candidate)"{{{
-  rightbelow split
-  call unite#_take_action('open', a:candidate)
 endfunction"}}}
 
 let s:kind.action_table.cd = {
@@ -137,6 +84,18 @@ let s:kind.action_table.bookmark = {
 function! s:kind.action_table.bookmark.func(candidate)"{{{
   " Add to bookmark.
   call unite#sources#bookmark#_append(a:candidate.word)
+endfunction"}}}
+
+let s:kind.action_table.narrow = {
+      \ 'is_quit' : 0,
+      \ }
+function! s:kind.action_table.narrow.func(candidate)"{{{
+  let l:word = fnamemodify(a:candidate.word, ':h')
+  if l:word !~ '[\\/]$'
+    let l:word .= '/'
+  endif
+  
+  call unite#mappings#narrowing(l:word)
 endfunction"}}}
 "}}}
 

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: unite.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 26 Sep 2010
+" Last Modified: 30 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -42,7 +42,6 @@ function! unite#set_substitute_pattern(buffer_name, pattern, subst)"{{{
 endfunction"}}}
 
 " Constants"{{{
-
 let s:FALSE = 0
 let s:TRUE = !s:FALSE
 
@@ -62,7 +61,6 @@ let s:custom_kinds = {}
 
 let s:substitute_pattern = {}
 call unite#set_substitute_pattern('default', '^\~', substitute($HOME, '\\', '/', 'g'))
-call unite#set_substitute_pattern('default', '^\@<!/', '*/')
 "}}}
 
 " Helper functions."{{{
@@ -194,6 +192,12 @@ function! unite#keyword_filter(list, input)"{{{
 
   return a:list
 endfunction"}}}
+function! unite#get_input()"{{{
+  return getline(2)[len(b:unite.prompt):]
+endfunction"}}}
+function! unite#print_error(message)"{{{
+  echohl WarningMsg | echomsg a:message | echohl None
+endfunction"}}}
 "}}}
 
 function! unite#start(sources, ...)"{{{
@@ -217,7 +221,11 @@ function! unite#start(sources, ...)"{{{
     let l:args.prompt = '>'
   endif
   
-  call s:initialize_unite_buffer(a:sources, l:args)
+  try
+    call s:initialize_unite_buffer(a:sources, l:args)
+  catch /^Invalid source/
+    return
+  endtry
 
   " User's initialization.
   setlocal nomodifiable
@@ -227,7 +235,7 @@ function! unite#start(sources, ...)"{{{
 
   silent % delete _
   call setline(s:LNUM_STATUS, 'Sources: ' . join(a:sources, ', '))
-  call setline(s:LNUM_PATTERN, '>' . b:unite.args.input)
+  call setline(s:LNUM_PATTERN, b:unite.prompt . b:unite.args.input)
   execute s:LNUM_PATTERN
 
   call unite#force_redraw()
@@ -305,8 +313,8 @@ function! s:initialize_sources(sources)"{{{
   let l:number = 0
   for l:source_name in a:sources
     if !has_key(s:default_sources, l:source_name)
-      echoerr 'Invalid source name "' . l:source_name . '" is detected.'
-      return {}
+      call unite#print_error('Invalid source name "' . l:source_name . '" is detected.')
+      throw 'Invalid source'
     endif
     
     let l:source = s:default_sources[l:source_name]
@@ -391,12 +399,16 @@ function! s:convert_line(candidate)"{{{
 endfunction"}}}
 
 function! s:initialize_unite_buffer(sources, args)"{{{
+  " Check sources.
+  let l:sources = s:initialize_sources(a:sources)
+  
   let l:args = a:args
   
   if getbufvar(bufnr('%'), '&filetype') ==# 'unite'
     if l:args.input == ''
+          \ && b:unite.buffer_name ==# l:args.buffer_name
       " Get input text.
-      let l:args.input = getline(2)[len(l:args.prompt):]
+      let l:args.input = unite#get_input()
     endif
     
     " Quit unite buffer.
@@ -444,13 +456,13 @@ function! s:initialize_unite_buffer(sources, args)"{{{
   let b:unite.args = l:args
   let b:unite.candidates = []
   let b:unite.cached_candidates = {}
-  let b:unite.sources = s:initialize_sources(a:sources)
+  let b:unite.sources = l:sources
   let b:unite.kinds = s:initialize_kinds()
   let b:unite.buffer_name = (l:args.buffer_name == '') ? 'default' : l:args.buffer_name
   let b:unite.prompt = l:args.prompt
+  let b:unite.last_input = l:args.input
   
   " Basic settings.
-  setlocal number
   setlocal bufhidden=hide
   setlocal buftype=nofile
   setlocal nobuflisted
@@ -459,6 +471,7 @@ function! s:initialize_unite_buffer(sources, args)"{{{
   setlocal nofoldenable
   setlocal nomodeline
   setlocal foldcolumn=0
+  setlocal iskeyword+=-,+,\\,!,~
 
   " Autocommands.
   augroup plugin-unite
@@ -490,11 +503,12 @@ function! s:redraw(is_force) "{{{
     return
   endif
   
-  if mode() !=# 'i'
-    setlocal modifiable
+  let l:input = unite#get_input()
+  if !a:is_force && l:input ==# b:unite.last_input
+    return
   endif
 
-  let l:input = getline(2)[len(b:unite.prompt):]
+  let b:unite.last_input = l:input
 
   " Save options.
   let l:ignorecase_save = &ignorecase
@@ -518,6 +532,10 @@ function! s:redraw(is_force) "{{{
 
   let &ignorecase = l:ignorecase_save
 
+  if mode() != 'i'
+    setlocal modifiable
+  endif
+
   let l:lines = s:convert_lines(l:candidates)
   if len(l:lines) < len(b:unite.candidates)
     if mode() !=# 'i' && line('.') == 2
@@ -531,19 +549,15 @@ function! s:redraw(is_force) "{{{
   endif
   call setline(3, l:lines)
 
-  let b:unite.candidates = l:candidates
-
-  if mode() !=# 'i'
+  if mode() != 'i'
     setlocal nomodifiable
   endif
+
+  let b:unite.candidates = l:candidates
 endfunction"}}}
 
 " Autocmd events.
 function! s:on_insert_enter()  "{{{
-  if &eventignore =~# 'InsertEnter'
-    return
-  endif
-  
   if &updatetime > g:unite_update_time
     let b:unite.update_time_save = &updatetime
     let &updatetime = g:unite_update_time
@@ -551,8 +565,6 @@ function! s:on_insert_enter()  "{{{
 
   setlocal cursorline
   setlocal modifiable
-  
-  match
 endfunction"}}}
 function! s:on_insert_leave()  "{{{
   if line('.') == 2
@@ -566,30 +578,6 @@ function! s:on_insert_leave()  "{{{
 
   setlocal nocursorline
   setlocal nomodifiable
-
-  let l:input = getline(2)[len(b:unite.prompt):]
-
-  " Save options.
-  let l:ignorecase_save = &ignorecase
-
-  if g:unite_enable_smart_case && l:input =~ '\u'
-    let &ignorecase = 0
-  else
-    let &ignorecase = g:unite_enable_ignore_case
-  endif
-
-  if has_key(s:substitute_pattern, b:unite.buffer_name)
-    for [l:pattern, l:subst] in items(s:substitute_pattern[b:unite.buffer_name])
-      let l:input = substitute(l:input, l:pattern, l:subst, 'g')
-    endfor
-  endif
-  
-  let l:input = unite#escape_match(l:input)
-  let l:input_list = split(l:input, '\\\@<! ')
-  call filter(l:input_list, 'v:val !~ "^!"')
-  execute 'match IncSearch' string(join(l:input_list, '\|'))
-
-  let &ignorecase = l:ignorecase_save
 endfunction"}}}
 function! s:on_cursor_hold()  "{{{
   if line('.') == 2
