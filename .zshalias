@@ -56,6 +56,8 @@ md(){ mkdir -p $1; cd $1 }
 
 gl(){ ack "$*" | less }
 
+alias r="rails"
+
 
 # perl aliases
 

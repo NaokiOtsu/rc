@@ -50,7 +50,6 @@ autoload/neocomplcache/sources/keyword_complete.vim
 autoload/neocomplcache/sources/completefunc_complete.vim
 autoload/neocomplcache/sources/snippets_complete.vim
 autoload/neocomplcache.vim
-indent/snippet.vim
 syntax/snippet.vim
 doc/neocomplcache.txt
 doc/neocomplcache.jax

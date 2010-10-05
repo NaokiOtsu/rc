@@ -155,6 +155,11 @@ uniteを起動すると、デフォルトの状態ではウィンドウが水平
 		絞込みテキストが現在のカーソル位置文字列である他は|:Unite|と同
 		一である。
 
+:UniteWithInput [-buffer-name={buffer-name}] [-input={input-text}] {sources}
+						*:UniteWithInput*
+		{sources} で指定した情報源での候補ウィンドウを表示する。初期の
+		絞込みテキストはユーザーが入力する。
+
 情報源のコマンド				*unite-sources-commands*
 
 :UniteFilemruSweep				*:UniteFilemruSweep*
@@ -201,11 +206,11 @@ g:unite_enable_split_vertically			*g:unite_enable_split_vertically*
 		
 		初期値は0なので、水平分割である。
 
-g:unite_temporary_directory			*g:unite_temporary_directory*
-		uniteやその情報源が一時ファイルを書き出すディレクトリを指定する
-		。ここで指定したディレクトリが実際に存在しない場合、自動的に作
-		成される。例えばfile_mruの情報源は最近使用したファイルの情報を
-		この下に保存する。
+g:unite_data_directory				*g:unite_data_directory*
+		uniteやその情報源が内部で使用する設定ファイルを書き出すディレク
+		トリを指定する。ここで指定したディレクトリが実際に存在しない場
+		合、自動的に作成される。例えばfile_mruの情報源は最近使用したフ
+		ァイルの情報をこの下に保存する。
 		
 		初期値は'~/.unite'の絶対パスである。
 
@@ -220,9 +225,10 @@ g:unite_no_default_keymappings			*g:unite_no_default_keymappings*
 
 g:unite_source_file_ignore_pattern		*g:unite_source_file_ignore_pattern*
 		情報源がfileの候補に表示しないファイルの正規表現パターンを指定
-		する。この変数が空文字列以外であれば、指定した正規表現で結果を
-		フィルタリングする。正規表現の大文字・小文字の区別は
-		'ignorecase'の設定次第である。
+		する。マッチングはファイルのフルパスに対して行われる。この変数
+		が空文字列以外であれば、指定した正規表現で結果をフィルタリング
+		する。正規表現の大文字・小文字の区別は'ignorecase'の設定次第で
+		ある。
 
 		初期値は autoload/unite/sources/file.vim を参照。
 
@@ -236,7 +242,7 @@ g:unite_source_file_mru_time_format		*g:unite_source_file_mru_time_format*
 g:unite_source_file_mru_file			*g:unite_source_file_mru_file*
 		最近使用したファイルの情報を書き出すファイルを指定する。
 		
-		初期値は |g:unite_temporary_directory| . '/.file_mru' である。
+		初期値は |g:unite_data_directory| . '/.file_mru' である。
 
 g:unite_source_file_mru_limit			*g:unite_source_file_mru_limit*
 		最近使用したファイルの最大保存件数を指定する。
@@ -245,16 +251,17 @@ g:unite_source_file_mru_limit			*g:unite_source_file_mru_limit*
 
 g:unite_source_file_mru_ignore_pattern		*g:unite_source_file_mru_ignore_pattern*
 		情報源がfile_mruの候補に表示しないファイルの正規表現パターンを
-		指定する。この変数が空文字列以外であれば、指定した正規表現で結
-		果をフィルタリングする。正規表現の大文字・小文字は'ignorecase'
-		の設定に関わらず、明確に区別される。
+		指定する。マッチングはファイルのフルパスに対して行われる。この
+		変数が空文字列以外であれば、指定した正規表現で結果をフィルタリ
+		ングする。正規表現の大文字・小文字は'ignorecase'の設定に関わら
+		ず、明確に区別される。
 		
 		初期値は autoload/unite/sources/file_mru.vim を参照。
 
 g:unite_source_bookmark_file			*g:unite_source_bookmark_file*
 		ブックマークを書き出すファイルを指定する。
 		
-		初期値は |g:unite_temporary_directory| . '/.bookmark' である。
+		初期値は |g:unite_data_directory| . '/.bookmark' である。
 
 ------------------------------------------------------------------------------
 キーマッピング 					*unite-key-mappings*
@@ -290,6 +297,10 @@ g:unite_source_bookmark_file			*g:unite_source_bookmark_file*
 		合のみ動作する。情報源がレジスタの場合のプレビューは
 		|<Plug>(unite_print_candidate)|が使用できる。
 		アクションが存在しないときは無視される。
+
+<Plug>(unite_do_narrow_action)			*<Plug>(unite_do_narrow_action)*
+		選択している候補のディレクトリを絞込みテキストとし、絞込みテキ
+		スト入力を開始する。
 
 <Plug>(unite_choose_action)			*<Plug>(unite_choose_action)*
 		選択している候補に対して実行するアクションを選択する。アクショ
@@ -333,10 +344,6 @@ g:unite_source_bookmark_file			*g:unite_source_bookmark_file*
 <Plug>(unite_print_candidate)			*<Plug>(unite_print_candidate)*
 		選択している候補に対するアクションの対象を表示する。例えば、選
 		択している候補の種類が|word|の場合は、対象の内容が表示される。
-
-<Plug>(unite_edit_candidate)			*<Plug>(unite_edit_candidate)*
-		選択している候補を絞込みテキストとし、絞込みテキスト入力を開始
-		する。
 
 <Plug>(unite_cursor_top)			*<Plug>(unite_cursor_top)*
 		uniteバッファの一番上へ移動する。
@@ -417,13 +424,13 @@ q		|<Plug>(unite_exit)|
 <CR>		|<Plug>(unite_do_default_action)|
 d		|<Plug>(unite_do_delete_action)|
 b		|<Plug>(unite_do_bookmark_action)|
+e		|<Plug>(unite_do_narrow_action)|
 <Space>		|<Plug>(unite_toggle_mark_current_candidate)|
 <Tab>		|<Plug>(unite_choose_action)|
 <C-n>		|<Plug>(unite_search_next_source)|
 <C-p>		|<Plug>(unite_search_previous_source)|
 l		候補を選択している場合は|<Plug>(unite_do_default_action)|
 <C-g>		|<Plug>(unite_print_candidate)|
-e		|<Plug>(unite_edit_candidate)|
 p		|<Plug>(unite_do_preview_action)|
 <C-l>		|<Plug>(unite_redraw)|
 gg		|<Plug>(unite_cursor_top)|
@@ -448,6 +455,7 @@ k		|<Plug>(unite_loop_cursor_up)|
 <C-a>		|i_<Plug>(unite_move_head)|
 <Home>		|i_<Plug>(unite_move_head)|
 <Space>		候補を選択していれば|i_<Plug>(unite_toggle_mark_current_candidate)|
+/		絞り込み行なら*/、その他は"narrow" actionを実行
 
 ビジュアルモードマッピング
 {lhs}		{rhs}
@@ -464,6 +472,13 @@ unite#mappings#do_action({action})		*unite#mappings#do_action()*
 		ユーザー側で特定のアクションを実行するためのマッピングを定義す
 		る場合に便利である。|unite-examples|を参照。
 
+unite#mappings#smart_imap({narrow-map}, {select-map})		*unite#mappings#smart_imap()*
+		絞り込み時と選択時のマッピングを設定し、文脈によって切り換える。
+		inoremap <buffer><expr>で通常用いる。
+		例:
+>
+		inoremap <buffer><expr> ' unite#mappings#smart_imap("'", "\<C-o>:\<C-u>call unite#mappings#do_action('default')\<CR>")
+<
 unite#set_substitute_pattern({buffer-name}, {pattern}, {subst})
 						*unite#set_substitute_pattern()*
 		{buffer-name}における絞込みテキストの置換パターンを指定する。
@@ -492,24 +507,33 @@ unite#set_substitute_pattern({buffer-name}, {pattern}, {subst})
 情報源						*unite-source* *{sources}*
 
 						*unite-source-file*
-file		ファイル
+file		入力されたファイルを候補とする。
 
 						*unite-source-file_mru*
-file_mru	最近使用したファイル
+file_mru	最近使用したファイルを候補とする。
+
+						*unite-source-file_rec*
+file_rec	入力された絞り込みテキストのディレクトリまたは、現在ディレクト
+		リ直下のファイルすべてを候補とする。ディレクトリや隠しファイル
+		は候補から除外される。候補が多すぎる場合はフリーズするかもしれ
+		ない。
 
 						*unite-source-buffer*
-buffer		開いているバッファ
+buffer		開いているバッファを候補とする。
 
 						*unite-source-register*
-register	レジスタに保存されている文字列
+register	レジスタに保存されている文字列を候補とする。
 
 						*unite-source-bookmark*
-bookmark	ブックマーク
+bookmark	ブックマークされたファイルやディレクトリを候補とする。
 
 ==============================================================================
 種類						*unite-kind* *{kind}*
 
 候補の種類
+
+						*unite-kind-openable*
+open		オープン可能インタフェース
 
 						*unite-kind-file*
 file		ファイル
@@ -534,11 +558,9 @@ jump_list	ジャンプリスト
 
 種類別アクション
 
-file						*unite-action-file*
-ファイルはすべて別のバッファに開かれる。
-	open		ファイルを開く
-	fopen		現在のバッファの変更を破棄してファイルを開く。
-			force openの略語。
+openable					*unite-action-openable*
+オープン可能ファイルのインタフェースを定義している。
+openアクションは個別に定義する必要がある。
 	preview		プレビューウィンドウにファイルを開く
 	tabopen		ファイルをタブで開く
 	split		ウィンドウを水平分割してファイルを開く
@@ -547,17 +569,30 @@ file						*unite-action-file*
 	right		ウィンドウを垂直分割して右側にファイルを開く
 	above		ウィンドウを水平分割して上側にファイルを開く
 	below		ウィンドウを水平分割して下側にファイルを開く
+
+file						*unite-action-file*
+ファイルはすべて別のバッファに開かれる。
+このkindは|unite-action-openable|のアクションを継承している。
+	open		ファイルを開く
+	fopen		現在のバッファの変更を破棄してファイルを開く。
+			force openの略語。
+	preview		プレビューウィンドウにファイルを開く
 	cd		カレントディレクトリを変更
 	lcd		現在のウィンドウのカレントディレクトリを変更
 	ex		候補をコマンドラインに入力した状態にする。
 			選択した状態では動作しない。
 	bookmark	候補をブックマークに追加する
+	narrow		ファイルのあるディレクトリ名で候補を絞り込む
 
 buffer						*unite-action-buffer*
+このkindは|unite-action-openable|のアクションを継承している。
 	open		バッファを表示
 	delete		バッファを削除
 	fopen		現在のバッファの変更を破棄して表示
 	fdelete		現在のバッファの変更を破棄して削除
+	narrow		ファイルのあるディレクトリ名で候補を絞り込む
+	cd		カレントディレクトリを変更
+	lcd		現在のウィンドウのカレントディレクトリを変更
 
 directory					*unite-action-directory*
 このkindは|unite-action-file|のアクションを継承している。ここではdirectory独自
@@ -644,7 +679,6 @@ required_pattern_length	数値		(任意)
 	nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 	
 	call unite#set_substitute_pattern('files', '^\~', substitute($HOME, '\\', '/', 'g'))
-	call unite#set_substitute_pattern('files', '^\@<!/', '*/')
 	" Fuzzy.
 	"call unite#set_substitute_pattern('files', '[[:alnum:]]', '*\0')
 	
@@ -652,7 +686,6 @@ required_pattern_length	数値		(任意)
 	function! s:unite_my_settings()"{{{
 	" Overwrite settings.
 	imap <buffer> jj      <Plug>(unite_insert_leave)
-	nnoremap <buffer> t G
 	nnoremap <silent><buffer> <C-k> :<C-u>call unite#mappings#do_action('preview')<CR>
 	" Start insert.
 	"let g:unite_enable_start_insert = 1
