@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: register.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 12 Sep 2010
+" Last Modified: 08 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -32,18 +32,19 @@ let s:source = {
       \ 'name' : 'register',
       \}
 
-function! s:source.gather_candidates(args)"{{{
+function! s:source.gather_candidates(args, context)"{{{
   let l:candidates = []
-  
+
+  let l:max_width = winwidth(0) - 40
   for l:reg in ['"', '*', '+', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    
+
     let l:register = eval('@' . l:reg)
     call add(l:candidates, {
           \ 'word' : l:register,
-          \ 'abbr' : printf('register%s - %s', l:reg, l:register),
+          \ 'abbr' : printf('register%s - %s', l:reg, l:register[: l:max_width]),
           \ 'source' : 'register',
           \ 'kind' : 'word',
-          \ 'is_insert' : a:args.is_insert,
+          \ 'is_insert' : a:context.is_insert,
           \ })
   endfor
 

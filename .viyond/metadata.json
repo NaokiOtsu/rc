@@ -65,12 +65,6 @@
       "description" : "Support for Perl 5 and Perl 6 in Vim",
       "username" : "petdance"
    },
-   "scala.vim-repo-879823" : {
-      "git_uri" : "git://github.com/vim-scripts/scala.vim.git",
-      "name" : "scala.vim",
-      "description" : "syntaxic coloration for Scala code",
-      "username" : "vim-scripts"
-   },
    "neocomplcache-repo-108625" : {
       "git_uri" : "git://github.com/Shougo/neocomplcache.git",
       "name" : "neocomplcache",

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: file_mru.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 02 Oct 2010
+" Last Modified: 08 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -33,7 +33,7 @@ let s:mru_files = []
 
 let s:mru_file_mtime = 0  " the last modified time of the mru file.
 
-call unite#set_default('g:unite_source_file_mru_time_format', '(%x %H:%M:%S)')
+call unite#set_default('g:unite_source_file_mru_time_format', '(%c)')
 call unite#set_default('g:unite_source_file_mru_file',  g:unite_data_directory . '/.file_mru')
 call unite#set_default('g:unite_source_file_mru_limit', 100)
 call unite#set_default('g:unite_source_file_mru_ignore_pattern', 
@@ -55,15 +55,11 @@ function! unite#sources#file_mru#_append()"{{{
   call s:load()
   call insert(filter(s:mru_files, 'v:val.word !=# l:path'),
   \           s:convert2dictionary([path, localtime()]))
-  
+
   if g:unite_source_file_mru_limit > 0
     unlet s:mru_files[g:unite_source_file_mru_limit]
   endif
-  
-  call s:save()
-endfunction"}}}
-function! unite#sources#file_mru#_sweep()  "{{{
-  call filter(s:mru_files, 's:is_exists_path(v:val.word)')
+
   call s:save()
 endfunction"}}}
 
@@ -73,31 +69,39 @@ let s:source = {
       \ 'action_table': {},
       \}
 
-function! s:source.gather_candidates(args)"{{{
+function! s:source.gather_candidates(args, context)"{{{
   call s:load()
-  
+
   " Create abbr.
   for l:mru in s:mru_files
-    let l:mru.abbr = strftime(g:unite_source_file_mru_time_format, l:mru.unite_file_mru_time) .
+    let l:abbr = strftime(g:unite_source_file_mru_time_format, l:mru.unite_file_mru_time) .
           \          fnamemodify(l:mru.word, ':.')
-    if l:mru.abbr == ''
-      let l:mru.abbr = strftime(g:unite_source_file_mru_time_format, l:mru.unite_file_mru_time) . l:mru.word
+
+    if l:abbr == ''
+      let l:abbr = strftime(g:unite_source_file_mru_time_format, l:mru.unite_file_mru_time) . l:mru.word
     endif
+
+    let l:mru.abbr = substitute(l:abbr, '\\', '/', 'g')
   endfor
-  
+
   return sort(s:mru_files, 's:compare')
 endfunction"}}}
 
 " Actions"{{{
-let s:source.action_table.delete = {
+let s:action_table = {}
+
+let s:action_table.delete = {
       \ 'is_invalidate_cache' : 1, 
       \ 'is_quit' : 0, 
       \ 'is_selectable' : 1, 
       \ }
-function! s:source.action_table.delete.func(candidate)"{{{
+function! s:action_table.delete.func(candidate)"{{{
   call filter(s:mru_files, 'v:val.word !=# ' . string(a:candidate.word))
   call s:save()
 endfunction"}}}
+
+let s:source.action_table.file = s:action_table
+let s:source.action_table.directory = s:action_table
 "}}}
 
 " Misc
@@ -135,7 +139,7 @@ function! s:is_exists_path(path)  "{{{
 endfunction"}}}
 function! s:convert2dictionary(list)  "{{{
   return {
-        \ 'word' : a:list[0],
+        \ 'word' : substitute(a:list[0], '\\', '/', 'g'),
         \ 'source' : 'file_mru',
         \ 'unite_file_mru_time' : a:list[1],
         \ 'kind' : (isdirectory(a:list[0]) ? 'directory' : "file"),

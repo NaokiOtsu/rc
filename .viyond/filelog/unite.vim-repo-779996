@@ -10,6 +10,7 @@ autoload/unite/sources/file.vim
 autoload/unite/sources/buffer.vim
 autoload/unite/sources/file_mru.vim
 autoload/unite/sources/file_rec.vim
+autoload/unite/kinds/common.vim
 autoload/unite/kinds/file.vim
 autoload/unite/kinds/jump_list.vim
 autoload/unite/kinds/buffer.vim
