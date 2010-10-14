@@ -1,5 +1,5 @@
 " Run commands quickly.
-" Version: 0.4.1
+" Version: 0.4.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -519,10 +519,11 @@ python <<EOM
 import vim, threading, subprocess, re
 
 class QuickRun(threading.Thread):
-    def __init__(self, cmds, key, iswin):
+    def __init__(self, cmds, key, input, iswin):
         threading.Thread.__init__(self)
         self.cmds = cmds
         self.key = key
+        self.input = input
         self.iswin = iswin
 
     def run(self):
@@ -533,15 +534,19 @@ class QuickRun(threading.Thread):
         except:
             pass
         finally:
-            if self.iswin:
-                result = result.replace("\r\n", "\n")
             vim.eval("quickrun#_result(%s, %s)" %
               (self.key, self.vimstr(result)))
 
     def execute(self, cmd):
         if re.match('^\s*:', cmd):
             return vim.eval("quickrun#execute(%s)" % self.vimstr(cmd))
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+        p = subprocess.Popen(cmd,
+                             stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             shell=True)
+        p.stdin.write(self.input)
+        p.stdin.close()
         result = p.stdout.read()
         p.wait()
         return result
@@ -556,8 +561,10 @@ function! s:Runner.run_async_python(commands, ...)  " {{{2
     throw 'runmode = async:python needs +python feature.'
   endif
   let l:key = string(s:register(self))
+  let l:input = self.config.input
   python QuickRun(vim.eval('a:commands'),
   \               vim.eval('l:key'),
+  \               vim.eval('l:input'),
   \               int(vim.eval('s:is_win'))).start()
 endfunction
 
@@ -889,7 +896,7 @@ endfunction
 
 
 function! s:Runner.shellescape(str)  " {{{2
-  if self.config.runmode ==# 'async:vimproc'
+  if self.config.runmode =~# '^async:vimproc\%(:\d\+\)\?$'
     return "'" . substitute(a:str, '\\', '/', 'g') . "'"
   elseif s:is_win
     return '^"' . substitute(substitute(substitute(a:str,
@@ -1005,6 +1012,13 @@ function! quickrun#_result(key, ...)  " {{{2
     let result = filereadable(resfile) ? join(readfile(resfile, 'b'), "\n")
     \                                  : ''
   endif
+
+  if has('mac')
+    let result = substitute(result, '\r', '\n', 'g')
+  elseif s:is_win
+    let result = substitute(result, '\r\n', '\n', 'g')
+  endif
+
   call remove(s:runners, a:key)
   call runner.sweep()
   call runner.output(result)
