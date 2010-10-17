@@ -1,6 +1,6 @@
-plugin/quickrun.vim
-plugin/quicklaunch.vim
 autoload/quickrun.vim
-doc/quickrun.jax
 doc/quicklaunch.jax
+doc/quickrun.jax
 doc/quickrun.txt
+plugin/quicklaunch.vim
+plugin/quickrun.vim
