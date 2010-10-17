@@ -41,6 +41,12 @@
       "description" : "Mirror of yankring.vim",
       "username" : "chrismetcalf"
    },
+   "cpan.vim-repo-305712" : {
+      "git_uri" : "git://github.com/c9s/cpan.vim.git",
+      "name" : "cpan.vim",
+      "description" : "vim plugin for perl hackers. for you to search installed module/all modules and integrated with perldoc window",
+      "username" : "c9s"
+   },
    "zencoding-vim-repo-524305" : {
       "git_uri" : "git://github.com/mattn/zencoding-vim.git",
       "name" : "zencoding-vim",
@@ -89,17 +95,17 @@
       "description" : "Functions and mappings to close open HTML/XML tags",
       "username" : "vim-scripts"
    },
-   "nerdcommenter-repo-3287" : {
-      "git_uri" : "git://github.com/scrooloose/nerdcommenter.git",
-      "name" : "nerdcommenter",
-      "description" : "Vim plugin for intensely orgasmic commenting",
-      "username" : "scrooloose"
-   },
    "vim-javascript-repo-293477" : {
       "git_uri" : "git://github.com/pangloss/vim-javascript.git",
       "name" : "vim-javascript",
       "description" : "Vastly improved vim's javascript indentation.",
       "username" : "pangloss"
+   },
+   "nerdcommenter-repo-3287" : {
+      "git_uri" : "git://github.com/scrooloose/nerdcommenter.git",
+      "name" : "nerdcommenter",
+      "description" : "Vim plugin for intensely orgasmic commenting",
+      "username" : "scrooloose"
    },
    "ack.vim-repo-111336" : {
       "git_uri" : "git://github.com/mileszs/ack.vim.git",
