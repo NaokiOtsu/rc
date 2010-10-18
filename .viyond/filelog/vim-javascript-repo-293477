@@ -1,2 +1,3 @@
-syntax/javascript.vim
 extras/ctags
+indent/javascript.vim
+syntax/javascript.vim

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: buffer.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 29 Sep 2010
+" Last Modified: 12 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -38,32 +38,39 @@ let s:kind = {
 let s:kind.action_table = deepcopy(unite#kinds#openable#define().action_table)
 
 let s:kind.action_table.open = {
-      \ 'is_selectable' : 1, 
+      \ 'is_selectable' : 1,
       \ }
 function! s:kind.action_table.open.func(candidate)"{{{
   return s:open('', a:candidate)
 endfunction"}}}
 
+let s:kind.action_table.preview = {
+      \ 'is_quit' : 0,
+      \ }
+function! s:kind.action_table.preview.func(candidate)"{{{
+  pedit `=a:candidate.word`
+endfunction"}}}
+
 let s:kind.action_table.delete = {
-      \ 'is_invalidate_cache' : 1, 
-      \ 'is_quit' : 0, 
-      \ 'is_selectable' : 1, 
+      \ 'is_invalidate_cache' : 1,
+      \ 'is_quit' : 0,
+      \ 'is_selectable' : 1,
       \ }
 function! s:kind.action_table.delete.func(candidate)"{{{
   return s:delete('bdelete', a:candidate)
 endfunction"}}}
 
 let s:kind.action_table.fopen = {
-      \ 'is_selectable' : 1, 
+      \ 'is_selectable' : 1,
       \ }
 function! s:kind.action_table.fopen.func(candidate)"{{{
   return s:open('!', a:candidate)
 endfunction"}}}
 
 let s:kind.action_table.fdelete = {
-      \ 'is_invalidate_cache' : 1, 
-      \ 'is_quit' : 0, 
-      \ 'is_selectable' : 1, 
+      \ 'is_invalidate_cache' : 1,
+      \ 'is_quit' : 0,
+      \ 'is_selectable' : 1,
       \ }
 function! s:kind.action_table.fdelete.func(candidate)"{{{
   return s:delete('bdelete!', a:candidate)
@@ -73,11 +80,11 @@ let s:kind.action_table.narrow = {
       \ 'is_quit' : 0,
       \ }
 function! s:kind.action_table.narrow.func(candidate)"{{{
-  let l:word = isdirectory(a:candidate.word) ? a:candidate.word : fnamemodify(a:candidate.word, ':h')
+  let l:word = s:get_directory(a:candidate)
   if l:word !~ '[\\/]$'
     let l:word .= '/'
   endif
-  
+
   call unite#mappings#narrowing(l:word)
 endfunction"}}}
 
@@ -85,15 +92,38 @@ let s:kind.action_table.cd = {
       \ }
 function! s:kind.action_table.cd.func(candidate)"{{{
   let l:dir = s:get_directory(a:candidate)
-  cd `=l:dir`
+
+  if &filetype ==# 'vimfiler'
+    call vimfiler#internal_commands#cd(l:dir)
+  elseif &filetype ==# 'vimshell'
+    call vimshell#switch_shell(0, l:dir)
+  endif
+
+  execute g:unite_cd_command '`=l:dir`'
 endfunction"}}}
 
 let s:kind.action_table.lcd = {
       \ }
 function! s:kind.action_table.lcd.func(candidate)"{{{
   let l:dir = s:get_directory(a:candidate)
-  lcd `=l:dir`
+
+  if &filetype ==# 'vimfiler'
+    call vimfiler#internal_commands#cd(l:dir)
+  elseif &filetype ==# 'vimshell'
+    call vimshell#switch_shell(0, l:dir)
+  endif
+
+  execute g:unite_lcd_command '`=l:dir`'
 endfunction"}}}
+
+if exists(':VimShell')
+  let s:kind.action_table.vimshell = {
+        \ }
+  function! s:kind.action_table.vimshell.func(candidate)"{{{
+    let l:dir = s:get_directory(a:candidate)
+    VimShellCreate `=l:dir`
+  endfunction"}}}
+endif
 "}}}
 
 " Misc
@@ -129,9 +159,9 @@ endfunction"}}}
 function! s:get_directory(candidate)"{{{
   let l:filetype = getbufvar(a:candidate.unite_buffer_nr, '&filetype')
   if l:filetype ==# 'vimfiler'
-    let l:dir = getbufvar(a:bufnr, 'vimfiler').current_dir
+    let l:dir = getbufvar(a:candidate.unite_buffer_nr, 'vimfiler').current_dir
   elseif l:filetype ==# 'vimshell'
-    let l:dir = getbufvar(a:bufnr, 'vimshell').save_dir
+    let l:dir = getbufvar(a:candidate.unite_buffer_nr, 'vimshell').save_dir
   else
     let l:dir = isdirectory(a:candidate.word) ? a:candidate.word : fnamemodify(a:candidate.word, ':p:h')
   endif

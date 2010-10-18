@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: file_mru.vim
+" FILE: common.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 05 Oct 2010
+" Last Modified: 08 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,16 +24,28 @@
 " }}}
 "=============================================================================
 
-if exists('g:loaded_unite_source_file_mru')
-  finish
-endif
+function! unite#kinds#common#define()"{{{
+  return s:kind
+endfunction"}}}
 
-augroup plugin-unite-source-file_mru
-  autocmd!
-  autocmd BufEnter,BufWinEnter,BufFilePost * call unite#sources#file_mru#_append()
-augroup END
+let s:kind = {
+      \ 'name' : 'common',
+      \ 'default_action' : 'nop',
+      \ 'action_table': {},
+      \}
 
-let g:loaded_unite_source_file_mru = 1
+" Actions"{{{
+let s:kind.action_table.nop = {
+      \ }
+function! s:kind.action_table.nop.func(candidate)"{{{
+endfunction"}}}
 
-" __END__
+let s:kind.action_table.yank = {
+      \ }
+function! s:kind.action_table.yank.func(candidate)"{{{
+  let @" = a:candidate.word
+endfunction"}}}
+
+"}}}
+
 " vim: foldmethod=marker

@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: file.vim
+" FILE: file_rec.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 08 Oct 2010
+" Last Modified: 02 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,69 +24,55 @@
 " }}}
 "=============================================================================
 
-" Variables  "{{{
-call unite#set_default('g:unite_source_file_ignore_pattern', 
-      \'\%(^\|/\)\.$\|\~$\|\.\%(o|exe|dll|bak|sw[po]\)$')
-"}}}
-
-function! unite#sources#file#define()"{{{
+function! unite#sources#file_rec#define()"{{{
   return s:source
 endfunction"}}}
 
 let s:source = {
-      \ 'name' : 'file',
-      \ 'is_volatile' : 1,
+      \ 'name' : 'file_rec',
+      \ 'max_candidates': 30,
       \}
 
 function! s:source.gather_candidates(args, context)"{{{
-  let l:input = substitute(substitute(a:context.input, '\\ ', ' ', 'g'), '^\a\+:\zs\*/', '/', '')
-
-  " Substitute *. -> .* .
-  let l:input = substitute(l:input, '\*\.', '.*', 'g')
-
-  if l:input !~ '\*' && unite#is_win() && getftype(l:input) == 'link'
-    " Resolve link.
-    let l:input = resolve(l:input)
-  endif
-
-  " Glob by directory name.
-  let l:input = substitute(l:input, '[^/.]*$', '', '')
-  let l:candidates = split(substitute(glob(l:input . (l:input =~ '\*$' ? '' : '*')), '\\', '/', 'g'), '\n')
-
-  if a:context.input != ''
-    let l:dummy = substitute(a:context.input, '[*\\]', '', 'g')
-    if (!filereadable(l:dummy) && !isdirectory(l:dummy))
-          \ || (l:dummy =~ '^\%(/\|\a\+:/\)$')
-      " Add dummy candidate.
-      call add(l:candidates, l:dummy)
+  if isdirectory(a:context.input)
+    let l:directory = a:context.input
+    if l:directory !~ '[\\/]$'
+      let l:directory .= '/'
     endif
+
+    let l:input = l:directory
+  else
+    let l:directory = substitute(getcwd(), '\\', '/', 'g')
+    if l:directory !~ '[\\/]$'
+      let l:directory .= '/'
+    endif
+
+    let l:input = ''
   endif
+
+  if l:directory =~ '^\%(\a\+:\)\?/$' || expand(l:directory) ==# substitute($HOME . '/', '\\', '/', 'g')
+    call unite#print_error('file_rec: Too many candidates.')
+    return []
+  endif
+  let l:candidates = split(substitute(glob(l:input . '**'), '\\', '/', 'g'), '\n')
+
+  if len(l:candidates) > 10000
+    call unite#print_error('file_rec: Too many candidates.')
+    return []
+  endif
+
+  " Remove directories.
+  call filter(l:candidates, '!isdirectory(v:val)')
 
   if g:unite_source_file_ignore_pattern != ''
     call filter(l:candidates, 'v:val !~ ' . string(g:unite_source_file_ignore_pattern))
   endif
 
-  let l:candidates_dir = []
-  let l:candidates_file = []
-  for l:file in l:candidates
-    let l:dict = { 'word' : l:file, 'abbr' : l:file, 'source' : 'file', }
-
-    if isdirectory(l:file)
-      if l:file !~ '^\%(/\|\a\+:/\)$'
-        let l:dict.abbr .= '/'
-      endif
-
-      let l:dict.kind = 'directory'
-
-      call add(l:candidates_dir, l:dict)
-    else
-      let l:dict.kind = 'file'
-
-      call add(l:candidates_file, l:dict)
-    endif
-  endfor
-
-  return l:candidates_dir + l:candidates_file
+  return map(l:candidates, '{
+        \ "word" : v:val,
+        \ "source" : "file_rec",
+        \ "kind" : "file"
+        \ }')
 endfunction"}}}
 
 " vim: foldmethod=marker

@@ -1,8 +1,8 @@
 "=============================================================================
 " File: zencoding.vim
 " Author: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-" Last Change: 06-Jul-2010.
-" Version: 0.43
+" Last Change: 08-Oct-2010.
+" Version: 0.45
 " WebPage: http://github.com/mattn/zencoding-vim
 " Description: vim plugins for HTML and CSS hi-speed coding.
 " SeeAlso: http://code.google.com/p/zen-coding/
@@ -10,7 +10,7 @@
 "
 "   This is vim script support expanding abbreviation like zen-coding.
 "   ref: http://code.google.com/p/zen-coding/
-"   
+"
 "   Type abbreviation
 "      +-------------------------------------
 "      | html:5_
@@ -42,12 +42,12 @@
 "      |    <div class="bar"></div>
 "      |</div>
 "      +-------------------------------------
-"   
+"
 " Tips:
-"   
+"
 "   You can customize behavior of expanding with overriding config.
-"   This configuration will be marged at loading plugin. 
-"   
+"   This configuration will be marged at loading plugin.
+"
 "     let g:user_zen_settings = {
 "     \  'indentation' : '  ',
 "     \  'perl' : {
@@ -109,14 +109,14 @@ for s:item in [
 \ {'mode': 'i', 'var': 'user_zen_anchorizesummary_key', 'key': 'A', 'plug': 'ZenCodingAnchorizeSummary', 'func': '<esc>:call <sid>zen_anchorizeURL(1)<cr>a'},
 \ {'mode': 'n', 'var': 'user_zen_anchorizesummary_key', 'key': 'A', 'plug': 'ZenCodingAnchorizeSummary', 'func': ':call <sid>zen_anchorizeURL(1)<cr>'},
 \]
-   
+
   if !hasmapto('<plug>'.s:item.plug, s:item.mode)
     exe s:item.mode . 'noremap <plug>' . s:item.plug . ' ' . s:item.func
   endif
   if !exists('g:' . s:item.var)
     exe 'let g:' . s:item.var . " = '" . g:user_zen_leader_key . s:item.key . "'"
   endif
-  if !hasmapto(eval('g:' . s:item.var), s:item.mode)
+  if len(maparg(eval('g:' . s:item.var), s:item.mode)) == 0
     exe s:item.mode . 'map ' . s:target . ' ' . eval('g:' . s:item.var) . ' <plug>' . s:item.plug
   endif
 endfor
@@ -846,6 +846,9 @@ let s:zen_settings = {
 \    },
 \    'xhtml': {
 \        'extends': 'html'
+\    },
+\    'mustache': {
+\        'extends': 'html'
 \    }
 \}
 
@@ -905,7 +908,7 @@ function! s:zen_parseIntoTree(abbr, type)
   endif
 
   let abbr = substitute(abbr, '\([a-zA-Z][a-zA-Z0-9]*\)+\([()]\|$\)', '\="(".s:zen_expandos(type, submatch(1)).")".submatch(2)', 'i')
-  let mx = '\([+>]\|<\+\)\{-}\s*\((*\)\{-}\s*\([@#]\{-}[a-zA-Z\!][a-zA-Z0-9:\!\-]*\|{[^}]\+}\)\(\%(\%(#[a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[a-zA-Z0-9_\-\$]\+\)\)*\)\%(\({[^}]\+}\)\)\{0,1}\%(\s*\*\s*\([0-9]\+\)\s*\)\{0,1}\(\%(\s*)\%(\s*\*\s*[0-9]\+\s*\)\{0,1}\)*\)'
+  let mx = '\([+>]\|<\+\)\{-}\s*\((*\)\{-}\s*\([@#]\{-}[a-zA-Z\!][a-zA-Z0-9:\!\-]*\|{[^}]\+}\)\(\%(\%(#[{}a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[{}a-zA-Z0-9_\-\$]\+\)\)*\)\%(\({[^}]\+}\)\)\{0,1}\%(\s*\*\s*\([0-9]\+\)\s*\)\{0,1}\(\%(\s*)\%(\s*\*\s*[0-9]\+\s*\)\{0,1}\)*\)'
   let root = { 'name': '', 'attr': {}, 'child': [], 'snippet': '', 'multiplier': 1, 'parent': {}, 'value': '', 'pos': 0 }
   let parent = root
   let last = root
@@ -980,7 +983,7 @@ function! s:zen_parseIntoTree(abbr, type)
     if len(attributes)
       let attr = attributes
       while len(attr)
-        let item = matchstr(attr, '\(\%(\%(#[a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[a-zA-Z0-9_\-\$]\+\)*\)\)')
+        let item = matchstr(attr, '\(\%(\%(#[{}a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[{}a-zA-Z0-9_\-\$]\+\)*\)\)')
         if len(item) == 0
           break
         endif
@@ -991,11 +994,20 @@ function! s:zen_parseIntoTree(abbr, type)
           let current.attr.class = substitute(item[1:], '\.', ' ', 'g')
         endif
         if item[0] == '['
-          let kks = split(item[1:-2], ' ')
-          for kki in kks
-            let kk = split(kki, '=')
-            let current.attr[kk[0]] = len(kk) > 1 ? join(kk[1:], '=') : ''
-          endfor
+          let atts = item[1:-2]
+          while len(atts)
+            let amat = matchstr(atts, '\(\w\+\%(="[^"]*"\|=''[^'']*''\|[^ ''"\]]*\)\{0,1}\)')
+            if len(amat) == 0
+              break
+            endif
+            let key = split(amat, '=')[0]
+            let val = amat[len(key)+1:]
+            if val =~ '^["'']'
+              let val = val[1:-2]
+            endif
+            let current.attr[key] = val
+            let atts = atts[stridx(atts, amat) + len(amat):]
+          endwhile
         endif
         let attr = substitute(strpart(attr, len(item)), '^\s*', '', '')
       endwhile
@@ -1370,16 +1382,16 @@ function! s:zen_getFileType()
   let type = &ft
   if type == 'xslt' | let type = 'xsl' | endif
   if synIDattr(synID(line("."), col("."), 1), "name") =~ '^css'
-    let type = 'css'    
+    let type = 'css'
   endif
   if synIDattr(synID(line("."), col("."), 1), "name") =~ '^html'
-    let type = 'html'    
+    let type = 'html'
   endif
   if synIDattr(synID(line("."), col("."), 1), "name") =~ '^xml'
-    let type = 'xml'    
+    let type = 'xml'
   endif
   if synIDattr(synID(line("."), col("."), 1), "name") =~ '^javaScript'
-    let type = 'javascript'    
+    let type = 'javascript'
   endif
   if len(type) == 0 | let type = 'html' | endif
   return type
@@ -1421,7 +1433,7 @@ function! s:zen_expandAbbr(mode) range
         let expand = substitute(expand, '\$line\$', lpart, '')
       endfor
     else
-      let str = '' 
+      let str = ''
       if a:firstline != a:lastline
         let line = getline(a:firstline)
         let part = substitute(line, '^\s*', '', '')
@@ -1477,7 +1489,7 @@ function! s:zen_expandAbbr(mode) range
   endif
   if len(expand)
     if expand !~ '\${cursor}'
-      if a:mode == 2 | 
+      if a:mode == 2 |
         let expand = '${cursor}' . expand
       else
         let expand .= '${cursor}'
@@ -1558,7 +1570,7 @@ function! s:zen_imageSize()
     let fn = simplify(expand('%:h') . '/' . fn)
   endif
   let [type, width, height] = ['', -1, -1]
-  
+
   if filereadable(fn)
     let hex = substitute(system('xxd -p "'.fn.'"'), '\n', '', 'g')
   else
@@ -1911,7 +1923,7 @@ function! s:get_text_from_html(buf)
   let buf = a:buf
 
   let buf = strpart(buf, stridx(buf, '</head>'))
-  let buf = substitute(buf, '<script>.\{-}</script>', '', 'g')
+  let buf = substitute(buf, '<script[^>]*>.\{-}</script>', '', 'g')
   let res = ''
   let max = 0
   let mx = '\(<td[^>]\{-}>\)\|\(<\/td>\)\|\(<div[^>]\{-}>\)\|\(<\/div>\)'
@@ -2102,7 +2114,7 @@ function! s:region_is_valid(region)
   return 1
 endfunction
 
-" search_region : make region from pattern which is composing start/end 
+" search_region : make region from pattern which is composing start/end
 "   this function return array of position
 function! s:search_region(start, end)
   return [searchpos(a:start, 'bcnW'), searchpos(a:end, 'cneW')]

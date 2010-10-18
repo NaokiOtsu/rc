@@ -1,0 +1,6 @@
+plugin/cpan.vim
+plugin/p5-function-search.vim
+plugin/modcomp.vim
+autoload/libperl.vim
+autoload/swindow.vim
+autoload/perldoc.vim

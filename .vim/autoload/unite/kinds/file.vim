@@ -38,14 +38,14 @@ let s:kind = {
 let s:kind.action_table = deepcopy(unite#kinds#openable#define().action_table)
 
 let s:kind.action_table.open = {
-      \ 'is_selectable' : 1, 
+      \ 'is_selectable' : 1,
       \ }
 function! s:kind.action_table.open.func(candidate)"{{{
   edit `=a:candidate.word`
 endfunction"}}}
 
 let s:kind.action_table.fopen = {
-      \ 'is_selectable' : 1, 
+      \ 'is_selectable' : 1,
       \ }
 function! s:kind.action_table.fopen.func(candidate)"{{{
   edit! `=a:candidate.word`
@@ -62,14 +62,28 @@ let s:kind.action_table.cd = {
       \ }
 function! s:kind.action_table.cd.func(candidate)"{{{
   let l:dir = isdirectory(a:candidate.word) ? a:candidate.word : fnamemodify(a:candidate.word, ':p:h')
-  cd `=l:dir`
+
+  if &filetype ==# 'vimfiler'
+    call vimfiler#internal_commands#cd(l:dir)
+  elseif &filetype ==# 'vimshell'
+    call vimshell#switch_shell(0, l:dir)
+  endif
+
+  execute g:unite_cd_command '`=l:dir`'
 endfunction"}}}
 
 let s:kind.action_table.lcd = {
       \ }
 function! s:kind.action_table.lcd.func(candidate)"{{{
   let l:dir = isdirectory(a:candidate.word) ? a:candidate.word : fnamemodify(a:candidate.word, ':p:h')
-  lcd `=l:dir`
+
+  if &filetype ==# 'vimfiler'
+    call vimfiler#internal_commands#cd(l:dir)
+  elseif &filetype ==# 'vimshell'
+    call vimshell#switch_shell(0, l:dir)
+  endif
+
+  execute g:unite_lcd_command '`=l:dir`'
 endfunction"}}}
 
 let s:kind.action_table.ex = {
@@ -94,7 +108,7 @@ function! s:kind.action_table.narrow.func(candidate)"{{{
   if l:word !~ '[\\/]$'
     let l:word .= '/'
   endif
-  
+
   call unite#mappings#narrowing(l:word)
 endfunction"}}}
 "}}}

@@ -49,7 +49,7 @@ ToDo			|unite-todo|
 *unite* はファイル、バッファ、最近使用したファイル、レジスタといった、任意の情
 報源からの検索、表示を行う。表示された候補に対して、候補の種類ごとに定義された
 アクションを実行することができる。
-似たプラグインとして、|fuzzyfinder|や|ku|があるが、*unite* はVimの補完インタフ
+似たプラグインとして、|fuzzyfinder|や|ku|があるが、|unite| はVimの補完インタフ
 ェースを使用しないということ、情報源の統合を行うことが違いとして挙げられる。
 
 ==============================================================================
@@ -87,14 +87,13 @@ uniteを起動すると、デフォルトの状態ではウィンドウが水平
 	*hoge
 <
 上記は hoge、ahoge、foohoge などにマッチする。
-デフォルトでは/が*/にマッピングされるため、ディレクトリの最初の数文字を入力する
-だけで絞り込むことができる。
 また、ワイルドカードを2つ続けて入力すると、ディレクトリを再帰的に指定できる。
 例えば
 >
 	**/foo
 <
-上記は hoge/foo、hoge/fuga/foo などにマッチする。
+上記は hoge/foo、hoge/fuga/foo などにマッチする。ただし上記コマンドは実際には
+後述する|file_rec|を用いた方が良い。
 
 絞り込み文字列はスペース区切りで複数指定できる。
 例えば
@@ -127,43 +126,47 @@ uniteを起動すると、デフォルトの状態ではウィンドウが水平
 ------------------------------------------------------------------------------
 コマンド 					*unite-commands*
 
-:Unite [-buffer-name={buffer-name}] [-input={input-text}] {sources}
-						*:Unite*
+:Unite [{options}] {sources}			*:Unite*
 		{sources} で指定した情報源での候補ウィンドウを表示する。初期の
 		絞込みテキストは空。{sources} はスペースで区切って複数指定でき
 		る。また、{sources} の指定順序が情報源の候補の表示順序となる。
 		情報源については|unite-source|を参照。
-		{buffer-name} はuniteのバッファ名を指定する。
-		{input-text} は初期の絞込みテキストを指定する。
-		uniteバッファに居る場合、絞り込みテキストは保存される。
+		現在uniteバッファに居る場合、絞り込みテキストは保存される。
+		{options}とはuniteバッファに与えるオプションである。
+		オプションは、次のパラメータを取る。値にスペースが含まれるとき
+		は、\でエスケープしなければならない。
+		
+		-buffer-name={buffer-name}
+		uniteのバッファ名を指定する。同じ目的を持つuniteバッファに同じ
+		バッファ名を付けることで、|unite#set_substitute_pattern()|など
+		の設定を共通化することができる。
+		-input={input-text}
+		初期の絞込みテキストを指定する。
+		-prompt={prompt-text}
+		プロンプトを指定する。
 
-:UniteWithCurrentDir [-buffer-name={buffer-name}] [-input={input-text}] {sources}
-						*:UniteWithCurrentDir*
-		{sources} で指定した情報源での候補ウィンドウを表示する。初期の
-		絞込みテキストが現在のディレクトリである他は|:Unite|と同一であ
-		る。
-
-:UniteWithBufferDir [-buffer-name={buffer-name}] [-input={input-text}] {sources}
-						*:UniteWithBufferDir*
-		{sources} で指定した情報源での候補ウィンドウを表示する。初期の
-		絞込みテキストが現在のバッファのディレクトリである他は|:Unite|
-		と同一である。
-
-:UniteWithCursorWord [-buffer-name={buffer-name}] [-input={input-text}] {sources}
-						*:UniteWithCursorWord*
-		{sources} で指定した情報源での候補ウィンドウを表示する。初期の
-		絞込みテキストが現在のカーソル位置文字列である他は|:Unite|と同
+:UniteWithCurrentDir [{options}] {sources}	*:UniteWithCurrentDir*
+		初期の絞込みテキストが現在のディレクトリである他は|:Unite|と同
 		一である。
 
-:UniteWithInput [-buffer-name={buffer-name}] [-input={input-text}] {sources}
-						*:UniteWithInput*
-		{sources} で指定した情報源での候補ウィンドウを表示する。初期の
-		絞込みテキストはユーザーが入力する。
+:UniteWithBufferDir [{options}] {sources}	*:UniteWithBufferDir*
+		初期の絞込みテキストが現在のバッファのディレクトリである他は
+		|:Unite|と同一である。
+
+:UniteWithCursorWord [{options}] {sources}	*:UniteWithCursorWord*
+		初期の絞込みテキストが現在のカーソル位置文字列である他は
+		|:Unite|と同一である。
+
+:UniteWithInput [{options}] {sources}		*:UniteWithInput*
+		初期の絞込みテキストはユーザーが入力する他は|:Unite|と同一であ
+		る。
+
+:UniteResume [{buffer-name}]			*:UniteResume*
+		以前開いた{buffer-name}という名前のuniteバッファを再利用する。
+		{buffer-name}を省略すると、以前使用したバッファを再利用する。
+		絞込みテキストや候補はそのままの状態となる。
 
 情報源のコマンド				*unite-sources-commands*
-
-:UniteFilemruSweep				*:UniteFilemruSweep*
-		最近使ったファイルリストから、存在しないファイルを削除する。
 
 :UniteBookmarkAdd [{file}]			*:UniteBookmarkAdd*
 		ブックマークリストにファイルを追加する。引数が指定されなかった
@@ -176,7 +179,7 @@ g:unite_update_time				*g:unite_update_time*
 		絞込みテキストを入力するごとに表示される候補の更新間隔を制御す
 		る。単位はミリ秒。
 		
-		初期値は400である。
+		初期値は200である。
 
 g:unite_enable_start_insert			*g:unite_enable_start_insert*
 		uniteを実行したあとすぐに、絞込みテキストの入力モードにするかを
@@ -205,6 +208,16 @@ g:unite_enable_split_vertically			*g:unite_enable_split_vertically*
 		直分割にする。
 		
 		初期値は0なので、水平分割である。
+
+g:unite_cd_command				*g:unite_cd_command*
+		cdアクションで実行されるVimのコマンドを指定する。
+		
+		初期値は"cd"である。
+
+g:unite_lcd_command				*g:unite_lcd_command*
+		lcdアクションで実行されるVimのコマンドを指定する。
+		
+		初期値は"lcd"である。
 
 g:unite_data_directory				*g:unite_data_directory*
 		uniteやその情報源が内部で使用する設定ファイルを書き出すディレク
@@ -237,7 +250,7 @@ g:unite_source_file_mru_time_format		*g:unite_source_file_mru_time_format*
 		指定する。フォーマットは|strftime()|で指定できるものと同じであ
 		る。
 		
-		初期値は"(%x %H:%M:%S)"である。
+		初期値は"(%c)"である。
 
 g:unite_source_file_mru_file			*g:unite_source_file_mru_file*
 		最近使用したファイルの情報を書き出すファイルを指定する。
@@ -282,29 +295,31 @@ g:unite_source_bookmark_file			*g:unite_source_bookmark_file*
 		ンは候補の種類ごとに定義されている。
 		種類については|unite-kind|を参照。
 		deleteアクションについては|unite-action|を参照。
-		アクションが存在しないときは無視される。
+		アクションが存在しないときはエラー。
 
 <Plug>(unite_do_bookmark_action)		*<Plug>(unite_do_bookmark_action)*
 		選択している候補に対してbookmarkアクションを実行する。アクショ
 		ンは候補の種類ごとに定義されている。
 		種類については|unite-kind|を参照。
 		bookmarkアクションについては|unite-action|を参照。
-		アクションが存在しないときは無視される。
+		アクションが存在しないときはエラー。
 
 <Plug>(unite_do_preview_action)			*<Plug>(unite_do_preview_action)*
 		選択している候補に対してアクションを実行した結果を、プレビュー
 		ウィンドウに表示する。このマッピングは候補の種類がファイルの場
 		合のみ動作する。情報源がレジスタの場合のプレビューは
 		|<Plug>(unite_print_candidate)|が使用できる。
-		アクションが存在しないときは無視される。
+		アクションが存在しないときはエラー。
 
 <Plug>(unite_do_narrow_action)			*<Plug>(unite_do_narrow_action)*
 		選択している候補のディレクトリを絞込みテキストとし、絞込みテキ
 		スト入力を開始する。
+		アクションが存在しないときはエラー。
 
 <Plug>(unite_choose_action)			*<Plug>(unite_choose_action)*
 		選択している候補に対して実行するアクションを選択する。アクショ
-		ンは種類ごとに定義されている。
+		ンは種類ごとに定義されている。複数の候補が選択されている場合は
+		共通なアクションのみ選択ができる。
 		種類については|unite-kind|を参照。
 
 <Plug>(unite_insert_enter)			*<Plug>(unite_insert_enter)*
@@ -363,13 +378,24 @@ g:unite_source_bookmark_file			*g:unite_source_bookmark_file*
 		ノーマルモードに移行する。
 
 <Plug>(unite_delete_backward_char)		*i_<Plug>(unite_delete_backward_char)*
-		カーソル直前の1文字を消す。
+		カーソル直前の1文字を消す。文字が入力されていない場合はuniteを
+		終了する。
 
 <Plug>(unite_delete_backward_line)		*i_<Plug>(unite_delete_backward_line)*
 		カーソルから行の先頭までの文字をすべて削除する。
 
 <Plug>(unite_delete_backward_word)		*i_<Plug>(unite_delete_backward_word)*
 		カーソル直前の単語を削除する。
+
+<Plug>(unite_delete_backward_path)		*i_<Plug>(unite_delete_backward_path)*
+		一つ上のパスまで削除する。
+		たとえば >
+		/home/Shougo/Desktop
+<		や >
+		/home/Shougo/Desktop/
+<		の時に<Plug>(unite_delete_backward_path)すると >
+		/home/Shougo
+<		になる。ファイルパスを操作する際に有効。
 
 <Plug>(unite_select_next_line)			*i_<Plug>(unite_select_next_line)*
 		次の候補に移動。ただし候補の最後にいる場合はループする。
@@ -384,21 +410,16 @@ g:unite_source_bookmark_file			*g:unite_source_bookmark_file*
 		前の候補ページを表示。
 
 <Plug>(unite_do_default_action)			*i_<Plug>(unite_do_default_action)*
-		絞込みテキストに入力されているテキストを候補として、候補の種類
-		に応じたデフォルトのアクションを実行する。
-		種類については|unite-kind|を参照。
-		デフォルトのアクションについては|unite-default-action|を参照。
+		|<Plug>(unite_do_default_action)|と同じ。
+
+<Plug>(unite_do_narrow_action)			*i_<Plug>(unite_do_narrow_action)*
+		|<Plug>(unite_do_narrow_action)|と同じ。
 
 <Plug>(unite_toggle_mark_current_candidate)	*i_<Plug>(unite_toggle_mark_current_candidate)*
-		複数の候補に対して一気にアクションを実行するためのマークのオン
-		オフを切り替える。
+		|<Plug>(unite_toggle_mark_current_candidate)|と同じ。
 
 <Plug>(unite_choose_action)			*i_<Plug>(unite_choose_action)*
-		絞込みテキストに入力されているテキストを候補として、実行するア
-		クションを選択する。アクションは候補の種類ごとに定義されている。
-		候補が完全な形で入力されていない場合は、先頭マッチでの補完を試
-		みる。候補が複数ある場合はエラーとなる。
-		種類については|unite-kind|を参照。
+		|<Plug>(unite_choose_action)|と同じ。
 
 <Plug>(unite_move_head)				*i_<Plug>(unite_move_head)*
 		カーソルを先頭に移動する。
@@ -421,17 +442,17 @@ I		|<Plug>(unite_insert_head)|
 a		|<Plug>(unite_append_enter)|
 A		|<Plug>(unite_append_end)|
 q		|<Plug>(unite_exit)|
-<CR>		|<Plug>(unite_do_default_action)|
-d		|<Plug>(unite_do_delete_action)|
-b		|<Plug>(unite_do_bookmark_action)|
-e		|<Plug>(unite_do_narrow_action)|
+<CR>		候補を選択している場合は|<Plug>(unite_do_default_action)|
+d		候補を選択している場合は|<Plug>(unite_do_delete_action)|
+b		候補を選択している場合は|<Plug>(unite_do_bookmark_action)|
+e		候補を選択している場合は|<Plug>(unite_do_narrow_action)|
 <Space>		|<Plug>(unite_toggle_mark_current_candidate)|
 <Tab>		|<Plug>(unite_choose_action)|
 <C-n>		|<Plug>(unite_search_next_source)|
 <C-p>		|<Plug>(unite_search_previous_source)|
 l		候補を選択している場合は|<Plug>(unite_do_default_action)|
 <C-g>		|<Plug>(unite_print_candidate)|
-p		|<Plug>(unite_do_preview_action)|
+p		候補を選択している場合は|<Plug>(unite_do_preview_action)|
 <C-l>		|<Plug>(unite_redraw)|
 gg		|<Plug>(unite_cursor_top)|
 j		|<Plug>(unite_loop_cursor_down)|
@@ -442,7 +463,6 @@ k		|<Plug>(unite_loop_cursor_up)|
 --------	-----------------------------
 <ESC>		|i_<Plug>(unite_insert_leave)|
 <Tab>		|i_<Plug>(unite_choose_action)|
-<S-Tab>		|i_<Plug>(unite_select_previous_line)|
 <C-n>		|i_<Plug>(unite_select_next_line)|
 <C-p>		|i_<Plug>(unite_select_previous_line)|
 <C-f>		|i_<Plug>(unite_select_next_page)|
@@ -454,8 +474,8 @@ k		|<Plug>(unite_loop_cursor_up)|
 <C-w>		|i_<Plug>(unite_delete_backward_word)|
 <C-a>		|i_<Plug>(unite_move_head)|
 <Home>		|i_<Plug>(unite_move_head)|
-<Space>		候補を選択していれば|i_<Plug>(unite_toggle_mark_current_candidate)|
-/		絞り込み行なら*/、その他は"narrow" actionを実行
+<Space>		候補を選択している場合は|i_<Plug>(unite_toggle_mark_current_candidate)|
+/		候補を選択している場合は|i_<Plug>(unite_do_narrow_action)|
 
 ビジュアルモードマッピング
 {lhs}		{rhs}
@@ -468,40 +488,48 @@ k		|<Plug>(unite_loop_cursor_up)|
 
 unite#mappings#do_action({action})		*unite#mappings#do_action()*
 		選択及び、マークしている候補に対して{action}アクションを実行す
-		る。この関数はuniteが起動している時にのみ動作する。
+		る。この関数はuniteが起動している時にのみ動作する。{action}が存
+		在しない、もしくは不正な実行だった場合はエラーとなる。
 		ユーザー側で特定のアクションを実行するためのマッピングを定義す
 		る場合に便利である。|unite-examples|を参照。
 
-unite#mappings#smart_imap({narrow-map}, {select-map})		*unite#mappings#smart_imap()*
+unite#mappings#smart_map({narrow-map}, {select-map})		*unite#mappings#smart_map()*
 		絞り込み時と選択時のマッピングを設定し、文脈によって切り換える。
-		inoremap <buffer><expr>で通常用いる。
+		inoremap <buffer><expr>やnnoremap <buffer><expr>で通常用いる。
 		例:
 >
-		inoremap <buffer><expr> ' unite#mappings#smart_imap("'", "\<C-o>:\<C-u>call unite#mappings#do_action('default')\<CR>")
+		inoremap <buffer><expr> ' unite#mappings#smart_map("'", "\<C-o>:\<C-u>call unite#mappings#do_action('default')\<CR>")
 <
-unite#set_substitute_pattern({buffer-name}, {pattern}, {subst})
+unite#set_substitute_pattern({buffer-name}, {pattern}, {subst} [, {priority}])
 						*unite#set_substitute_pattern()*
-		{buffer-name}における絞込みテキストの置換パターンを指定する。
+		uniteのバッファ名{buffer-name}における絞込みテキストの置換パタ
+		ーンを指定する。{buffer-name}を""とすると、"default"となり、
+		|:Unite|で-buffer-name=を省略したときに使われるbuffer-nameと同
+		じになる。
 		{pattern}は置換対象の正規表現、{subst}は置換する文字列である。
-		次の例では絞込みテキストを"~"で始まるように入力した場合に、
-		$HOMEで検索されるようにする。{buffer-name}を省略すると、
-		"default"となり、|:Unite|でbuffer-nameを省略したときに使われる
-		。
-		例:
->
-		call unite#set_substitute_pattern('files', '^\~', substitute($HOME, '\\', '/', 'g'))
-		call unite#set_substitute_pattern('files', '^\@<!/', '*/')
-<
+		同じ{pattern}を複数回指定すると、設定は上書きされる。
+		{subst}を""とすると、{pattern}は無効化される。
+		{priority}とは置換処理の優先度である。{pattern}は{priority}でソ
+		ートされた上で、{priority}が大きい順に適用される。{priority}を
+		省略すると0になる。先に処理されるべき{pattern}は{priority}を大
+		きくすると良い。
+		ちなみに、uniteバッファの初期文字列は置換の対象とならない。
+		
 		この関数を使うと、曖昧マッチを模倣することができる。
 >
-		call unite#set_substitute_pattern('files', '[[:alnum:]]', '*\0')
-		call unite#set_substitute_pattern('files', '[[:alnum:]]', ' \0')
+		call unite#set_substitute_pattern('files', '[[:alnum:]]', '*\0', 100)
+		call unite#set_substitute_pattern('files', '[[:alnum:]]', ' \0', 100)
 <
 		上の設定は/を越えずに曖昧検索をするが、下の場合は/を越えて曖昧
 		検索することができる。
 		
-		初期値ではbuffer_nameを省略したdefaultバッファにおいて、~を
-		$HOME、/はワイルドカードを付加するように設定されている。 
+		初期値は次のように設定されていて、buffer_nameがfilesのバッファ
+		において、~を$HOME、/は部分マッチできるように、ワイルドカードを
+		付加するようになっている。
+>
+		call unite#set_substitute_pattern('files', '^\~', substitute($HOME, '\\', '/', 'g'), -100)
+		call unite#set_substitute_pattern('files', '[^~.*]\zs/', '*/*', 100)
+<
 
 ==============================================================================
 情報源						*unite-source* *{sources}*
@@ -510,7 +538,7 @@ unite#set_substitute_pattern({buffer-name}, {pattern}, {subst})
 file		入力されたファイルを候補とする。
 
 						*unite-source-file_mru*
-file_mru	最近使用したファイルを候補とする。
+file_mru	最近使用したファイルを候補とする。使用した順番に整列される。
 
 						*unite-source-file_rec*
 file_rec	入力された絞り込みテキストのディレクトリまたは、現在ディレクト
@@ -519,7 +547,12 @@ file_rec	入力された絞り込みテキストのディレクトリまたは�
 		ない。
 
 						*unite-source-buffer*
-buffer		開いているバッファを候補とする。
+buffer		開いているバッファを候補とする。バッファは使用した順番に整列さ
+		れる。
+
+						*unite-source-buffer_tab*
+buffer_tab	現在のタブで開いたバッファを候補とする。バッファは使用した順番
+		に整列される。
 
 						*unite-source-register*
 register	レジスタに保存されている文字列を候補とする。
@@ -532,8 +565,11 @@ bookmark	ブックマークされたファイルやディレクトリを候補�
 
 候補の種類
 
+						*unite-kind-common*
+common		共通アクション
+
 						*unite-kind-openable*
-open		オープン可能インタフェース
+openable	オープン可能インタフェース
 
 						*unite-kind-file*
 file		ファイル
@@ -558,10 +594,14 @@ jump_list	ジャンプリスト
 
 種類別アクション
 
+common					*unite-action-common*
+全てのkindに共通なインタフェースを定義している。
+	nop		何もしない
+	yank		ヤンクする
+
 openable					*unite-action-openable*
 オープン可能ファイルのインタフェースを定義している。
 openアクションは個別に定義する必要がある。
-	preview		プレビューウィンドウにファイルを開く
 	tabopen		ファイルをタブで開く
 	split		ウィンドウを水平分割してファイルを開く
 	vsplit		ウィンドウを垂直分割してファイルを開く
@@ -583,10 +623,14 @@ file						*unite-action-file*
 			選択した状態では動作しない。
 	bookmark	候補をブックマークに追加する
 	narrow		ファイルのあるディレクトリ名で候補を絞り込む
+	vimshell	バッファのあるディレクトリで|vimshell|を起動する。これ
+			は|vimshell|がインストールされている場合にのみ有効なア
+			クションである。
 
 buffer						*unite-action-buffer*
 このkindは|unite-action-openable|のアクションを継承している。
 	open		バッファを表示
+	preview		プレビューウィンドウにファイルを開く
 	delete		バッファを削除
 	fopen		現在のバッファの変更を破棄して表示
 	fdelete		現在のバッファの変更を破棄して削除
@@ -645,10 +689,11 @@ name			文字列		(必須)
 			- a-z
 			- 0-9
 			- _
+			- /
 
 			例:
-			- "buffer" と "file_mru" は正当。
-			- "BadOne", "virw/git", "!@#$%^&*()_[]{}-|" と "" は
+			- "buffer", "virw/git" と "file_mru" は正当。
+			- "BadOne", "!@#$%^&*()_[]{}-|" と "" は
 			  情報源の名前としては使えない。
 
 						*unite-source-attribute-max_candidates*
@@ -678,15 +723,14 @@ required_pattern_length	数値		(任意)
 	nnoremap <silent> [unite]f  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
 	nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 	
-	call unite#set_substitute_pattern('files', '^\~', substitute($HOME, '\\', '/', 'g'))
-	" Fuzzy.
-	"call unite#set_substitute_pattern('files', '[[:alnum:]]', '*\0')
-	
 	autocmd FileType unite call s:unite_my_settings()
 	function! s:unite_my_settings()"{{{
 	" Overwrite settings.
+	
 	imap <buffer> jj      <Plug>(unite_insert_leave)
 	nnoremap <silent><buffer> <C-k> :<C-u>call unite#mappings#do_action('preview')<CR>
+	"imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+	
 	" Start insert.
 	"let g:unite_enable_start_insert = 1
 	endfunction"}}}

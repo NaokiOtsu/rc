@@ -64,6 +64,8 @@ au BufRead,BufNew * match JpSpace /　/
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
 
+" for psgi
+autocmd BufNewFile,BufRead *.psgi set filetype=perl
 
 "---------------------------------------------------------------------
 " Key mappings
@@ -330,13 +332,13 @@ nnoremap <silent> <Space>f :UniteWithCurrentDir file<CR>
 nnoremap <silent> <Space>y :Unite register<CR>
 nnoremap <silent> <Space>p :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>i :Unite bookmark<CR>
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
   nnoremap <silent><buffer> <C-o> :call unite#mappings#do_action('tabopen')<CR>
   inoremap <silent><buffer> <C-o> <Esc>:call unite#mappings#do_action('tabopen')<CR>
+  let g:unite_enable_ignore_case = 1
+  let g:unite_enable_smart_case = 1
 endfunction"}}}
 
 

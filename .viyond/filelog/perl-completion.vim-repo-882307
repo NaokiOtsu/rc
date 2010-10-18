@@ -1,7 +1,7 @@
 bin/grep-hashkeys.pl
 bin/grep-objvar.pl
 bin/grep-pattern.pl
-plugin/perlomni-data.vim
-plugin/perlomni-util.vim
 ftplugin/perl/perlomni.vim
 ftplugin/test.vim
+plugin/perlomni-data.vim
+plugin/perlomni-util.vim
