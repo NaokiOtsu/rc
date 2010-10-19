@@ -40,6 +40,7 @@ alias fhere="find ./ -name"
 
 new() { tmux new-window -a -n $1 }
 cl() { tmux new-window -a -n $1; tmux send-keys -t:$1 "cd $1; clear" C-m }
+sw() { tmux swap-window -s $1 -t $2 }
 
 alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
 
