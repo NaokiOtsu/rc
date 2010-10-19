@@ -190,7 +190,7 @@ nnoremap s. <C-W>=
 "---------------------------------------------------------------------
 " settings for filetypes
 "---------------------------------------------------------------------
-autocmd FileType html,xml,xsl,erb source ~/.vim/plugin/closetag.vim 
+autocmd FileType html,xml,xsl,erb source ~/.vim/plugin/closetag.vim
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 
 
@@ -285,15 +285,6 @@ if !exists('g:neocomplcache_omni_patterns')
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-
-"---------------------------------------------------------------------
-" vim-latex
-"---------------------------------------------------------------------
-set shellslash
-set grepprg=grep\ -nH\ $*
-let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
-let g:Tex_ViewRule_dvi = '/usr/bin/xdvi-ja'
 
 
 "---------------------------------------------------------------------
