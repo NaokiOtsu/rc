@@ -1,0 +1,36 @@
+" snippets for normal JS
+
+snippet f
+	function ${1:func_name}() {
+
+		${2:body}
+
+	}
+
+snippet n
+	(function() {
+
+		${1:body}
+
+	})();
+
+
+" snippets for QUnit
+
+snippet t
+	test('${1:test_description}', function() {
+
+		${2:body}
+
+	});
+
+snippet a
+	asyncTest('${1:test_description}', function() {
+
+		${2:body}
+
+		var callback = function() {
+			start();
+		};
+
+	});
