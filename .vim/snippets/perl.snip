@@ -13,8 +13,15 @@ snippet su
 	}
 
 snippet c
-	sub ${1:function_name} :${2:label} {
+	sub ${1:function_name} :Local {
 		my ($self, $c) = @_;
 
-		${3:body}
+		${2:body}
+	}
+
+snippet cc
+	sub ${1:function_name} :Chained('${2:chained}') :PathPart('${3:pathpart}') ${4:option-args} {
+		my ($self, $c) = @_;
+
+		${5:body}
 	}
