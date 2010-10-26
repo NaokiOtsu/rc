@@ -8,6 +8,7 @@ set ruler
 syntax on
 filetype plugin indent on
 
+call pathogen#runtime_append_all_bundles()
 
 set nocompatible
 set number
@@ -190,7 +191,6 @@ nnoremap s. <C-W>=
 "---------------------------------------------------------------------
 " settings for filetypes
 "---------------------------------------------------------------------
-autocmd FileType html,xml,xsl,erb source ~/.vim/plugin/closetag.vim
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 
 
