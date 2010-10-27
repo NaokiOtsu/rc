@@ -42,6 +42,7 @@ alias fhere="find ./ -name"
 
 sc() { svn commit -m '$*' }
 gc() { git commit -a -m '$*' }
+gp() { git push origin master }
 
 # tmux features
 
