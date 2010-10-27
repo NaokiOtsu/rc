@@ -1,6 +1,6 @@
 ### alias setting for zsh
 
-# aliases for normal commands
+## aliases for basic commands
 
 alias v="vim"
 alias g="gvim"
@@ -36,7 +36,15 @@ alias fall="sudo find / -name"
 alias fhere="find ./ -name"
 
 
-# special aliases
+## special aliases
+
+# vcs aliases
+
+sc() { svn commit -m '$*' }
+gc() { git commit -a -m '$*' }
+gp() { git push origin master }
+
+# tmux features
 
 new() { tmux new-window -a -n $1 }
 cl() { tmux new-window -a -n $1; tmux send-keys -t:$1 "cd $1; clear" C-m }
@@ -53,21 +61,22 @@ alias awetest="Xephyr -ac -br -noreset -screen 800x600 :1 & sleep 1 && DISPLAY=:
 
 md(){ mkdir -p $1; cd $1 }
 
-gl(){ ack "$*" | less }
+al(){ ack "$*" | less }
 
 
-# perl aliases
+## perl aliases
 
-alias sub="perl -pi -e"
+sub() { perl -pi -e "s/$1/$2/g;" `find ./ -name "*.$3"` }
 alias psh="perl -de 1"
 
 alias testcover="cover -delete ; ./Build testcover; cover"
 pmver(){ perl -M$1 -le "print $1->VERSION"; }
 pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
 
-http() { plackup -p $1 -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
+http() { plackup -p $* -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
 
-# global aliases
+
+## global aliases
 
 alias -g ...='../..'
 alias -g ....='../../..'
