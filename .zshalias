@@ -40,8 +40,8 @@ alias fhere="find ./ -name"
 
 # vcs aliases
 
-sc() { svn commit -m '$*' }
-gc() { git commit -a -m '$*' }
+sc() { svn commit -m $* }
+gc() { git commit -a -m $* }
 gp() { git push origin master }
 
 # tmux features
