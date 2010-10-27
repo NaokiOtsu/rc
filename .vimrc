@@ -318,8 +318,8 @@ nnoremap <Space>c :Ack<Space>
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
-nnoremap <silent> <Space>u :Unite file<CR>
-nnoremap <silent> <Space>f :UniteWithCurrentDir file<CR>
+nnoremap <silent> <Space>u :Unite -buffer-name=files file<CR>
+nnoremap <silent> <Space>f :Unite -buffer-name=file file_mru<CR>
 nnoremap <silent> <Space>y :Unite register<CR>
 nnoremap <silent> <Space>p :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>i :Unite bookmark<CR>
@@ -328,6 +328,18 @@ autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
   nnoremap <silent><buffer> <C-o> :call unite#mappings#do_action('tabopen')<CR>
   inoremap <silent><buffer> <C-o> <Esc>:call unite#mappings#do_action('tabopen')<CR>
+
+  call unite#set_substitute_pattern('file', '[^~.]\zs/', '*/*', 20)
+  call unite#set_substitute_pattern('file', '/\ze[^*]', '/*', 10)
+
+  call unite#set_substitute_pattern('file', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/*"', 2)
+  call unite#set_substitute_pattern('file', '^@', '\=getcwd()."/*"', 1)
+  call unite#set_substitute_pattern('file', '^\\', '~/*')
+
+  call unite#set_substitute_pattern('file', '\*\*\+', '*', -1)
+
+  call unite#set_substitute_pattern('file', '\\\@<! ', '\\ ', -20)
+  call unite#set_substitute_pattern('file', '\\ \@!', '/', -30)
   let g:unite_enable_ignore_case = 1
   let g:unite_enable_smart_case = 1
 endfunction"}}}
