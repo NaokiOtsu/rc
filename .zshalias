@@ -38,10 +38,19 @@ alias fhere="find ./ -name"
 
 ## special aliases
 
+# for source
+
+alias zs="source ~/.zshrc"
+alias zsl="source ~/.zshrc.local"
+alias ze="source ~/.zshenv"
+alias zel="source ~/.zshenv.local"
+alias za="source ~/.zshalias"
+alias zal="source ~/.zshalias.local"
+
 # vcs aliases
 
-sc() { svn commit -m '$*' }
-gc() { git commit -a -m '$*' }
+alias sc="svn commit -m"
+alias gc="git commit -a -m"
 gp() { git push origin master }
 
 # tmux features
