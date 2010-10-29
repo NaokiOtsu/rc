@@ -52,8 +52,6 @@ sw() { tmux swap-window -s $1 -t $2 }
 
 alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
 
-alias shut="sudo shutdown -h now"
-
 alias cupmen3="sleep 180 && notify-send 'カップめんできたよ！'"
 alias cupmen5="sleep 300 && notify-send 'カップめんできたよ！'"
 
