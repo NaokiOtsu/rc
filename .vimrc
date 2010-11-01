@@ -318,11 +318,14 @@ nnoremap <Space>c :Ack<Space>
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
-nnoremap <silent> <Space>u :Unite -buffer-name=files file<CR>
-nnoremap <silent> <Space>f :Unite -buffer-name=file file_mru<CR>
-nnoremap <silent> <Space>y :Unite register<CR>
-nnoremap <silent> <Space>p :UniteBookmarkAdd<CR>
-nnoremap <silent> <Space>i :Unite bookmark<CR>
+nnoremap <silent> <Space>uu :Unite -buffer-name=files file<CR>
+nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
+nnoremap <silent> <Space>ur :Unite file_rec<CR>
+nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> <Space>ut :Unite tab<CR>
+nnoremap <silent> <Space>uy :Unite register<CR>
+nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
+nnoremap <silent> <Space>ub :Unite bookmark<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
