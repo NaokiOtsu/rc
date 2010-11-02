@@ -49,3 +49,6 @@
 [submodule ".vim/bundle/vim-textobj-user"]
 	path = .vim/bundle/vim-textobj-user
 	url = git://github.com/kana/vim-textobj-user.git
+[submodule ".vim/bundle/eregex.vim"]
+	path = .vim/bundle/eregex.vim
+	url = git://github.com/othree/eregex.vim.git
