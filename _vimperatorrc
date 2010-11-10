@@ -8,6 +8,7 @@ set hlsearch
 set visualbell
 set wildoptions=auto
 set editor=gvim
+set hintchars="jfkdlsurieowvncm"
 
 set complete=lt
 
@@ -104,11 +105,6 @@ qmark k http://kakaku.com/
 let mapleader=','
 
 
-" for char-hints-mod2.js
-let g:hintsio="iO"
-let g:hintchars="jfkdlsurieowvncm"
-
-
 " for twittperator.js
 nnoremap <Leader>t :tw<Space>
 nnoremap <Leader>T :tw!<Space>
@@ -117,10 +113,6 @@ nnoremap <Leader>@ :tw!@<CR>
 let g:twittperator_use_chirp = 1
 let g:twittperator_plugin_dump_msg = 1
 let g:twittperator_plugin_reply_popup_alert = 1
-
-
-" for noscript.js
-nnoremap <Leader>s :noscript toggletemp<CR>
 
 
 " for tombloo.js
