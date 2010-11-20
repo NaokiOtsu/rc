@@ -70,6 +70,8 @@ md(){ mkdir -p $1; cd $1 }
 
 al(){ ack "$*" | less }
 
+gsh(){ RLWRAP_EDITOR='vim -c "set filetype=scheme"' rlwrap -c -q '"' -b "'"'(){}[].,#@;|`"' -m vim gosh }
+
 
 ## perl aliases
 
