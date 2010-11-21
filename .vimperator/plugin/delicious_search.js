@@ -44,11 +44,23 @@ set go-=D
 liberator.plugins.delicious = (function(){
 
 let uuid = PLUGIN_INFO.require[0].@id.toString();
-if (Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
-  const ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
-} else {
-  return null;
+let ydls = null;
+
+if ( typeof Application.extenstions === "object" ) {
+  if (Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
+    ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
+  } else {
+    return null;
+  }
 }
+else if ( typeof Application.getExtensions === "function" ) {
+  Application.getExtensions(function(extensions) {
+    if ( extensions.has(uuid) && extensions.get(uuid).enabled ) {
+      ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
+    }
+  });
+}
+
 const ss = Cc["@mozilla.org/storage/service;1"].getService(Ci.mozIStorageService);
 
 // dabase connection object
