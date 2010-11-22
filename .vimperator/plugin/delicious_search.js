@@ -49,7 +49,8 @@ let ydls = null;
 if ( typeof Application.extenstions === "object" ) {
   if (Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
     ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
-  } else {
+  }
+  else {
     return null;
   }
 }
@@ -182,7 +183,9 @@ function bookmarkSearch(tags, query){
         tags: ydls.getTags(url, {})
       });
     }
-  } finally {
+  } catch(e) {
+    liberator.echoerr(e);
+  }finally {
     st.reset();
     if (finalize) st.finalize();
   }
