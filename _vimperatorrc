@@ -151,9 +151,8 @@ nnoremap p :sbm[
 
 
 " for delicious_search.js
-autocmd VimperatorEnter ".*" :set complete+=D
-nnoremap s :delicioussearch -tags 
-nnoremap q :delicioussearch -query 
+nnoremap s :delicioussearch -tags
+nnoremap q :delicioussearch -query
 
 
 " for feedSomeKeys2.js
