@@ -44,18 +44,16 @@ set go-=D
 liberator.plugins.delicious = (function(){
 
 let uuid = PLUGIN_INFO.require[0].@id.toString();
-if (Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
-  const ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
+let ydls = null;
+if (typeof Application.extensions === "object" && Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
+  ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
 }
 else if ( typeof Application.getExtensions === "function" ) {
   Application.getExtensions(function(extensions) {
     if ( extensions.has(uuid) && extensions.get(uuid).enabled ) {
-      const ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
+      ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
     }
   });
-}
-else {
-  return null;
 }
 const ss = Cc["@mozilla.org/storage/service;1"].getService(Ci.mozIStorageService);
 
@@ -178,6 +176,8 @@ function bookmarkSearch(tags, query){
         tags: ydls.getTags(url, {})
       });
     }
+  } catch (e) {
+    liberator.echoerr(e);
   } finally {
     st.reset();
     if (finalize) st.finalize();
