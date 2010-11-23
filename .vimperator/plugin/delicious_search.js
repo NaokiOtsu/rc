@@ -44,10 +44,16 @@ set go-=D
 liberator.plugins.delicious = (function(){
 
 let uuid = PLUGIN_INFO.require[0].@id.toString();
-if (Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
-  const ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
-} else {
-  return null;
+let ydls = null;
+if (typeof Application.extensions === "object" && Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
+  ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
+}
+else if ( typeof Application.getExtensions === "function" ) {
+  Application.getExtensions(function(extensions) {
+    if ( extensions.has(uuid) && extensions.get(uuid).enabled ) {
+      ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
+    }
+  });
 }
 const ss = Cc["@mozilla.org/storage/service;1"].getService(Ci.mozIStorageService);
 
@@ -170,6 +176,8 @@ function bookmarkSearch(tags, query){
         tags: ydls.getTags(url, {})
       });
     }
+  } catch (e) {
+    liberator.echoerr(e);
   } finally {
     st.reset();
     if (finalize) st.finalize();
@@ -191,7 +199,7 @@ function templateTitleAndIcon(item){
 commands.addUserCommand(["delicious[search]","ds[earch]"], "Delicious Bookmark Search",
   function(args){
     if (args.length > 0){
-      liberator.open(args[0], liberator.NEW_TAB);
+      liberator.open(args[0], liberator.CURRENT_TAB);
       return;
     }
     let list = bookmarkSearch(args["-tags"], args["-query"]);

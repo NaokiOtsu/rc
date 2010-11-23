@@ -111,8 +111,6 @@ nnoremap <Leader>T :tw!<Space>
 nnoremap <Leader>@ :tw!@<CR>
 
 let g:twittperator_use_chirp = 1
-let g:twittperator_plugin_dump_msg = 1
-let g:twittperator_plugin_reply_popup_alert = 1
 
 
 " for tombloo.js
@@ -153,9 +151,8 @@ nnoremap p :sbm[
 
 
 " for delicious_search.js
-autocmd VimperatorEnter ".*" :set complete+=D
-nnoremap s :delicioussearch -tags 
-nnoremap q :delicioussearch -query 
+nnoremap s :delicioussearch -tags<Space>
+nnoremap q :delicioussearch -query<Space>
 
 
 " for feedSomeKeys2.js
@@ -187,23 +184,6 @@ commands.addUserCommand(['setInspectionXPath', 'six'], 'Set a XPath in the Hints
     hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() args.string);
 }, {}, true);
 EOM
-
-
-" move feed icon to status bar
-js <<EOM
-(function(){
-  var feedPanel = document.createElement('statusbarpanel');
-  var feedButton = document.getElementById('feed-button');
-  feedPanel.setAttribute('id','feed-panel-clone');
-  feedPanel.appendChild(feedButton.cloneNode(true));
-  feedButton.parentNode.removeChild(feedButton);
-  document.getElementById('status-bar').insertBefore(feedPanel,document.getElementById('security-button'));
-})();
-EOM
-
-
-" remove visualbell attribute
-js let(e=document.getElementById("liberator-visualbell"),p=e.parentNode){e.removeAttribute("width");e.removeAttribute("height");p.appendChild(p.removeChild(e));}
 
 
 " read local conf
