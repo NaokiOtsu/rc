@@ -51,7 +51,8 @@ alias zal="source ~/.zshalias.local"
 
 alias sc="svn commit -m"
 alias gc="git commit -a -m"
-gp() { git push origin master }
+alias gg="git grep"
+alias gp="git push origin master"
 
 # tmux features
 
