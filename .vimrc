@@ -417,7 +417,6 @@ if has('autocmd')
 endif
 
 
-let readfile = "~/.vimrc.local"
-if filereadable(readfile)
+if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
