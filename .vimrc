@@ -317,7 +317,7 @@ function! s:open_junk_file()
   endif
 endfunction"}}}
 
-nnoremap <Space>j :JunkFile<CR>
+nnoremap <Space>jf :JunkFile<CR>
 
 
 "---------------------------------------------------------------------
