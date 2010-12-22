@@ -350,6 +350,7 @@ nnoremap <silent> <Space>ub :Unite bookmark<CR>
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
   nnoremap <silent><buffer> <C-o> :call unite#mappings#do_action('tabopen')<CR>
+  nnoremap <silent><buffer> <C-v> :call unite#mappings#do_action('vsplit')<CR>
   inoremap <silent><buffer> <C-o> <Esc>:call unite#mappings#do_action('tabopen')<CR>
 
   call unite#set_substitute_pattern('file', '[^~.]\zs/', '*/*', 20)
