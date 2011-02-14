@@ -34,7 +34,6 @@ set smarttab
 
 set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
-set clipboard=unnamed
 set browsedir=buffer
 
 set laststatus=2
@@ -44,7 +43,6 @@ set showcmd
 set wildmode=list,full
 
 set virtualedit+=block
-set clipboard+=autoselect,unnamed
 
 set modeline
 
@@ -133,16 +131,16 @@ nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
 nnoremap Y y$
 
 "yank and paste clipboard
-"if has('mac') && !has('gui')
-  "nnoremap <silent> <Space>y :.w !pbcopy<CR><CR>
-  "vnoremap <silent> <Space>y :w !pbcopy<CR><CR>
-  "nnoremap <silent> <Space>p :r !pbpaste<CR>
-  "vnoremap <silent> <Space>p :r !pbpaste<CR>
-"else
+if has('mac') && !has('gui')
+  nnoremap <silent> <Space>y :.w !pbcopy<CR><CR>
+  vnoremap <silent> <Space>y :w !pbcopy<CR><CR>
+  nnoremap <silent> <Space>p :r !pbpaste<CR>
+  vnoremap <silent> <Space>p :r !pbpaste<CR>
+else
   " GVim(Mac & Win)
   noremap <Space>y "+y<CR>
   noremap <Space>p "+p<CR>
-"endif
+endif
 
 "repeat command
 nnoremap c. q:k<Cr>
@@ -192,6 +190,7 @@ nnoremap s. <C-W>=
 " settings for filetypes
 "---------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.scala set filetype=scala
+autocmd BufNewFile,BufRead *.tt set filetype=html
 
 
 "---------------------------------------------------------------------
@@ -305,26 +304,6 @@ cnoremap <expr> <Bslash> HomedirOrBackslash()
 
 
 "---------------------------------------------------------------------
-" Junkfile
-"---------------------------------------------------------------------
-" Open junk file."{{{
-command! -nargs=0 JunkFile call s:open_junk_file()
-function! s:open_junk_file()
-  let l:junk_dir = $HOME . '/.vim_junk'. strftime('/%Y/%m')
-  if !isdirectory(l:junk_dir)
-    call mkdir(l:junk_dir, 'p')
-  endif
-
-  let l:filename = input('Junk Code: ', l:junk_dir.strftime('/%Y-%m-%d-%H%M%S.'))
-  if l:filename != ''
-    execute 'tabnew ' . l:filename
-  endif
-endfunction"}}}
-
-nnoremap <Space>jf :JunkFile<CR>
-
-
-"---------------------------------------------------------------------
 " Save fold settings.
 "---------------------------------------------------------------------
 autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
@@ -342,14 +321,15 @@ nnoremap <Space>c :Ack<Space>
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
-nnoremap <silent> <Space>uu :Unite -buffer-name=files file<CR>
+nnoremap <silent> <Space>uu :Unite -auto-preview -buffer-name=files file_rec<CR>
 nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
-nnoremap <silent> <Space>ur :Unite file_rec<CR>
-nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> <Space>uc :UniteWithBufferDir -auto-preview -buffer-name=files file<CR>
 nnoremap <silent> <Space>ut :Unite tab<CR>
 nnoremap <silent> <Space>uy :Unite register<CR>
 nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>ub :Unite bookmark<CR>
+nnoremap <silent> <Space>uo :Unite -auto-preview outline<CR>
+nnoremap <silent> <Space>up :Unite ref/perldoc<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
