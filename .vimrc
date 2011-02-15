@@ -321,8 +321,10 @@ nnoremap <Space>c :Ack<Space>
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
-nnoremap <silent> <Space>uu :Unite -auto-preview -buffer-name=files file_rec<CR>
-nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
+nnoremap <silent> <Space>uu :Unite file<CR>
+nnoremap <silent> <Space>ur :Unite -auto-preview -buffer-name=files file_rec<CR>
+nnoremap <silent> <Space>uf :Unite -auto-preview -buffer-name=file file_mru<CR>
+
 nnoremap <silent> <Space>uc :UniteWithBufferDir -auto-preview -buffer-name=files file<CR>
 nnoremap <silent> <Space>ut :Unite tab<CR>
 nnoremap <silent> <Space>uy :Unite register<CR>
