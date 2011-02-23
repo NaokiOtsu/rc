@@ -53,6 +53,10 @@ endif
 "swp files
 set directory-=.
 
+"backup files
+set backup
+set backupdir=/tmp
+
 "show special character
 set list
 set lcs=tab:>-,trail:_,extends:>,precedes:<
