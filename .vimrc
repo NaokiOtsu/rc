@@ -336,6 +336,7 @@ nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>ub :Unite bookmark<CR>
 nnoremap <silent> <Space>uo :Unite -auto-preview outline<CR>
 nnoremap <silent> <Space>up :Unite ref/perldoc<CR>
+nnoremap <silent> <Space>ui :Unite -auto-preview -buffer-name=files file_include<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
