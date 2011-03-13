@@ -152,18 +152,18 @@ ProxyChanger.prototype = {
   },
   createPanel: function() {
     var self = this;
-    var panel = document.getElementById('proxychanger-status');
-    if (panel) {
-      let parent = panel.parentNode;
-      parent.removeChild(panel);
-    }
-    panel = document.createElement('statusbarpanel');
+    //var panel = document.getElementById('proxychanger-status');
+    //if (panel) {
+      //let parent = panel.parentNode;
+      //parent.removeChild(panel);
+    //}
+    var panel = document.createElement('statusbarpanel');
     panel.setAttribute('id', 'proxychanger-status');
     panel.setAttribute('class', 'statusbarpanel-iconic');
     panel.setAttribute('src', self.isEnable ? ENABLE_ICON : DISABLE_ICON);
     panel.addEventListener('click', function(e) { self.isEnable = !self.isEnable; }, false);
-    document.getElementById('status-bar').insertBefore(
-      panel, document.getElementById('security-button').nextSibling);
+    //document.getElementById('status-bar').insertBefore(
+      //panel, document.getElementById('security-button').nextSibling);
     return panel;
   },
   get isEnable() _isEnable,
