@@ -21,7 +21,7 @@ set history=10000
 "+----------------------------------------------------------------------------------------+
 
 " status bar
-hi StatusLine color: #FFF; background: #000; font-weight: normal; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace; margin: -1px -1px -5px -5px;
+hi StatusLine color: #FFF; background: #000; font-weight: normal; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace; margin: 0px -1px -5px -5px;
 
 " command line
 hi CmdLine color: #000; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace; padding: 2px;
