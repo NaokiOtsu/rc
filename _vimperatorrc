@@ -193,10 +193,10 @@ noremap <A-l> :removetabsright<CR>
 " other settings
 "+----------------------------------------------------------------------------------------+
 
-" for verttabbar
-set! browser.tabs.closeButton=2
-set! verttabbar.width=100
-
+" hide Delicious Toolbar
+js <<EOM
+config.toolbars.delicious = [["ybToolbar"], "Delicious"];
+EOM
 
 " inspect mode hint
 js <<EOM
