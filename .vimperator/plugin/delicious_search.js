@@ -6,7 +6,7 @@ let PLUGIN_INFO =
 <author mail="teramako@gmail.com" homepage="http://vimperator.g.hatena.ne.jp/teramako/">teramako</author>
 <version>0.3</version>
 <minVersion>2.0pre</minVersion>
-<maxVersion>2.0</maxVersion>
+<maxVersion>4.0</maxVersion>
 <detail><![CDATA[
 == Command ==
 :ds[earch] -tags tag, ...:
@@ -45,7 +45,7 @@ liberator.plugins.delicious = (function(){
 
 let uuid = PLUGIN_INFO.require[0].@id.toString();
 let ydls = null;
-if (typeof Application.extensions === "object" && Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled){
+if ( typeof Application.extensions === "object" && Application.extensions.has(uuid) && Application.extensions.get(uuid).enabled ){
   ydls = Cc["@yahoo.com/nsYDelLocalStore;1"].getService(Ci.nsIYDelLocalStore);
 }
 else if ( typeof Application.getExtensions === "function" ) {
