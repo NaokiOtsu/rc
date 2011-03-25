@@ -89,8 +89,7 @@ else
   color=${fg[red]}
 fi
 
-# %{...%} は囲まれた文字列がエスケープシーケンスであることを明示する
-# これをしないと右プロンプトの位置がずれる
+# %{...%} surrounds escape string
 echo "[%{$color%}$name%{$reset_color%}]"
 }
 
