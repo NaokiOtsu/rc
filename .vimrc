@@ -1,14 +1,33 @@
 "---------------------------------------------------------------------
 " base settings
 "---------------------------------------------------------------------
-colorscheme pablo
 set title
 set ruler
 
 syntax on
 filetype plugin indent on
 
-call pathogen#runtime_append_all_bundles()
+set rtp+=~/.vim/vundle/
+call vundle#rc()
+
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/unite.vim'
+Bundle 'h1mesuke/unite-outline'
+Bundle 'thinca/vim-quickrun'
+Bundle 'thinca/vim-ref'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-speeddating'
+Bundle 'vim-scripts/The-NERD-Commenter'
+Bundle 'othree/eregex.vim'
+Bundle 'petdance/vim-perl'
+Bundle 'pangloss/vim-javascript'
+Bundle 'cschlueter/vim-wombat'
+Bundle 'mattn/zencoding-vim'
+Bundle 'wookiehangover/jshint.vim'
+
+colorscheme wombat256
 
 set nocompatible
 set number
