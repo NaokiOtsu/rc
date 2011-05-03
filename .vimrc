@@ -337,9 +337,14 @@ set viewoptions-=options
 
 
 "---------------------------------------------------------------------
-" for ack.vim
+" for fugitive.vim
 "---------------------------------------------------------------------
-nnoremap <Space>c :Ack<Space>
+nnoremap <Space>ga :Gwrite<CR>
+nnoremap <Space>gc :Gcommit<CR>
+nnoremap <Space>gs :Gstatus<CR>
+nnoremap <Space>gd :Gdiff<CR>
+nnoremap <Space>gb :Gblame<CR>
+nnoremap <Space>gr :Gread<CR>
 
 
 "---------------------------------------------------------------------
