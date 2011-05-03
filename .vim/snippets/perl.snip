@@ -2,6 +2,12 @@ snippet u
 	use strict;
 	use warnings;
 
+snippet d
+	use Data::Dump qw/dump/;
+
+snippet c
+	use Carp::Cloak qw/croak confess/;
+
 snippet s
 	sub ${1:function_name} {
 		my $${2:arg1} = shift;
@@ -14,18 +20,4 @@ snippet su
 		my ($${2:arg1}, $${3:arg2}) = @_;
 
 		${4:body}
-	}
-
-snippet c
-	sub ${1:function_name} :Local {
-		my ($self, $c) = @_;
-
-		${2:body}
-	}
-
-snippet cc
-	sub ${1:function_name} :Chained('${2:chained}') :PathPart('${3:pathpart}') ${4:option-args} {
-		my ($self, $c) = @_;
-
-		${5:body}
 	}
