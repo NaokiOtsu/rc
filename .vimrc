@@ -353,17 +353,17 @@ nnoremap <Space>go :Git push origin master<CR>
 " for unite.vim
 "---------------------------------------------------------------------
 nnoremap <silent> <Space>uu :Unite file<CR>
-nnoremap <silent> <Space>ur :Unite -auto-preview -buffer-name=files file_rec<CR>
-nnoremap <silent> <Space>uf :Unite -auto-preview -buffer-name=file file_mru<CR>
+nnoremap <silent> <Space>ur :Unite -buffer-name=files file_rec<CR>
+nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
 
-nnoremap <silent> <Space>uc :UniteWithBufferDir -auto-preview -buffer-name=files file<CR>
+nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> <Space>ut :Unite tab<CR>
 nnoremap <silent> <Space>uy :Unite register<CR>
 nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>ub :Unite bookmark<CR>
-nnoremap <silent> <Space>uo :Unite -auto-preview outline<CR>
+nnoremap <silent> <Space>uo :Unite outline<CR>
 nnoremap <silent> <Space>up :Unite ref/perldoc<CR>
-nnoremap <silent> <Space>ui :Unite -auto-preview -buffer-name=files file_include<CR>
+nnoremap <silent> <Space>ui :Unite -buffer-name=files file_include<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
