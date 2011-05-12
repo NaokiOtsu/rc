@@ -1,14 +1,34 @@
 "---------------------------------------------------------------------
 " base settings
 "---------------------------------------------------------------------
-colorscheme pablo
 set title
 set ruler
 
 syntax on
 filetype plugin indent on
 
-call pathogen#runtime_append_all_bundles()
+set rtp+=~/.vim/vundle/
+call vundle#rc()
+
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/unite.vim'
+Bundle 'h1mesuke/unite-outline'
+Bundle 'thinca/vim-quickrun'
+Bundle 'thinca/vim-ref'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-speeddating'
+Bundle 'vim-scripts/The-NERD-Commenter'
+Bundle 'othree/eregex.vim'
+Bundle 'petdance/vim-perl'
+Bundle 'hotchpotch/perldoc-vim'
+Bundle 'pangloss/vim-javascript'
+Bundle 'cschlueter/vim-wombat'
+Bundle 'mattn/zencoding-vim'
+Bundle 'wookiehangover/jshint.vim'
+
+colorscheme wombat256
 
 set nocompatible
 set number
@@ -317,26 +337,33 @@ set viewoptions-=options
 
 
 "---------------------------------------------------------------------
-" for ack.vim
+" for fugitive.vim
 "---------------------------------------------------------------------
-nnoremap <Space>c :Ack<Space>
+nnoremap <Space>ga :Gwrite<CR>
+nnoremap <Space>gc :Gcommit<CR>
+nnoremap <Space>gs :Gstatus<CR>
+nnoremap <Space>gd :Gdiff<CR>
+nnoremap <Space>gb :Gblame<CR>
+nnoremap <Space>gr :Gread<CR>
+nnoremap <Space>gp :Git push<Space>
+nnoremap <Space>go :Git push origin master<CR>
 
 
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
 nnoremap <silent> <Space>uu :Unite file<CR>
-nnoremap <silent> <Space>ur :Unite -auto-preview -buffer-name=files file_rec<CR>
-nnoremap <silent> <Space>uf :Unite -auto-preview -buffer-name=file file_mru<CR>
+nnoremap <silent> <Space>ur :Unite -buffer-name=files file_rec<CR>
+nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
 
-nnoremap <silent> <Space>uc :UniteWithBufferDir -auto-preview -buffer-name=files file<CR>
+nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> <Space>ut :Unite tab<CR>
 nnoremap <silent> <Space>uy :Unite register<CR>
 nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>ub :Unite bookmark<CR>
-nnoremap <silent> <Space>uo :Unite -auto-preview outline<CR>
+nnoremap <silent> <Space>uo :Unite outline<CR>
 nnoremap <silent> <Space>up :Unite ref/perldoc<CR>
-nnoremap <silent> <Space>ui :Unite -auto-preview -buffer-name=files file_include<CR>
+nnoremap <silent> <Space>ui :Unite -buffer-name=files file_include<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
