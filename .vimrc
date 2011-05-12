@@ -269,7 +269,9 @@ let g:neocomplcache_ctags_arguments_list = {
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'perl' : $HOME . '/.vim/dict/perl.dict',
+    \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
+    \ 'html' : $HOME . '/.vim/dict/javascript.dict'
     \ }
 
 " Define keyword.
