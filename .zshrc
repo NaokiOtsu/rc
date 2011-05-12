@@ -31,7 +31,7 @@ zstyle ':zle:*' word-style unspecified
 # completion settings #
 
 autoload -U compinit
-compinit
+compinit -u
 
 setopt auto_list list_packed list_ambiguous
 setopt auto_param_slash auto_remove_slash 
