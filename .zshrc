@@ -99,18 +99,6 @@ PROMPT='`print "%{\e[0;36m%}%m:%~%{\e[0m%}"` `rprompt-git-current-branch`
 `print "%{\e[1;33m%}%# %{\e[0m%}"`'
 
 
-# home directory with \
-expand-to-home-or-insert () {
-  if [ "$LBUFFER" = "" -o "$LBUFFER[-1]" = " " ]; then
-    LBUFFER+="~/"
-  else
-    LBUFFER+="\\"
-  fi
-}
-zle -N expand-to-home-or-insert
-bindkey "\\" expand-to-home-or-insert
-
-
 # include other files
 
 source ~/.zshalias
