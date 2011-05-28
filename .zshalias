@@ -77,10 +77,13 @@ gsh(){ RLWRAP_EDITOR='vim -c "set filetype=scheme"' rlwrap -c -q '"' -b "'"'(){}
 ## perl aliases
 
 sub() { perl -pi -e "s/$1/$2/g;" `find ./ -name "*.$3"` }
-alias psh="perl -de 1"
 
-alias testcover="cover -delete ; ./Build testcover; cover"
+pm() { PERLDOC_PAGER=$EDITOR perldoc -m $* }
+
 pmver(){ perl -M$1 -le "print $1->VERSION"; }
+
+pmgrep() { [ -n "$1" ] && [ -n "$2" ] && grep -C3 -n "$1" `perldoc -l $2` | less -r; }
+
 pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
 
 http() { plackup -p $* -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
