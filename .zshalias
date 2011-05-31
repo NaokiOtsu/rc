@@ -2,16 +2,9 @@
 
 ## aliases for basic commands
 
-alias v="vim"
-alias g="gvim"
-
 alias rr="rm -rf"
-alias rm="rm -i"
-
 alias dh="df -h"
-
-alias pd="popd"
-alias gd='dirs -v; echo -n "select number: "; read newdir; cd +"$newdir"'
+md(){ mkdir -p $1; cd $1 }
 
 alias tcz="tar cvzf"
 alias txz="tar xvzf"
@@ -36,8 +29,6 @@ alias fall="sudo find / -name"
 alias fhere="find ./ -name"
 
 
-## special aliases
-
 # for source
 
 alias zs="source ~/.zshrc"
@@ -47,18 +38,40 @@ alias zel="source ~/.zshenv.local"
 alias za="source ~/.zshalias"
 alias zal="source ~/.zshalias.local"
 
-# vcs aliases
+
+# vcs
 
 alias sc="svn commit -m"
 alias gc="git commit -a -m"
 alias gg="git grep"
 alias gp="git push origin master"
 
+
 # tmux features
 
-new() { tmux new-window -a -n $1 }
+tn() { tmux new-session -s $1 }
+ta() { tmux attach-session -t $1 }
+tl() { tmux list-sessions }
 cl() { tmux new-window -a -n $1; tmux send-keys -t:$1 "cd $1; clear" C-m }
 sw() { tmux swap-window -s $1 -t $2 }
+
+
+# for perl
+
+sub() { perl -pi -e "s/$1/$2/g;" `find ./ -name "*.$3"` }
+
+pm() { PERLDOC_PAGER=$EDITOR perldoc -m $* }
+
+pmver(){ perl -M$1 -le "print $1->VERSION"; }
+
+pmgrep() { [ -n "$1" ] && [ -n "$2" ] && grep -C3 -n "$1" `perldoc -l $2` | less -r; }
+
+pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
+
+http() { plackup -p $* -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
+
+
+# others
 
 alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
 
@@ -66,24 +79,6 @@ alias cupmen3="sleep 180 && notify-send 'カップめんできたよ！'"
 alias cupmen5="sleep 300 && notify-send 'カップめんできたよ！'"
 
 alias awetest="Xephyr -ac -br -noreset -screen 800x600 :1 & sleep 1 && DISPLAY=:1.0 awesome -c ~/.config/awesome/rc.lua"
-
-md(){ mkdir -p $1; cd $1 }
-
-al(){ ack "$*" | less }
-
-gsh(){ RLWRAP_EDITOR='vim -c "set filetype=scheme"' rlwrap -c -q '"' -b "'"'(){}[].,#@;|`"' -m vim gosh }
-
-
-## perl aliases
-
-sub() { perl -pi -e "s/$1/$2/g;" `find ./ -name "*.$3"` }
-alias psh="perl -de 1"
-
-alias testcover="cover -delete ; ./Build testcover; cover"
-pmver(){ perl -M$1 -le "print $1->VERSION"; }
-pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
-
-http() { plackup -p $* -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
 
 
 ## global aliases
@@ -93,52 +88,19 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 
 alias -g W='| wc -l'
-
-alias -g D="DISPLAY=:0.0"
-
-alias -g ED="export DISPLAY=:0.0"
-
-alias -g EG='|& egrep'
-alias -g EH='|& head'
-alias -g EL='|& less -R'
-alias -g ELS='|& less -S -R'
-alias -g ETL='|& tail -20'
-alias -g ET='|& tail'
-alias -g F=' | fmt -'
 alias -g G='| egrep'
-
 alias -g H='| head'
-alias -g HL='|& head -20'
-
-alias -g NZ="*~(*.bz2|*.gz|*.tgz|*.zip|*.z)"
-
 alias -g L="| less -R"
-alias -g LL="2>&1 | less -R"
-alias -g LS='| less -S -R'
-
-alias -g M='| more'
-alias -g MM='| most'
+alias -g X='| xargs'
 
 alias -g N=/dev/null
 alias -g NE="2> /dev/null"
 alias -g NULL="> /dev/null 2>&1"
 
 alias -g S='| sort'
-alias -g NS='| sort -n'
-alias -g US='| sort -u'
-alias -g NRS='| sort -nr'
+alias -g SN='| sort -n'
+alias -g SU='| sort -u'
 
-alias -g T='| tail'
-alias -g TL='| tail -20'
-
-alias -g VM=/var/log/messages
-
-alias -g X='| xargs'
-alias -g X0='| xargs -0'
-alias -g XG='| xargs egrep'
-alias -g X0G='| xargs -0 egrep'
-
-alias -g FA='find -P . -regex "\./[^.].*"'
 
 if which pbcopy >/dev/null 2>&1 ; then
   # Mac
