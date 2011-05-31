@@ -104,11 +104,15 @@ PROMPT='`print "%{\e[0;36m%}%m:%~%{\e[0m%}"` `rprompt-git-current-branch`
 source ~/.zshalias
 source ~/.zshenv
 
+# source external file
+source ~/.zsh/git-completion.bash
+
 # source local zshrc
 
 if [ -e ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
+
 
 # setting for tmux
 
