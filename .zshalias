@@ -42,7 +42,7 @@ alias zal="source ~/.zshalias.local"
 # vcs
 
 alias sc="svn commit -m"
-alias gc="git commit -a -m"
+alias gm="git commit -a -m"
 alias gg="git grep"
 alias gp="git push origin master"
 
