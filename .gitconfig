@@ -24,4 +24,5 @@
   cb = checkout -b
   st = status
   ca = commit -a
+  cm = commit -a -m
   sb = show-branch
