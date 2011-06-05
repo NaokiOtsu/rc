@@ -27,6 +27,7 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'cschlueter/vim-wombat'
 Bundle 'mattn/zencoding-vim'
 Bundle 'wookiehangover/jshint.vim'
+Bundle 'perl_synwrite.vim'
 
 colorscheme wombat256
 
