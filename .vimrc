@@ -28,6 +28,7 @@ Bundle 'cschlueter/vim-wombat'
 Bundle 'mattn/zencoding-vim'
 Bundle 'wookiehangover/jshint.vim'
 Bundle 'perl_synwrite.vim'
+Bundle 'tyru/open-browser.vim'
 
 colorscheme wombat256
 
@@ -229,6 +230,12 @@ set showtabline=2
 hi TabLine term=reverse cterm=reverse ctermfg=white ctermbg=black
 hi TabLineSel term=bold cterm=bold,underline ctermfg=6
 hi TabLineFill term=reverse cterm=reverse ctermfg=white ctermbg=black 
+
+
+"---------------------------------------------------------------------
+" for open-browser.vim
+"---------------------------------------------------------------------
+nmap <Space>o <Plug>(openbrowser-smart-search)
 
 
 "---------------------------------------------------------------------
