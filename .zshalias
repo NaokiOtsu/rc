@@ -70,6 +70,8 @@ pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @us
 
 http() { plackup -p $* -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
 
+ifc() { ifchanged -d "prove -lvc $1" $1 }
+
 
 # others
 
