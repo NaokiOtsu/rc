@@ -1,6 +1,5 @@
-# Created by newuser for 4.3.9
+# base settings
 
-# base settings # 
 bindkey -e
 
 autoload -U colors
@@ -28,7 +27,7 @@ zstyle ':zle:*' word-chars " ,/:@+|"
 zstyle ':zle:*' word-style unspecified
 
 
-# completion settings #
+# completion settings
 
 autoload -U compinit
 compinit -u
@@ -50,7 +49,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 LISTMAX=1000
 
 
-# history settings #
+# history settings
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
@@ -65,6 +64,7 @@ setopt hist_no_store
 
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
+
 
 # prompt settings
 
@@ -104,8 +104,29 @@ PROMPT='`print "%{\e[0;36m%}%m:%~%{\e[0m%}"` `rprompt-git-current-branch`
 source ~/.zshalias
 source ~/.zshenv
 
+
 # source external file
+
 source ~/.zsh/git-completion.bash
+
+source ~/.zsh/zaw.zsh
+
+# bind for zaw
+
+zsh-history() {
+  zaw zaw-src-history
+}
+
+zle -N zsh-history
+bindkey "^H" zsh-history
+
+zsh-gitfiles() {
+  zaw zaw-src-git-files
+}
+
+zle -N zsh-gitfiles
+bindkey "^F" zsh-gitfiles
+
 
 # source local zshrc
 
@@ -114,7 +135,7 @@ if [ -e ~/.zshrc.local ]; then
 fi
 
 
-# setting for tmux
+# for tmux
 
 if [ $SHLVL = 1 ]; then
   tmux
