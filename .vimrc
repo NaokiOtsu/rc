@@ -278,7 +278,8 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default' : '',
     \ 'perl' : $HOME . '/.vim/dict/perl.dict',
     \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
-    \ 'html' : $HOME . '/.vim/dict/javascript.dict'
+    \ 'html' : $HOME . '/.vim/dict/javascript.dict',
+    \ 'scala' : $HOME . '/.vim/dict/scala.dict'
     \ }
 
 " Define keyword.
