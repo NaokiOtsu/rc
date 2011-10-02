@@ -107,7 +107,8 @@ source ~/.zshenv
 
 # source external file
 
-source ~/.zsh/git-completion.bash
+source ~/.zsh/git-completion.zsh
+source ~/.zsh/git-flow-completion.zsh
 
 source ~/.zsh/zaw.zsh
 
