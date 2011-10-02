@@ -284,8 +284,6 @@ let g:acp_enableAtStartup = 0
 let g:neocomplcache_enable_at_startup = 1
 " Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
-" Use quickmatch
-let g:neocomplcache_enable_quick_match = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
