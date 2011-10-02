@@ -23,10 +23,11 @@ case "${OSTYPE}" in
 esac
 
 alias la="ls -lhAF"
-alias ps="ps -fU`whoami` --forest"
 
 alias fall="sudo find / -name"
 alias fhere="find ./ -name"
+
+alias tag="ctags --file-scope=no -R `pwd`"
 
 
 # for source
@@ -43,6 +44,7 @@ alias zal="source ~/.zshalias.local"
 
 alias sc="svn commit -m"
 alias gm="git commit -a -m"
+alias go="git checkout"
 alias gg="git grep"
 alias gp="git push origin master"
 

@@ -15,6 +15,8 @@ Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'thinca/vim-quickrun'
 Bundle 'thinca/vim-ref'
+Bundle 'thinca/unite-tags'
+Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-fugitive'
@@ -26,7 +28,12 @@ Bundle 'hotchpotch/perldoc-vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'cschlueter/vim-wombat'
 Bundle 'mattn/zencoding-vim'
+Bundle 'mattn/gist-vim'
 Bundle 'wookiehangover/jshint.vim'
+
+Bundle 'vim-scripts/sudo.vim'
+Bundle 'vim-scripts/quickhl.vim'
+
 
 colorscheme wombat256
 
@@ -58,18 +65,21 @@ set browsedir=buffer
 
 set laststatus=2
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'.fugitive#statusline()}%=%l,%c%V%8P
-"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set showcmd
 
 set wildmode=list,full
 
-set virtualedit+=block
+set virtualedit=all
 
 set modeline
+
+set clipboard=unnamed,autoselect
 
 if exists('&ambiwidth')
   set ambiwidth=double
 endif
+
+highlight Pmenu ctermbg=4
 
 "swp files
 set directory-=.
@@ -83,7 +93,7 @@ set list
 set lcs=tab:>-,trail:_,extends:>,precedes:<
 scriptencoding utf-8
 highlight JpSpace cterm=underline ctermfg=Green guifg=Green
-au BufRead,BufNew * match JpSpace /ã€€/
+au BufRead,BufNew * match JpSpace /Ž¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÈŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÊŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÈŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼Ž±Ž¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÈŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÊŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÈŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÆŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÄŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼ŽÂŽ¼Ž¾Ž¼ŽÀŽ¼Ž¾Ž¼Ž±/
 
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
@@ -131,9 +141,6 @@ inoremap <C-a> @
 inoremap <C-p> <C-x><C-o>
 
 " for others
-nnoremap co zo
-nnoremap cc zc
-
 vnoremap < <gv
 vnoremap > >gv
 
@@ -147,7 +154,7 @@ cmap <C-z> <C-r>=expand('%:p:r')<CR>
 nnoremap <Leader>a <Esc>:Ref alc<Space>
 
 " for perldoc
-nnoremap <Leader>p <Esc>:Perldoc<Space>
+nnoremap <Leader>p <Esc>:Ref perldoc<Space>
 
 " add \n
 nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
@@ -184,6 +191,16 @@ nnoremap <silent> cy   ce<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 "tabnew with gf
 nnoremap gf <C-w>gf
 
+
+"---------------------------------------------------------------------
+" templates
+"---------------------------------------------------------------------
+augroup templatelaod
+    autocmd!
+    autocmd BufNewFile *.html 0r ~/.vim/skeleton/skel.html
+    autocmd BufNewFile *.js 0r ~/.vim/skeleton/skel.js
+    autocmd BufNewFile *.pl 0r ~/.vim/skeleton/skel.pl
+augroup END
 
 "---------------------------------------------------------------------
 " Key mappings for vim windows
@@ -232,9 +249,15 @@ hi TabLineFill term=reverse cterm=reverse ctermfg=white ctermbg=black
 
 
 "---------------------------------------------------------------------
-" for open-browser.vim
+" for quickhl
 "---------------------------------------------------------------------
-nmap <Space>o <Plug>(openbrowser-smart-search)
+
+let b:surround_123 = "+{ \r }"
+
+nmap <Space>m <Plug>(quickhl-toggle)
+xmap <Space>m <Plug>(quickhl-toggle)
+nmap <Space>M <Plug>(quickhl-reset)
+xmap <Space>M <Plug>(quickhl-reset)
 
 
 "---------------------------------------------------------------------
@@ -259,12 +282,10 @@ imap <Leader>wt <Esc><Plug>Csurround wt
 let g:acp_enableAtStartup = 0
 " Use neocomplcache.
 let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
+" Use quickmatch
+let g:neocomplcache_enable_quick_match = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
@@ -360,6 +381,13 @@ nnoremap <Space>go :Git push origin master<CR>
 
 
 "---------------------------------------------------------------------
+" for vundle
+"---------------------------------------------------------------------
+nnoremap <Space>bi :BundleInstall<CR>
+nnoremap <Space>bc :BundleClean<CR>
+
+
+"---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
 nnoremap <silent> <Space>uu :Unite file<CR>
@@ -367,12 +395,12 @@ nnoremap <silent> <Space>ur :Unite -buffer-name=files file_rec<CR>
 nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
 
 nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> <Space>ut :Unite tab<CR>
+nnoremap <silent> <Space>ut :Unite tag<CR>
 nnoremap <silent> <Space>uy :Unite register<CR>
 nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>ub :Unite bookmark<CR>
 nnoremap <silent> <Space>uo :Unite outline<CR>
-nnoremap <silent> <Space>up :Unite ref/perldoc<CR>
+nnoremap <silent> <Space>up :Unite -start-insert ref/perldoc<CR>
 nnoremap <silent> <Space>ui :Unite -buffer-name=files file_include<CR>
 
 autocmd FileType unite call s:unite_my_settings()
