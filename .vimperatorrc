@@ -60,7 +60,7 @@ nnoremap <A-s> :dialog preferences<CR>
 nnoremap <A-a> :addon<CR>
 
 " source
-nnoremap ,v :source ~/_vimperatorrc<CR>
+nnoremap ,v :source ~/.vimperatorrc<CR>
 
 "+----------------------------------------------------------------------------------------+
 " keymap (Command Mode)
@@ -176,6 +176,16 @@ noremap <A-h> :removetabsleft<CR>
 noremap <A-l> :removetabsright<CR>
 
 
+" for firebug.js
+noremap <Leader>f :silent firebug toggle<cr>
+noremap <Leader>c :silent firebug console-focus<CR>
+
+noremap <S-C-n> :silent firebug tabnext<cr>
+noremap <S-C-p> :silent firebug tabprevious<cr>
+noremap <S-C-l> :silent firebug tabnext<CR>
+noremap <S-C-h> :silent firebug tabprevious<CR>
+
+
 "+----------------------------------------------------------------------------------------+
 " other settings
 "+----------------------------------------------------------------------------------------+
@@ -185,12 +195,19 @@ js <<EOM
 config.toolbars.delicious = [["ybToolbar"], "Delicious"];
 EOM
 
-" inspect mode hint
+" firebug inspect mode hint
 js <<EOM
-hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() '//*');
-commands.addUserCommand(['setInspectionXPath', 'six'], 'Set a XPath in the Hints Mode of Inspection', function(args){
-    hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() args.string);
-}, {}, true);
+hints.addMode('i', 'firebug inspect hint', function(elem){
+    Firebug.toggleBar(true);
+    Firebug.chrome.select(elem)
+}, function() '//*');
+EOM
+
+js <<EOM
+hints.addMode('e', 'contenteditable hint', function(elem){
+    elem.setAttribute("contenteditable", true);
+    elem.focus();
+}, function() '//*');
 EOM
 
 
