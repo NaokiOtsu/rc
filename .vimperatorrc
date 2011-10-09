@@ -7,7 +7,7 @@ set gui=tabs
 set hlsearch
 set visualbell
 set wildoptions=auto
-set editor=gvim
+set editor="gvim -f"
 set hintchars="jfkdlsurieowvncm"
 
 set complete=lt
