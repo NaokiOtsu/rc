@@ -203,6 +203,7 @@ hints.addMode('i', 'firebug inspect hint', function(elem){
 }, function() '//*');
 EOM
 
+" contenteditable hint
 js <<EOM
 hints.addMode('e', 'contenteditable hint', function(elem){
     elem.setAttribute("contenteditable", true);
