@@ -199,7 +199,7 @@ EOM
 js <<EOM
 hints.addMode('i', 'firebug inspect hint', function(elem){
     Firebug.toggleBar(true);
-    Firebug.chrome.select(elem)
+    Firebug.chrome.select(elem);
 }, function() '//*');
 EOM
 
