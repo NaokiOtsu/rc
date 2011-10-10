@@ -211,6 +211,14 @@ hints.addMode('e', 'contenteditable hint', function(elem){
 }, function() '//*');
 EOM
 
+" hash url hint
+js <<EOM
+hints.addMode('n', 'hash url hint', function(elem){
+    var pointer = elem.getAttribute("id") || elem.getAttribute("name");
+    util.copyToClipboard(elem.ownerDocument.defaultView.location.href + (pointer ? "#" + pointer : ""), true);
+}, function() '//*');
+EOM
+
 
 " read local conf
 source! ~/.vimperatorrc.local
