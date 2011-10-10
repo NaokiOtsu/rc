@@ -399,6 +399,7 @@ nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
 nnoremap <silent> <Space>ub :Unite bookmark<CR>
 nnoremap <silent> <Space>uo :Unite outline<CR>
 nnoremap <silent> <Space>up :Unite -start-insert ref/perldoc<CR>
+nnoremap <silent> <Space>um :Unite -start-insert ref/man<CR>
 nnoremap <silent> <Space>ui :Unite -buffer-name=files file_include<CR>
 
 autocmd FileType unite call s:unite_my_settings()

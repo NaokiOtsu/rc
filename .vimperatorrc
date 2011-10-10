@@ -7,7 +7,7 @@ set gui=tabs
 set hlsearch
 set visualbell
 set wildoptions=auto
-set editor=gvim
+set editor="gvim -f"
 set hintchars="jfkdlsurieowvncm"
 
 set complete=lt
@@ -20,22 +20,9 @@ set history=10000
 " styles
 "+----------------------------------------------------------------------------------------+
 
-" status bar
-hi StatusLine color: #FFF; background: #000; font-weight: normal; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace; margin: 0px -1px -5px -5px;
+colorscheme indigo
 
-" command line
-hi CmdLine color: #000; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace; padding: 2px;
-hi Normal color: #000; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace;
-hi InfoMsg color: #000; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace;
-hi ModeMsg color: #000; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace;
-hi MoreMsg color: #000; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace;
-hi ErrorMsg color: #FFF; background: #F00; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace;
-hi LineNr color: #F00; background: #FFF; font-size: 9pt; font-family: Menlo, Consolas, Monaco, monospace;
-
-" complete
-hi CompItem[selected] background: #99ccff;
-
-" hint 6ba7ef
+" hint
 hi HintElem background-color: #fffac6; border-radius: 2px;
 hi Hint font-family: "Lucida Grande", "Segoe UI", sans-serif; font-size: 11px; font-weight: bold; background: -moz-linear-gradient(top, #4985FF, #3163AA); text-shadow: 0 1px #1D3C66; text-transform: uppercase; color: white; background-color: red; padding: 2px 5px; border-radius: 3px; border: 1px solid #3366AD;
 
@@ -73,7 +60,7 @@ nnoremap <A-s> :dialog preferences<CR>
 nnoremap <A-a> :addon<CR>
 
 " source
-nnoremap ,v :source ~/_vimperatorrc<CR>
+nnoremap ,v :source ~/.vimperatorrc<CR>
 
 "+----------------------------------------------------------------------------------------+
 " keymap (Command Mode)
@@ -189,6 +176,16 @@ noremap <A-h> :removetabsleft<CR>
 noremap <A-l> :removetabsright<CR>
 
 
+" for firebug.js
+noremap <Leader>f :silent firebug toggle<cr>
+noremap <Leader>c :silent firebug console-focus<CR>
+
+noremap <S-C-n> :silent firebug tabnext<cr>
+noremap <S-C-p> :silent firebug tabprevious<cr>
+noremap <S-C-l> :silent firebug tabnext<CR>
+noremap <S-C-h> :silent firebug tabprevious<CR>
+
+
 "+----------------------------------------------------------------------------------------+
 " other settings
 "+----------------------------------------------------------------------------------------+
@@ -198,12 +195,28 @@ js <<EOM
 config.toolbars.delicious = [["ybToolbar"], "Delicious"];
 EOM
 
-" inspect mode hint
+" firebug inspect mode hint
 js <<EOM
-hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() '//*');
-commands.addUserCommand(['setInspectionXPath', 'six'], 'Set a XPath in the Hints Mode of Inspection', function(args){
-    hints.addMode('i', 'inspectThis', function(elem){ inspectDOMNode(elem) }, function() args.string);
-}, {}, true);
+hints.addMode('i', 'firebug inspect hint', function(elem){
+    Firebug.toggleBar(true);
+    Firebug.chrome.select(elem);
+}, function() '//*');
+EOM
+
+" contenteditable hint
+js <<EOM
+hints.addMode('e', 'contenteditable hint', function(elem){
+    elem.setAttribute("contenteditable", true);
+    elem.focus();
+}, function() '//*');
+EOM
+
+" hash url hint
+js <<EOM
+hints.addMode('n', 'hash url hint', function(elem){
+    var pointer = elem.getAttribute("id") || elem.getAttribute("name");
+    util.copyToClipboard(elem.ownerDocument.defaultView.location.href + (pointer ? "#" + pointer : ""), true);
+}, function() '//*');
 EOM
 
 
