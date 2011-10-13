@@ -65,3 +65,11 @@
   undo-merge = reset --hard ORIG_HEAD # 直前のマージを元にもどす
   rp = remote prune # リモートで削除されたブランチをローカルで削除する
   pt = push --tags # ローカルで作ったタグをリモートにpush
+[core]
+	excludesfile = /Users/yokoe.naosuke/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
