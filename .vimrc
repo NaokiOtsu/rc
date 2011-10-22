@@ -105,8 +105,9 @@ colorscheme wombat256
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
 
-" for psgi
+" for perl files
 autocmd BufNewFile,BufRead *.psgi set filetype=perl
+autocmd BufNewFile,BufRead *.t set filetype=perl
 
 "---------------------------------------------------------------------
 " Key mappings
