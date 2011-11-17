@@ -4,6 +4,6 @@ for rc in .?*
 do
 if [ $rc != '..' ] && [ $rc != '.git' ]
     then
-ln -Fis "$PWD/$rc" $HOME
+ln -Fs "$PWD/$rc" $HOME
     fi
 done
