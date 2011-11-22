@@ -171,7 +171,7 @@ nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
 nnoremap Y y$
 
 "yank and paste clipboard
-if has('mac') && !has('gui')
+if !has('gui')
   nnoremap <silent> <Space>y :.w !pbcopy<CR><CR>
   vnoremap <silent> <Space>y :w !pbcopy<CR><CR>
   nnoremap <silent> <Space>p :r !pbpaste<CR>
