@@ -1,0 +1,18 @@
+URxvt.geometry: 84x27
+URxvt.font: xft:VLGothic:pixelsize=15
+URxvt.imFont: -*-medium-r-*-15-*
+URxvt.preeditType: OverTheSpot
+URxvt.scrollBar: false
+URxvt.depth: 32
+URxvt.foreground: white
+URxvt.background: black
+URxvt.cursorColor: white
+URxvt.cursorColor2: black
+URxvt.saveLines: 1024
+
+URxvt.transparent: true
+URxvt.shading: 20
+
+URxvt.perl-ext-common: default,matcher
+URxvt.urlLauncher: /usr/bin/firefox
+URxvt.matcher.button: 1
