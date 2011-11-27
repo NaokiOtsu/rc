@@ -219,6 +219,14 @@ hints.addMode('n', 'hash url hint', function(elem){
 }, function() '//*');
 EOM
 
+" for youtuberepeat
+js <<EOM
+liberator.modules.commands.addUserCommand(["repeat"], "open current URL as youtuberepeat URL ",
+    function(args) {
+        liberator.open(content.document.location.href.replace("www.youtube.com", "www.youtuberepeat.com"));
+    }
+);
+EOM
 
 " read local conf
 source! ~/.vimperatorrc.local
