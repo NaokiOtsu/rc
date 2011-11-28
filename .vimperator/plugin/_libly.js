@@ -12,9 +12,9 @@ var PLUGIN_INFO =
     <description lang="ja">適当なライブラリっぽいものたち。</description>
     <author mail="suvene@zeromemory.info" homepage="http://zeromemory.sblo.jp/">suVene</author>
     <license>MIT</license>
-    <version>0.1.31</version>
+    <version>0.1.33</version>
     <minVersion>2.3pre</minVersion>
-    <maxVersion>2.3pre</maxVersion>
+    <maxVersion>2.3</maxVersion>
     <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/_libly.js</updateURL>
     <detail><![CDATA[
 == Objects ==
@@ -146,7 +146,7 @@ Request(url, headers, options):
             BASIC認証時のパスワード
         postBody:
             POSTメソッドにより送信するbody
-addEventLister(name, func):
+addEventListener(name, func):
     イベントリスナを登録する。
     name:
         'onSuccess':
@@ -275,6 +275,7 @@ libly.$U = {//{{{
                 let self = this, args = arguments;
                 return func.call(self, function (_args) original.apply(self, _args || args), args);
             };
+            libly.$U.extend(current, {original: original.original || original, restore: restore});
             return libly.$U.extend({
                 original: original,
                 current: current,
