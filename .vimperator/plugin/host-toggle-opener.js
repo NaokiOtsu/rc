@@ -1,6 +1,6 @@
 let PLUGIN_INFO =
 <VimperatorPlugin>
-<name>fms_switcher</name>
+<name>host-toggle-opener</name>
 <description>Open current location with different host</description>
 <version>1.0.0</version>
 <author>zentooo</author>
