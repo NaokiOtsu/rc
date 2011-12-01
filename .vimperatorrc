@@ -185,6 +185,9 @@ noremap <S-C-p> :silent firebug tabprevious<cr>
 noremap <S-C-l> :silent firebug tabnext<CR>
 noremap <S-C-h> :silent firebug tabprevious<CR>
 
+" for addhatebu.js
+noremap <Leader>h :silent addhatebu add<cr>
+
 
 "+----------------------------------------------------------------------------------------+
 " other settings
