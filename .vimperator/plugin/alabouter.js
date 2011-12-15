@@ -19,6 +19,10 @@ liberator.modules.commands.addUserCommand(["alabouter"], "Alabouter",
     function(args) {
         var doc = content.document, loc = doc.location, timer;
 
+        if ( ! doc.body ) {
+            doc.addEventListener("DOMContentLoaded", replace);
+        }
+
         function replace(element) {
             [].forEach.call(doc.querySelectorAll('a[target="_blank"]'), function(el) {
                 el.setAttribute("href", el.textContent);

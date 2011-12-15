@@ -32,10 +32,12 @@ Bundle 'mattn/gist-vim'
 Bundle 'wookiehangover/jshint.vim'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'othree/html5.vim'
+Bundle 'othree/html5.vim'
 
 Bundle 'vim-scripts/css_color.vim'
 Bundle 'vim-scripts/sudo.vim'
 Bundle 'vim-scripts/quickhl.vim'
+Bundle 'vim-scripts/VimClojure'
 
 
 set nocompatible
