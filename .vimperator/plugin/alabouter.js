@@ -1,6 +1,6 @@
 let PLUGIN_INFO =
 <VimperatorPlugin>
-<name>host-toggle-opener</name>
+<name>alabouter</name>
 <description>Alabouter</description>
 <version>1.0.0</version>
 <author>zentooo</author>
