@@ -1,5 +1,7 @@
 ### alias setting for zsh
 
+alias zmv="noglob zmv"
+
 ## aliases for basic commands
 
 alias rr="rm -rf"

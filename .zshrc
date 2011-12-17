@@ -8,6 +8,8 @@ colors
 autoload -U promptinit
 promptinit
 
+autoload -Uz zmv
+
 setopt extended_glob
 
 setopt auto_cd auto_pushd

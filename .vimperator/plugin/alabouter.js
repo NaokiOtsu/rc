@@ -1,6 +1,6 @@
 let PLUGIN_INFO =
 <VimperatorPlugin>
-<name>host-toggle-opener</name>
+<name>alabouter</name>
 <description>Alabouter</description>
 <version>1.0.0</version>
 <author>zentooo</author>
@@ -18,6 +18,10 @@ let PLUGIN_INFO =
 liberator.modules.commands.addUserCommand(["alabouter"], "Alabouter",
     function(args) {
         var doc = content.document, loc = doc.location, timer;
+
+        if ( ! doc.body ) {
+            doc.addEventListener("DOMContentLoaded", replace);
+        }
 
         function replace(element) {
             [].forEach.call(doc.querySelectorAll('a[target="_blank"]'), function(el) {
