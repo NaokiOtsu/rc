@@ -35,18 +35,21 @@ autoload -U compinit
 compinit -u
 
 setopt auto_list list_packed list_ambiguous
-setopt auto_param_slash auto_remove_slash 
+setopt auto_param_slash auto_remove_slash
 setopt auto_param_keys
-setopt list_types rec_exact 
+setopt list_types rec_exact
 
-zstyle ':completion:*' use-cache true
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' completer _complete _approximate _prefix _match
+zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:default' menu select=1
-zstyle ':completion:*:default*' ignore-parents pwd
+zstyle ':completion:*:cd*' ignore-parents parent pwd
 zstyle ':completion:*:approximate:*' max-errors 1 NUMERIC
 zstyle ':completion:*:processes' menu yes select=2
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:functions' ignored-patterns '_*'
 
 LISTMAX=1000
 
