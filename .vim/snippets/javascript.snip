@@ -1,36 +1,33 @@
-" snippets for normal JS
-
-snippet f
-	function ${1:func_name}() {
-
-		${2:body}
-
-	}
+" common snippets
 
 snippet n
 	(function() {
-
 		${1:body}
-
 	})();
+
+snippet a
+	${1:elem}.addEventListener("${2:type}", function() {
+		${3:body}
+	}, false);
+
+snippet d
+	document.addEventListener("DOMContentLoaded", function() {
+		${1:body}
+	}, false);
 
 
 " snippets for QUnit
 
 snippet t
 	test('${1:test_description}', function() {
-
 		${2:body}
-
 	});
 
-snippet a
+snippet s
 	asyncTest('${1:test_description}', function() {
-
 		${2:body}
 
 		var callback = function() {
 			start();
 		};
-
 	});

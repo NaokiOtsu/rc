@@ -6,18 +6,20 @@ snippet d
 	use Data::Dump qw/dump/;
 
 snippet c
-	use Carp::Cloak qw/croak confess/;
+	use Carp qw/croak/;
 
-snippet s
-	sub ${1:function_name} {
-		my $${2:arg1} = shift;
+snippet n
+	sub new {
+		my $class = shift;
+		my $args = ref $_[0] ? $_[0] : +{@_};
 
-		${3:body}
+		${1:code}
+
+		bless $args, $class;
 	}
 
-snippet su
-	sub ${1:function_name} {
-		my ($${2:arg1}, $${3:arg2}) = @_;
+snippet l
+	use Class::Accessor::Lite (
+		rw => [qw/${1:rw_accessors}/],
+	);
 
-		${4:body}
-	}
