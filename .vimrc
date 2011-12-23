@@ -257,7 +257,7 @@ set tabline=%!MakeTabLine()
 
 function! MakeTabLine()
     let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
-    let tabpages = join(titles) . '%#TabLineFill#%T'
+    let tabpages = join(titles) . ' ' . '%#TabLineFill#%T'
     let info = fnamemodify(getcwd(), ":~") . ' '
     return tabpages . '%=' . info
 endfunction
@@ -278,9 +278,9 @@ function! s:tabpage_label(n)
     let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]
     let fname = pathshorten(bufname(curbufnr))
 
-    let label = " " . no . mod . sp . fname . " "
+    let label = ' ' . no . mod . sp . fname
 
-    return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
+    return '%' . a:n . 'T' . hi . label
 endfunction
 
 
