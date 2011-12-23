@@ -243,6 +243,7 @@ nnoremap s. <C-W>=
 "---------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 autocmd BufNewFile,BufRead *.tt set filetype=html
+autocmd BufNewFile,BufRead *.page set filetype=markdown
 
 
 "---------------------------------------------------------------------
