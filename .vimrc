@@ -32,6 +32,8 @@ Bundle 'mattn/gist-vim'
 Bundle 'wookiehangover/jshint.vim'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'othree/html5.vim'
+Bundle 'kana/vim-textobj-user'
+Bundle 'h1mesuke/textobj-wiw'
 
 Bundle 'vim-scripts/css_color.vim'
 Bundle 'vim-scripts/sudo.vim'
