@@ -250,6 +250,36 @@ map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
 
 set showtabline=2
+set tabline=%!MakeTabLine()
+
+function! MakeTabLine()
+    let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
+    let tabpages = join(titles) . '%#TabLineFill#%T'
+    let info = fnamemodify(getcwd(), ":~") . ' '
+    return tabpages . '%=' . info
+endfunction
+
+function! s:tabpage_label(n)
+    let bufnrs = tabpagebuflist(a:n)
+
+    let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
+
+    let no = len(bufnrs)
+    if no is 1
+        let no = ''
+    endif
+
+    let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
+    let sp = (no . mod) ==# '' ? '' : ' '
+
+    let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]
+    let fname = pathshorten(bufname(curbufnr))
+
+    let label = " " . no . mod . sp . fname . " "
+
+    return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
+endfunction
+
 
 hi TabLine term=reverse cterm=reverse ctermfg=white ctermbg=black
 hi TabLineSel term=bold cterm=bold,underline ctermfg=6
