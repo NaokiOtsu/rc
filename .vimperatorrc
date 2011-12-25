@@ -104,6 +104,8 @@ qmark y http://www.youtube.com/
 qmark n http://www.nicovideo.jp/
 qmark k http://kakaku.com/
 
+qmark w http://wiki.zentooo.biz/
+
 
 "+----------------------------------------------------------------------------------------+
 " settings for plugins
