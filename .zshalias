@@ -46,8 +46,8 @@ alias zal="source ~/.zshalias.local"
 
 alias sm="svn commit -m"
 alias gm="git commit -a -m"
-gp { git push origin $1 }
-gpu { git pull origin $1 }
+gp() { git push origin $1 }
+gpu() { git pull origin $1 }
 
 
 # tmux features
