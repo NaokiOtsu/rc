@@ -19,7 +19,13 @@ snippet n
 	}
 
 snippet l
-	use Class::Accessor::Lite (
-		rw => [qw/${1:rw_accessors}/],
-	);
+	use Class::Accessor::Lite
+
+snippet ll
+	Clas::Accessor::Lite->mk_accessors(${1:accessors});
+
+snippet s
+	subtest '${1:testname}' => sub {
+		${2:testbody}
+	};
 
