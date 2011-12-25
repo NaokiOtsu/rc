@@ -12,10 +12,11 @@ call vundle#rc()
 
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/unite.vim'
+Bundle 'tsukkee/unite-tag'
 Bundle 'h1mesuke/unite-outline'
+Bundle 'hakobe/unite-script'
 Bundle 'thinca/vim-quickrun'
 Bundle 'thinca/vim-ref'
-Bundle 'tsukkee/unite-tag'
 Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
