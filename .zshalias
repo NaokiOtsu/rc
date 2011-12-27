@@ -46,6 +46,7 @@ alias zal="source ~/.zshalias.local"
 
 alias sm="svn commit -m"
 alias gm="git commit -a -m"
+alias gg="git commit -a -m 'hoge'"
 gp() { git push origin $1 }
 gpu() { git pull origin $1 }
 
