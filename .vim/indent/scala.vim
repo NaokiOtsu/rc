@@ -12,8 +12,6 @@ setlocal indentexpr=GetScalaIndent()
 
 setlocal indentkeys=0{,0},0),!^F,<>>,<CR>
 
-setlocal autoindent sw=2 et
-
 if exists("*GetScalaIndent")
   finish
 endif
