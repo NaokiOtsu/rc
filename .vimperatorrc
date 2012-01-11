@@ -167,7 +167,7 @@ nnoremap q :delicioussearch -query<Space>
 
 " for feedSomeKeys2.js
 autocmd LocationChange .* :silent fmapc
-autocmd LocationChange 'mail\.google\.com/mail/' :silent fmap! c / j k l m n p o u e x s r a # [ ] ? gi gs gt gd ga gc gl
+autocmd LocationChange 'mail\.google\.com/mail/' :silent fmap! -- - c / j k l m n p o u e x s r a # [ ] ? gi gs gt gd ga gc gl +
 autocmd LocationChange 'mail\.google\.com/mail/.*/[0-9a-f]+$' :silent fmap! c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 autocmd LocationChange 'www\.google\.co\.jp/reader' :silent fmap! -vkey j k n p m s t v A r S N P X O gh ga gs gt gu u / ?
 autocmd LocationChange 'www\.google\.com/calendar/' :silent fmap! -vkey -event keydown j k n p z g y t a d w m x a c e <Del> / + q r s ?
