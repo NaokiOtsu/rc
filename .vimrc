@@ -137,6 +137,8 @@ nnoremap <Space>zlz :<C-u>tabnew ~/.zshrc.local<CR>
 nnoremap <Space>zle :<C-u>tabnew ~/.zshenv.local<CR>
 nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<CR>
 
+nnoremap <Space>e :e ++enc=utf-8<CR> :set encoding=utf-8<CR> :w<CR>
+
 nnoremap <Space>] <C-w>]
 
 " for command line
