@@ -178,15 +178,6 @@ noremap <A-h> :removetabsleft<CR>
 noremap <A-l> :removetabsright<CR>
 
 
-" for firebug.js
-noremap <Leader>f :silent firebug toggle<cr>
-noremap <Leader>c :silent firebug console-focus<CR>
-
-noremap <S-C-n> :silent firebug tabnext<cr>
-noremap <S-C-p> :silent firebug tabprevious<cr>
-noremap <S-C-l> :silent firebug tabnext<CR>
-noremap <S-C-h> :silent firebug tabprevious<CR>
-
 " for addhatebu.js
 noremap <Leader>h :silent addhatebu add<cr>
 
@@ -200,7 +191,32 @@ js <<EOM
 config.toolbars.delicious = [["ybToolbar"], "Delicious"];
 EOM
 
-" firebug inspect mode hint
+" Firebug mappings
+js <<EOM
+var firebugOpen = false;
+liberator.modules.commands.addUserCommand(['firebug'],
+  'Control firebug from within vimperator.',
+  function(args) {
+      if ( args[0] === "open" ) {
+          if ( firebugOpen ) {
+              Firebug.closeFirebug();
+              firebugOpen = false;
+          }
+          else {
+              Firebug.toggleBar(true, args[1]);
+              firebugOpen = true;
+          }
+      }
+      if ( args[0] === "close" ) {
+          Firebug.closeFirebug();
+          firebugOpen = false;
+      }
+  }
+);
+EOM
+noremap <Leader>c :firebug open console<CR>
+
+" Firebug inspect mode hint
 js <<EOM
 hints.addMode('i', 'firebug inspect hint', function(elem){
     Firebug.toggleBar(true);
