@@ -162,11 +162,8 @@ cmap <C-x> <C-r>=expand('%:p:h')<CR>/
 " expand file (not ext)
 cmap <C-z> <C-r>=expand('%:p:r')<CR>
 
-" for alc
-nnoremap <Leader>a <Esc>:Ref alc<Space>
-
-" for perldoc
-nnoremap <Leader>p <Esc>:Ref perldoc<Space>
+" ascii
+nnoremap <Leader>a <Esc>:ascii<CR>
 
 " add \n
 nnoremap U :<C-u>call append(expand('.'), '')<Cr>j
