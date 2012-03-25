@@ -1,5 +1,5 @@
 liberator.modules.commands.addUserCommand(
-    ["gms"],
+    ["gm"],
     "Switch Gmail Account",
     function(args) {
         liberator.open(args[0]);
