@@ -1,4 +1,4 @@
-liberator.modules.commands.addUserCommand(["find"], "find link and open it", 
+liberator.modules.commands.addUserCommand(["fi[nd]"], "find link and open it", 
     function(args) {
         var str = args[0];
         Array.prototype.forEach.call(
