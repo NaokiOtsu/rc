@@ -430,11 +430,11 @@ nnoremap <Space>bc :BundleClean<CR>
 "---------------------------------------------------------------------
 " for unite.vim
 "---------------------------------------------------------------------
-nnoremap <silent> <Space>uu :Unite file<CR>
-nnoremap <silent> <Space>ur :Unite -buffer-name=files file_rec<CR>
-nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru<CR>
+nnoremap <silent> <Space>uu :Unite file file/new<CR>
+nnoremap <silent> <Space>ur :Unite -buffer-name=files file_rec file/new<CR>
+nnoremap <silent> <Space>uf :Unite -buffer-name=file file_mru file/new<CR>
 
-nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> <Space>uc :UniteWithBufferDir -buffer-name=files file file/new<CR>
 nnoremap <silent> <Space>ut :Unite tag<CR>
 nnoremap <silent> <Space>uy :Unite register<CR>
 nnoremap <silent> <Space>ua :UniteBookmarkAdd<CR>
