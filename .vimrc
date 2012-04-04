@@ -11,6 +11,7 @@ set rtp+=~/.vim/vundle/
 call vundle#rc()
 
 Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neocomplcache-snippets-complete'
 Bundle 'Shougo/unite.vim'
 Bundle 'tsukkee/unite-tag'
 Bundle 'h1mesuke/unite-outline'

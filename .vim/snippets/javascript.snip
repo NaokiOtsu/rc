@@ -5,29 +5,24 @@ snippet n
 		${1:body}
 	})();
 
-snippet a
-	${1:elem}.addEventListener("${2:type}", function() {
-		${3:body}
-	}, false);
-
 snippet d
 	document.addEventListener("DOMContentLoaded", function() {
 		${1:body}
 	}, false);
 
+snippet a
+	addEventListener("${1:type}", function() {
+		${2:body}
+	}, false);
 
-" snippets for QUnit
+snippet i
+	${1:elem}.getElementById("${2:selector}")
 
 snippet t
-	test('${1:test_description}', function() {
-		${2:body}
-	});
+	${1:elem}.getElementByTagName("${2:selector}")
 
-snippet s
-	asyncTest('${1:test_description}', function() {
-		${2:body}
+snippet c
+	${1:elem}.getElementByClassName("${2:selector}")
 
-		var callback = function() {
-			start();
-		};
-	});
+snippet q
+	${1:elem}.querySelectorAll("${2:selector}")
