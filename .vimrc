@@ -23,6 +23,7 @@ Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-speeddating'
 Bundle 'vim-scripts/The-NERD-Commenter'
+Bundle 'vim-scripts/Align'
 Bundle 'othree/eregex.vim'
 Bundle 'petdance/vim-perl'
 Bundle 'hotchpotch/perldoc-vim'
@@ -119,9 +120,6 @@ autocmd BufNewFile,BufRead *.t set filetype=perl
 " mapleader
 let mapleader = ","
 
-" for scratch
-nnoremap <Leader>s :Scratch<CR>
-
 " for basics
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>q :<C-u>quit<CR>
@@ -200,6 +198,12 @@ nnoremap <silent> cy   ce<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 
 "tabnew with gf
 nnoremap gf <C-w>gf
+
+"for Align
+let g:Align_xstrlen=3
+vnoremap ae :<BS><BS><BS><BS><BS>'<,'>Align=<CR>
+vnoremap ac :<BS><BS><BS><BS><BS>'<,'>Align:<CR>
+vnoremap af :<BS><BS><BS><BS><BS>'<,'>Align=><CR>
 
 
 "---------------------------------------------------------------------
