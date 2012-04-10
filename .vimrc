@@ -204,6 +204,7 @@ let g:Align_xstrlen=3
 vnoremap ae :<BS><BS><BS><BS><BS>'<,'>Align=<CR>
 vnoremap ac :<BS><BS><BS><BS><BS>'<,'>Align:<CR>
 vnoremap af :<BS><BS><BS><BS><BS>'<,'>Align=><CR>
+vnoremap aq :<BS><BS><BS><BS><BS>'<,'>Align?<CR>
 
 
 "---------------------------------------------------------------------
