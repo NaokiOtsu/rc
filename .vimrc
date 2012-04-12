@@ -201,6 +201,7 @@ nnoremap gf <C-w>gf
 
 "for Align
 let g:Align_xstrlen=3
+vnoremap aa :<BS><BS><BS><BS><BS>'<,'>Align
 vnoremap ae :<BS><BS><BS><BS><BS>'<,'>Align=<CR>
 vnoremap ac :<BS><BS><BS><BS><BS>'<,'>Align:<CR>
 vnoremap af :<BS><BS><BS><BS><BS>'<,'>Align=><CR>
