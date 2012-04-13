@@ -28,7 +28,6 @@ Bundle 'othree/eregex.vim'
 Bundle 'petdance/vim-perl'
 Bundle 'hotchpotch/perldoc-vim'
 Bundle 'pangloss/vim-javascript'
-Bundle 'cschlueter/vim-wombat'
 Bundle 'mattn/zencoding-vim'
 Bundle 'mattn/gist-vim'
 Bundle 'wookiehangover/jshint.vim'
@@ -36,6 +35,7 @@ Bundle 'hail2u/vim-css3-syntax'
 Bundle 'othree/html5.vim'
 Bundle 'kana/vim-textobj-user'
 Bundle 'h1mesuke/textobj-wiw'
+Bundle 'rainux/vim-desert-warm-256'
 
 Bundle 'vim-scripts/css_color.vim'
 Bundle 'vim-scripts/sudo.vim'
@@ -97,14 +97,14 @@ set backupdir=/tmp
 set list
 set lcs=tab:>-,trail:_,extends:>,precedes:<
 
-scriptencoding utf-8
-augroup highlightIdegraphicSpace
-    autocmd!
-    autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-    autocmd VimEnter,WinEnter * match IdeographicSpace /　/
-augroup END
+"scriptencoding utf-8
+"augroup highlightIdegraphicSpace
+    "autocmd!
+    "autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+    "autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+"augroup END
 
-colorscheme wombat256
+"colorscheme desert-warm-256
 
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
