@@ -13,33 +13,16 @@ call vundle#rc()
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neocomplcache-snippets-complete'
 Bundle 'Shougo/unite.vim'
-Bundle 'tsukkee/unite-tag'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'thinca/vim-quickrun'
 Bundle 'thinca/vim-ref'
-Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-speeddating'
-Bundle 'vim-scripts/The-NERD-Commenter'
 Bundle 'vim-scripts/Align'
+Bundle 'vim-scripts/The-NERD-Commenter'
 Bundle 'othree/eregex.vim'
-Bundle 'petdance/vim-perl'
-Bundle 'hotchpotch/perldoc-vim'
-Bundle 'pangloss/vim-javascript'
 Bundle 'mattn/zencoding-vim'
-Bundle 'mattn/gist-vim'
 Bundle 'wookiehangover/jshint.vim'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'othree/html5.vim'
-Bundle 'kana/vim-textobj-user'
-Bundle 'h1mesuke/textobj-wiw'
-Bundle 'rainux/vim-desert-warm-256'
-
-Bundle 'vim-scripts/css_color.vim'
-Bundle 'vim-scripts/sudo.vim'
-Bundle 'vim-scripts/VimClojure'
 
 
 set nocompatible
@@ -69,7 +52,7 @@ set backspace=indent,eol,start
 set browsedir=buffer
 
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'.fugitive#statusline()}%=%l,%c%V%8P
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 set showcmd
 
 set wildmode=list,full
@@ -412,19 +395,6 @@ autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | e
 autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent loadview | endif
 " Don't save options.
 set viewoptions-=options
-
-
-"---------------------------------------------------------------------
-" for fugitive.vim
-"---------------------------------------------------------------------
-nnoremap <Space>ga :Gwrite<CR>
-nnoremap <Space>gc :Gcommit<CR>
-nnoremap <Space>gs :Gstatus<CR>
-nnoremap <Space>gd :Gdiff<CR>
-nnoremap <Space>gb :Gblame<CR>
-nnoremap <Space>gr :Gread<CR>
-nnoremap <Space>gp :Git push<Space>
-nnoremap <Space>go :Git push origin master<CR>
 
 
 "---------------------------------------------------------------------
