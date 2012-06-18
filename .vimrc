@@ -4,11 +4,11 @@
 set title
 set ruler
 
-syntax on
-filetype plugin indent on
-
 set rtp+=~/.vim/vundle/
 call vundle#rc()
+
+syntax on
+filetype plugin indent on
 
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neocomplcache-snippets-complete'
