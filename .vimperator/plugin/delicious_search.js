@@ -199,7 +199,7 @@ function templateTitleAndIcon(item){
 commands.addUserCommand(["delicious[search]","ds[earch]"], "Delicious Bookmark Search",
   function(args){
     if (args.length > 0){
-      liberator.open(args[0], liberator.CURRENT_TAB);
+      liberator.open(args[0], liberator.NEW_TAB);
       return;
     }
     let list = bookmarkSearch(args["-tags"], args["-query"]);
