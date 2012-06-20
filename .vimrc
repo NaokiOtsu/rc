@@ -198,7 +198,6 @@ augroup templatelaod
     autocmd!
     autocmd BufNewFile *.html 0r ~/.vim/skeleton/skel.html
     autocmd BufNewFile *.page 0r ~/.vim/skeleton/skel.page
-    autocmd BufNewFile *.js 0r ~/.vim/skeleton/skel.js
     autocmd BufNewFile *.pl 0r ~/.vim/skeleton/skel.pl
     autocmd BufNewFile *.t 0r ~/.vim/skeleton/skel.t
 augroup END
