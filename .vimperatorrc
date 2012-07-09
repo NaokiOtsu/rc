@@ -189,6 +189,7 @@ noremap <Leader>h :silent addhatebu add<cr>
 " hide Delicious Toolbar
 js <<EOM
 config.toolbars.delicious = [["ybToolbar"], "Delicious"];
+config.toolbars.amazon = [["AMAZON_NS_PH_TB-Toolbar"], "Delicious"];
 EOM
 
 " Firebug mappings
