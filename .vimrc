@@ -22,6 +22,9 @@ Bundle 'vim-scripts/Align'
 Bundle 'vim-scripts/The-NERD-Commenter'
 Bundle 'othree/eregex.vim'
 Bundle 'mattn/zencoding-vim'
+Bundle 'othree/html5.vim'
+Bundle 'hail2u/vim-css-syntax'
+Bundle 'hail2u/vim-css3-syntax'
 Bundle 'wookiehangover/jshint.vim'
 
 
