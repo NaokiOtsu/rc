@@ -116,8 +116,6 @@ source ~/.zsh/git-completion.zsh
 source ~/.zsh/git-flow-completion.zsh
 source ~/.zsh/zaw.zsh
 
-_Z_CMD=j
-source ~/.zsh/z.sh
 
 # bind for zaw
 
@@ -135,11 +133,6 @@ zsh-gitfiles() {
 zle -N zsh-gitfiles
 bindkey "^F" zsh-gitfiles
 
-# for z.sh
-
-function precmd () {
-  _z --add "$(pwd -P)"
-}
 
 # source local zshrc
 
