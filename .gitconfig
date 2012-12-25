@@ -10,6 +10,3 @@
 
 [core]
 	excludesfile = /Users/yokoe.naosuke/.gitignore_global
-
-[color]
-	ui = true
