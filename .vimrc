@@ -81,7 +81,7 @@ set backupdir=/tmp
 
 "show special character
 set list
-set lcs=tab:>-,trail:_,extends:>,precedes:<
+set lcs=tab:>-,trail:_,extends:>,precedes:<,nbsp:x
 
 "scriptencoding utf-8
 "augroup highlightIdegraphicSpace
