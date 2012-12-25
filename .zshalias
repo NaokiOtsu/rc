@@ -62,19 +62,12 @@ sw() { tmux swap-window -s $1 -t $2 }
 
 # for perl
 
-sub() { perl -pi -e "s/$1/$2/g;" `find ./ -name "*.$3"` }
-
 pm() { PERLDOC_PAGER=$EDITOR perldoc -m $* }
-
 pmver(){ perl -M$1 -le "print $1->VERSION"; }
-
 pmgrep() { [ -n "$1" ] && [ -n "$2" ] && grep -C3 -n "$1" `perldoc -l $2` | less -r; }
-
 pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
 
-http() { plackup -p $* -e 'use Plack::App::Directory; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
-
-wrove() { watcher --dir=./t/ -- prove -lvc $1 }
+http() { plackup -p $* -MPlack::App::Directory -e 'enable "CrossOrigin", origins => "*"; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
 
 
 # others
