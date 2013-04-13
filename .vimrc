@@ -81,7 +81,7 @@ set backupdir=/tmp
 
 "show special character
 set list
-set lcs=tab:>-,trail:_,extends:>,precedes:<
+set lcs=tab:>-,trail:_,extends:>,precedes:<,nbsp:x
 
 "scriptencoding utf-8
 "augroup highlightIdegraphicSpace
@@ -236,6 +236,7 @@ nnoremap s. <C-W>=
 "---------------------------------------------------------------------
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 autocmd BufNewFile,BufRead *.tt set filetype=html
+autocmd BufNewFile,BufRead *.mt set filetype=html
 autocmd BufNewFile,BufRead *.tx set filetype=html
 autocmd BufNewFile,BufRead *.page set filetype=markdown
 autocmd BufNewFile,BufRead *.m set filetype=objc
