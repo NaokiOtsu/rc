@@ -10,7 +10,7 @@ set wildoptions=auto
 set editor="gvim -f"
 set hintchars="jfkdlsurieowvncm"
 
-set complete=lt
+set complete=lth
 
 set focuscontent
 set history=10000
@@ -99,12 +99,9 @@ qmark a https://www.google.com/analytics/settings/
 qmark e https://appengine.google.com/
 
 qmark t https://twitter.com/
-qmark f http://favotter.net/user/zentooo
 qmark y http://www.youtube.com/
 qmark n http://www.nicovideo.jp/
 qmark k http://kakaku.com/
-
-qmark w http://wiki.zentooo.biz/
 
 
 "+----------------------------------------------------------------------------------------+
@@ -113,14 +110,6 @@ qmark w http://wiki.zentooo.biz/
 
 " set mapleader
 let mapleader=','
-
-
-" for twittperator.js
-nnoremap <Leader>t :tw<Space>
-nnoremap <Leader>T :tw!<Space>
-nnoremap <Leader>@ :tw!@<CR>
-
-let g:twittperator_use_chirp = 1
 
 
 " for tombloo.js
@@ -154,32 +143,16 @@ let g:ldrc_intelligence_bind = "true"
 let:g:ldrc_skip = "0.25"
 
 
-" for direct_bookmark.js
-let g:direct_sbm_use_services_by_post = 'd'
-let g:direct_sbm_use_services_by_tag = 'd'
-nnoremap p :sbm[
-
-
-" for delicious_search.js
-nnoremap s :delicioussearch -tags<Space>
-nnoremap q :delicioussearch -query<Space>
-
-
-" for feedSomeKeys2.js
-autocmd LocationChange .* :silent fmapc
-autocmd LocationChange 'mail\.google\.com/mail/' :silent fmap! -- - c / j k l m n p o u e x s r a # [ ] ? gi gs gt gd ga gc gl + *
-autocmd LocationChange 'mail\.google\.com/mail/.*/[0-9a-f]+$' :silent fmap! c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-autocmd LocationChange 'www\.google\.co\.jp/reader' :silent fmap! -vkey j k n p m s t v A r S N P X O gh ga gs gt gu u / ?
-autocmd LocationChange 'www\.google\.com/calendar/' :silent fmap! -vkey -event keydown j k n p z g y t a d w m x a c e <Del> / + q r s ?
+" for feedSomeKeys_3.js
+:command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+:lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+:lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+:lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
 
 
 " for removetabs.js
 noremap <A-h> :removetabsleft<CR>
 noremap <A-l> :removetabsright<CR>
-
-
-" for addhatebu.js
-noremap <Leader>h :silent addhatebu add<cr>
 
 
 "+----------------------------------------------------------------------------------------+

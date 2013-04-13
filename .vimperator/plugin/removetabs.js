@@ -1,4 +1,4 @@
-var PLUGIN_INFO =
+var PLUGIN_INFO = xml`
 <VimperatorPlugin>
 <name>removetabs</name>
 <description>RemoveTabs</description>
@@ -7,7 +7,7 @@ var PLUGIN_INFO =
 <version>0.1</version>
 <minVersion>2.0pre</minVersion>
 <maxVersion>2.0pre</maxVersion>
-<updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/removetabs.js</updateURL>
+<updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/removetabs.js</updateURL>
 <detail lang="ja"><![CDATA[
 これはremovetabsアドオンと似たような処理を行うアドオンです。
 現在のタブから左（もしくは右）のタブをすべてクローズすることができます。
@@ -30,7 +30,7 @@ https://addons.mozilla.org/ja/firefox/addon/4227
     noremap <C-S-n> :removetabsright<CR>
 ||<
 ]]></detail>
-</VimperatorPlugin>;
+</VimperatorPlugin>`;
 
 (function(){
     liberator.modules.commands.addUserCommand(['removetabsleft'], 'remove tabs left',
