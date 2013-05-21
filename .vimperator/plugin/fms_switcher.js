@@ -1,24 +1,3 @@
-let PLUGIN_INFO =
-<VimperatorPlugin>
-<name>fms_switcher</name>
-<description>This script allows you to switch FireMobileSimulator status with Vimp CLI.</description>
-<version>1.0.1</version>
-<author>zentooo</author>
-<license>Creative Commons</license>
-<detail><![CDATA[
-    == Subject ==
-    This script allows you to switch FireMobileSimulator status from Vimperator CLI.
-
-    == Commands ==
-    :fms off:
-        turn off FireMobileSimulator's mobile emulation.
-    :fms [deviceName] [uid(optional)]:
-        turn on FireMobileSimulator's mobile emulation with given deviceName.
-        If uid given, change the uid configuration of that carrier.
-]]></detail>
-</VimperatorPlugin>;
-
-
 liberator.modules.commands.addUserCommand(
   ["fms"],
   "Switch FireMobileSimulator status",
