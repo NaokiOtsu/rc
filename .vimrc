@@ -1,36 +1,43 @@
 "---------------------------------------------------------------------
 " base settings
 "---------------------------------------------------------------------
-set title
-set ruler
 
-set rtp+=~/.vim/vundle/
-call vundle#rc()
+if has('vim_starting')
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'vim-scripts/Align'
+NeoBundle 'vim-scripts/The-NERD-Commenter'
+NeoBundle 'othree/eregex.vim'
+NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'othree/html5.vim'
+NeoBundle 'hail2u/vim-css-syntax'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'wookiehangover/jshint.vim'
+
+NeoBundleCheck
+
 
 syntax on
 filetype plugin indent on
 
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neocomplcache-snippets-complete'
-Bundle 'Shougo/unite.vim'
-Bundle 'h1mesuke/unite-outline'
-Bundle 'thinca/vim-quickrun'
-Bundle 'thinca/vim-ref'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-repeat'
-Bundle 'vim-scripts/Align'
-Bundle 'vim-scripts/The-NERD-Commenter'
-Bundle 'othree/eregex.vim'
-Bundle 'mattn/zencoding-vim'
-Bundle 'othree/html5.vim'
-Bundle 'hail2u/vim-css-syntax'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'wookiehangover/jshint.vim'
-
-
 set nocompatible
 set number
 set hidden
+set title
+set ruler
 
 set autoread
 
@@ -467,7 +474,7 @@ if has('iconv')
   endif
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
-	let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
     let &fileencodings = &fileencodings .','. s:fileencodings_default
     unlet s:fileencodings_default
   else
