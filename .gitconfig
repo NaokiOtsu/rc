@@ -1,6 +1,6 @@
 [user]
-	name = yokoe.naosuke
-	email = yokoe.naosuke@dena.jp
+    name = yokoe.naosuke
+    email = yokoe.naosuke@dena.jp
 
 [alias]
   co = checkout
@@ -9,4 +9,6 @@
   graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
 
 [core]
-	excludesfile = /Users/yokoe.naosuke/.gitignore_global
+    excludesfile = /Users/yokoe.naosuke/.gitignore_global
+[github]
+	user = zentooo
