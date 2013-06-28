@@ -26,6 +26,7 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'hail2u/vim-css-syntax'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'wookiehangover/jshint.vim'
+NeoBundle 'jnwhiteh/vim-golang'
 
 NeoBundleCheck
 
