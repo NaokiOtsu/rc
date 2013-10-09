@@ -148,7 +148,7 @@ let:g:ldrc_skip = "0.25"
 :lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 :lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 :lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-:lazy fmaps -u='www\.feedly\.com/home' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+:lazy fmaps -u='cloud\.feedly\.com/' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
 
 
 " for removetabs.js
