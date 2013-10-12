@@ -105,6 +105,7 @@ set lcs=tab:>-,trail:_,extends:>,precedes:<,nbsp:x
 autocmd FileType * set formatoptions-=ro
 
 " for perl files
+autocmd BufNewFile,BufRead *.perl set filetype=perl
 autocmd BufNewFile,BufRead *.psgi set filetype=perl
 autocmd BufNewFile,BufRead *.t set filetype=perl
 

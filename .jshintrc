@@ -1,12 +1,13 @@
 {
-    "camelcase": true,
     "newcap": true,
     "eqeqeq": true,
     "noarg": true,
     "nonew": true,
     "quotmark": "double",
+    "unused": true,
     "trailing": true,
     "latedef": true,
+    "expr": true,
 
     "proto": true,
     "sub": true
