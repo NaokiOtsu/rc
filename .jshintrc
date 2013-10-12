@@ -5,8 +5,6 @@
     "noarg": true,
     "nonew": true,
     "quotmark": "double",
-    "unused": true,
-    "strict": true,
     "trailing": true,
     "latedef": true,
 
