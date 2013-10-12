@@ -391,32 +391,12 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 
 "---------------------------------------------------------------------
-" home directory with \
-"---------------------------------------------------------------------
-function! HomedirOrBackslash()
-  if getcmdtype() == ':' && (getcmdline() =~# '^e ' || getcmdline() =~? '^r\?!' || getcmdline() =~? '^cd ' || getcmdline() =~? '^tabnew ' || getcmdline() =~? '^source ')
-    return '~/'
-  else
-    return '\'
-  endif
-endfunction
-cnoremap <expr> <Bslash> HomedirOrBackslash()
-
-
-"---------------------------------------------------------------------
 " Save fold settings.
 "---------------------------------------------------------------------
 autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
 autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent loadview | endif
 " Don't save options.
 set viewoptions-=options
-
-
-"---------------------------------------------------------------------
-" for vundle
-"---------------------------------------------------------------------
-nnoremap <Space>bi :BundleInstall<CR>
-nnoremap <Space>bc :BundleClean<CR>
 
 
 "---------------------------------------------------------------------
