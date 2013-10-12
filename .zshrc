@@ -57,13 +57,15 @@ LISTMAX=1000
 # history settings
 
 HISTFILE=$HOME/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1000000
+SAVEHIST=1000000
 
-setopt hist_expand inc_append_history share_history
+setopt inc_append_history
+setopt share_history
+setopt hist_find_no_dups
 setopt hist_ignore_all_dups
-setopt hist_ignore_space hist_reduce_blanks
-setopt hist_verify hist_allow_clobber
+setopt hist_ignore_space
+setopt hist_reduce_blanks
 setopt hist_no_store
 
 

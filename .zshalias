@@ -1,11 +1,6 @@
-### alias setting for zsh
-
 alias zmv="noglob zmv"
 
-## aliases for basic commands
-
 alias rr="rm -rf"
-alias dh="df -h"
 md(){ mkdir -p $1; cd $1 }
 
 alias tcz="tar cvzf"
@@ -24,55 +19,13 @@ case "${OSTYPE}" in
   ;;
 esac
 
-alias la="ls -lhAF"
-
-alias fall="sudo find / -name"
-alias fhere="find ./ -name"
-
-alias tag="ctags --file-scope=no -R `pwd`"
-
-
-# for source
-
-alias zs="source ~/.zshrc"
-alias zsl="source ~/.zshrc.local"
-alias ze="source ~/.zshenv"
-alias zel="source ~/.zshenv.local"
-alias za="source ~/.zshalias"
-alias zal="source ~/.zshalias.local"
-
-
-# vcs
-
-alias sm="svn commit -m"
 alias gm="git commit -a -m"
-alias gg="git commit -a -m 'you and me'; git push origin HEAD"
-gp() { git push origin $1 }
-gpu() { git pull origin $1 }
 
-
-# tmux features
-
-tn() { tmux new-session -s $1 }
-ta() { tmux attach-session -t $1 }
-tl() { tmux list-sessions }
-cl() { tmux new-window -a -n $1; tmux send-keys -t:$1 "cd $1; clear" C-m }
-sw() { tmux swap-window -s $1 -t $2 }
-
-
-# for perl
-
-pm() { PERLDOC_PAGER=$EDITOR perldoc -m $* }
 pmver(){ perl -M$1 -le "print $1->VERSION"; }
 pmgrep() { [ -n "$1" ] && [ -n "$2" ] && grep -C3 -n "$1" `perldoc -l $2` | less -r; }
 pmuse() { perl -MModule::ExtractUse -le 'my $p = Module::ExtractUse->new; my @used; while (my $module = shift @ARGV ) { $p->extract_use($module); push(@used, $p->array); } my %seen; @used = sort { $a cmp $b } grep { !$seen{$_}++ } @used; local $,="\n"; print @used' `find ./lib -name "*.pm"` }
 
 http() { plackup -p $* -MPlack::App::Directory -e 'enable "CrossOrigin", origins => "*"; Plack::App::Directory->new( +{ root => "./" } )->to_app' }
-
-
-# others
-
-alias key="sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys"
 
 alias cupmen3="sleep 180 && notify-send 'カップめんできたよ！'"
 alias cupmen5="sleep 300 && notify-send 'カップめんできたよ！'"
@@ -81,25 +34,6 @@ alias awetest="Xephyr -ac -br -noreset -screen 800x600 :1 & sleep 1 && DISPLAY=:
 
 
 ## global aliases
-
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-
-alias -g W='| wc -l'
-alias -g G='| egrep'
-alias -g H='| head'
-alias -g L="| less -R"
-alias -g X='| xargs'
-
-alias -g N=/dev/null
-alias -g NE="2> /dev/null"
-alias -g NULL="> /dev/null 2>&1"
-
-alias -g S='| sort'
-alias -g SN='| sort -n'
-alias -g SU='| sort -u'
-
 
 if which pbcopy >/dev/null 2>&1 ; then
   # Mac
