@@ -682,3 +682,6 @@ window
 with
 write
 writeln
+DOMContentLoaded
+sessionStorage
+localStorage
