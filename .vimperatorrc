@@ -13,7 +13,7 @@ set hintchars="jfkdlsurieowvncm"
 set complete=lth
 
 set focuscontent
-set history=10000
+set history=100000
 
 
 "+----------------------------------------------------------------------------------------+
@@ -37,30 +37,16 @@ nnoremap k 7k
 nnoremap h 7h
 nnoremap l 7l
 
-" tab move with C-h and C-l
+" tab move
 nnoremap <C-h> <C-p>
 nnoremap <C-l> <C-n>
 
 " show undo buffer
 nnoremap U :u<Space>
 
-" close other tabs
-nnoremap <A-d> :tabonly<CR>
-
-" restart firefox
-nnoremap <A-r> :restart<CR>
-
-" print current page
-nnoremap <A-p> :dialog print<CR>
-
-" show dialog
-nnoremap <A-s> :dialog preferences<CR>
-
-" show addons
-nnoremap <A-a> :addon<CR>
-
 " source
 nnoremap ,v :source ~/.vimperatorrc<CR>
+
 
 "+----------------------------------------------------------------------------------------+
 " keymap (Command Mode)
@@ -90,18 +76,11 @@ inoremap <C-b> <Left>
 " qmarks
 "+----------------------------------------------------------------------------------------+
 
-qmark g http://google.co.jp/
 qmark m https://mail.google.com/
-qmark r http://www.google.co.jp/reader/
 qmark c https://www.google.com/calendar
 qmark d https://docs.google.com/
-qmark a https://www.google.com/analytics/settings/
-qmark e https://appengine.google.com/
-
 qmark t https://twitter.com/
-qmark y http://www.youtube.com/
-qmark n http://www.nicovideo.jp/
-qmark k http://kakaku.com/
+qmark f https://www.facebook.com/
 
 
 "+----------------------------------------------------------------------------------------+
@@ -112,35 +91,12 @@ qmark k http://kakaku.com/
 let mapleader=','
 
 
-" for tombloo.js
-nnoremap <Leader>l :tombloo Link
-vnoremap <Leader>q :tombloo Quote
-
-
 " for multi_requester.js
 nnoremap <Leader>a :mr alc<Space>
-
-nnoremap <Leader>mt :mr<Space>twitter-search-pcod-no-jp<Space>
-nnoremap <Leader>mT :mr<Space>twitter-search-pcod-no-jp<Space>["zentooo"]<CR>
-nnoremap <Leader>mf :mr<Space>favotter-new<Space> zentooo <CR>
-nnoremap <Leader>mF :mr<Space>favotter-new<Space>
 
 
 " for append_anchor.js
 let g:auto_append_anchor = "true"
-
-
-" for hint-tombloo.js
-let g:hint_tombloo_key = 'r'
-
-
-" for open-frame.js
-nnoremap <Leader>f :tabopenframe<CR>
-
-
-" for ldrize_cooperation.js
-let g:ldrc_intelligence_bind = "true"
-let:g:ldrc_skip = "0.25"
 
 
 " for feedSomeKeys_3.js
@@ -160,45 +116,6 @@ noremap <A-l> :removetabsright<CR>
 " other settings
 "+----------------------------------------------------------------------------------------+
 
-" hide Delicious Toolbar
-js <<EOM
-config.toolbars.delicious = [["ybToolbar"], "Delicious"];
-config.toolbars.amazon = [["AMAZON_NS_PH_TB-Toolbar"], "Amazon"];
-EOM
-
-" Firebug mappings
-js <<EOM
-var firebugOpen = false;
-liberator.modules.commands.addUserCommand(['firebug'],
-  'Control firebug from within vimperator.',
-  function(args) {
-      if ( args[0] === "open" ) {
-          if ( firebugOpen ) {
-              Firebug.closeFirebug();
-              firebugOpen = false;
-          }
-          else {
-              Firebug.toggleBar(true, args[1]);
-              firebugOpen = true;
-          }
-      }
-      if ( args[0] === "close" ) {
-          Firebug.closeFirebug();
-          firebugOpen = false;
-      }
-  }
-);
-EOM
-noremap <Leader>c :firebug open console<CR>
-
-" Firebug inspect mode hint
-js <<EOM
-hints.addMode('i', 'firebug inspect hint', function(elem){
-    Firebug.toggleBar(true);
-    Firebug.chrome.select(elem);
-}, function() '//*');
-EOM
-
 " contenteditable hint
 js <<EOM
 hints.addMode('e', 'contenteditable hint', function(elem){
@@ -215,14 +132,6 @@ hints.addMode('n', 'hash url hint', function(elem){
 }, function() '//*');
 EOM
 
-" for youtuberepeat
-js <<EOM
-liberator.modules.commands.addUserCommand(["repeat"], "open current URL as youtuberepeat URL",
-    function(args) {
-        liberator.open(content.document.location.href.replace("www.youtube.com", "www.youtuberepeat.com"));
-    }
-);
-EOM
 
 " read local conf
 source! ~/.vimperatorrc.local
