@@ -1,6 +1,6 @@
 [user]
-    name = yokoe.naosuke
-    email = yokoe.naosuke@dena.jp
+    name = zentooo
+    email = ankerasoy@gmail.com
 
 [alias]
   co = checkout
@@ -11,4 +11,7 @@
 [core]
     excludesfile = /Users/yokoe.naosuke/.gitignore_global
 [github]
-	user = zentooo
+    user = zentooo
+
+[include]
+    path = .gitconfig.local
