@@ -15,9 +15,9 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'thinca/vim-ref'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
+NeoBundle 'yanktmp.vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'vim-scripts/Align'
 NeoBundle 'vim-scripts/The-NERD-Commenter'
@@ -92,15 +92,6 @@ set backupdir=/tmp
 set list
 set lcs=tab:>-,trail:_,extends:>,precedes:<,nbsp:x
 
-"scriptencoding utf-8
-"augroup highlightIdegraphicSpace
-    "autocmd!
-    "autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-    "autocmd VimEnter,WinEnter * match IdeographicSpace /　/
-"augroup END
-
-"colorscheme desert-warm-256
-
 " remove autocomment
 autocmd FileType * set formatoptions-=ro
 
@@ -135,6 +126,9 @@ nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<CR>
 nnoremap <Space>e :e ++enc=utf-8<CR> :set encoding=utf-8<CR> :w<CR>
 
 nnoremap <Space>] <C-w>]
+
+let g:EasyMotion_leader_key = '<SPACE>e'
+
 
 " for command line
 cnoremap <C-h> <Left>
