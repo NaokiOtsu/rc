@@ -80,6 +80,7 @@ if exists('&ambiwidth')
 endif
 
 highlight Pmenu ctermbg=4
+highlight SpellBad ctermbg=blue
 
 "swp files
 set directory-=.
