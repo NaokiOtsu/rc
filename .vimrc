@@ -12,13 +12,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'yanktmp.vim'
-NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'vim-scripts/Align'
 NeoBundle 'vim-scripts/The-NERD-Commenter'
 NeoBundle 'othree/eregex.vim'
@@ -28,6 +23,7 @@ NeoBundle 'hail2u/vim-css-syntax'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'wookiehangover/jshint.vim'
 NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'airblade/vim-gitgutter'
 
 NeoBundleCheck
 
@@ -82,6 +78,8 @@ endif
 highlight Pmenu ctermbg=4
 highlight SpellBad ctermbg=blue
 
+highlight clear SignColumn
+
 "swp files
 set directory-=.
 
@@ -127,8 +125,6 @@ nnoremap <Space>zla :<C-u>tabnew ~/.zshalias.local<CR>
 nnoremap <Space>e :e ++enc=utf-8<CR> :set encoding=utf-8<CR> :w<CR>
 
 nnoremap <Space>] <C-w>]
-
-let g:EasyMotion_leader_key = '<SPACE>e'
 
 
 " for command line
